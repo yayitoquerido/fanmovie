@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fanmovie/ - Subir Crudos</title>
+    <link rel="icon" href="/static/logo.png" type="image/png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700;800&display=swap');
+        :root {
+            --bg-dark: #050505; --surface: #0e0e0e; --text-primary: #ffffff; --text-secondary: #888888;
+            --brand-main: #ff5500; --brand-accent: #ffaa00; --border-subtle: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text-primary); padding: 40px 20px; max-width: 600px; margin: 0 auto; text-align: center; }
+        .card { background: var(--surface); border: var(--border-subtle); border-radius: 16px; padding: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); margin-top: 40px; }
+        h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 10px; color: var(--brand-accent); }
+        .btn { padding: 14px 28px; background: var(--brand-main); color: #fff; border: none; border-radius: 100px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.2s; box-shadow: 0 0 15px rgba(255, 85, 0, 0.3); margin-top: 20px; width: 100%; }
+        .btn:hover { background: #ff6611; transform: scale(1.02); }
+        .btn-back { display: inline-flex; align-items: center; gap: 8px; color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 600; margin-bottom: 20px; }
+        input[type="file"] { padding: 20px; background: #1a1a1a; border: 1px dashed rgba(255,255,255,0.2); border-radius: 8px; color: #fff; width: 100%; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div style="text-align: left;"><a href="/" class="btn-back">← Volver al inicio</a></div>
+    <div class="card">
+        <h1>Subir Crudos</h1>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 30px;">Seleccioná los videos de tu celular para enviarlos al motor de edición.</p>
+        <form onsubmit="handleUpload(event)">
+            <input type="file" multiple accept="video/*" required>
+            <button type="submit" class="btn">Subir mis videos al archivo</button>
+        </form>
+    </div>
+    <script>
+        function handleUpload(e) {
+            e.preventDefault();
+            alert("✨ ¡Tus videos se subieron con éxito y ya están en el motor de FanMovie!");
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>

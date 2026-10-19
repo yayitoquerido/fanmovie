@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Studio - FanMovie</title>
+    <link rel="icon" href="/static/logo.png" type="image/png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700;800&display=swap');
+        :root {
+            --bg-dark: #050505; --surface: #0e0e0e; --text-primary: #ffffff; --text-secondary: #888888;
+            --brand-main: #ff5500; --brand-accent: #ffaa00; --border-subtle: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text-primary); padding: 40px 20px; max-width: 1000px; margin: 0 auto; }
+        
+        h1, h2, h3, .brand {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            text-transform: uppercase;
+            font-weight: normal;
+            letter-spacing: 1px;
+        }
+
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: var(--border-subtle); padding-bottom: 20px; }
+        .brand { font-size: 1.8rem; text-decoration: none; color: #fff; }
+        .card { background: var(--surface); border: var(--border-subtle); border-radius: 16px; padding: 30px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        h2 { font-size: 1.8rem; margin-bottom: 20px; color: var(--brand-accent); }
+        .attendee-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        .attendee-tag { background: rgba(255, 170, 0, 0.1); border: 1px solid rgba(255, 170, 0, 0.3); color: var(--brand-accent); padding: 8px 14px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn { padding: 12px 24px; border-radius: 100px; font-weight: 600; font-size: 0.9rem; text-decoration: none; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; font-family: 'Inter', sans-serif;}
+        .btn-primary { background: var(--brand-main); color: #fff; box-shadow: 0 0 15px rgba(255, 85, 0, 0.3); }
+        .btn-primary:hover { background: #ff6611; }
+        .status-select { background: #1a1a1a; color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 8px 14px; border-radius: 8px; font-size: 0.9rem; outline: none; font-family: 'Inter', sans-serif; }
+        
+        .pin-overlay { position: fixed; inset: 0; background: rgba(5,5,5,0.95); backdrop-filter: blur(10px); z-index: 2000; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .pin-box { background: var(--surface); border: 1px solid var(--brand-main); padding: 35px; border-radius: 20px; max-width: 380px; width: 100%; text-align: center; box-shadow: 0 0 30px rgba(255,85,0,0.2); }
+    </style>
+</head>
+<body>
+    <div id="pinModal" class="pin-overlay">
+        <div class="pin-box">
+            <h2 style="color: var(--brand-main); margin-bottom: 10px;">Acceso Creator Studio</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">Ingresá el PIN de administrador para acceder al radar de filmmakers y versiones.</p>
+            <p style="font-size: 0.75rem; color: #666; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Ejemplo de prueba: escribí <b>2026</b> o el PIN generado.</p>
+            <input type="password" id="adminPinInput" placeholder="PIN de acceso" style="width: 100%; padding: 14px; margin-bottom: 20px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 8px; text-align: center; font-size: 1.2rem; outline: none; font-family: 'Inter', sans-serif;">
+            <button onclick="verificarPin()" class="btn btn-primary" style="width: 100%; justify-content: center;">Ingresar al Panel</button>
+        </div>
+    </div>
+
+    <div class="header">
+        <a href="/" class="brand">fanmovie/ <span>Studio</span></a>
+        <a href="/" class="btn btn-primary">← Volver al Inicio</a>
+    </div>
+
+    <h2>Radar de Filmmakers y Versiones</h2>
+    <div id="studioEventsContainer"></div>
+
+    <script>
+        function verificarPin() {
+            const pin = document.getElementById('adminPinInput').value.trim();
+            // Permite 2026 o cualquier PIN guardado
+            let allowed = false;
+            if(pin === "2026") allowed = true;
+            for(let i=0; i<localStorage.length; i++) {
+                if(localStorage.key(i).startsWith('pin_') && localStorage.getItem(localStorage.key(i)) === pin) {
+                    allowed = true;
+                }
+            }
+            if(allowed) { 
+                document.getElementById('pinModal').style.display = 'none';
+                loadStudioData();
+            } else {
+                alert("❌ PIN incorrecto.");
+                document.getElementById('adminPinInput').value = "";
+            }
+        }
+
+        async function loadStudioData() {
+            try {
+                let apiEvents = [];
+                try {
+                    const res = await fetch("/api/events");
+                    const data = await res.json();
+                    apiEvents = data.events || [];
+                } catch(e) {}
+
+                let localEvents = JSON.parse(localStorage.getItem('fanmovie_events') || '[]');
+                let allMap = new Map();
+                apiEvents.forEach(ev => allMap.set(ev.safe_name, ev));
+                localEvents.forEach(ev => { if (!allMap.has(ev.safe_name)) allMap.set(ev.safe_name, ev); });
+                let eventsList = Array.from(allMap.values());
+
+                const container = document.getElementById("studioEventsContainer");
+                container.innerHTML = "";
+
+                if (eventsList.length === 0) {
+                    container.innerHTML = "<p style='color: #666; font-family: Inter;'>No hay eventos creados todavía.</p>";
+                    return;
+                }
+
+                eventsList.forEach(ev => {
+                    let attendees = [];
+                    for(let i=0; i<localStorage.length; i++) {
+                        if(localStorage.key(i).startsWith(`attendee_${ev.safe_name}_`)) {
+                            attendees.push(localStorage.getItem(localStorage.key(i)));
+                        }
+                    }
+
+                    let currentStatus = localStorage.getItem(`status_${ev.safe_name}`) || "activo";
+                    let attendeesHtml = attendees.length > 0 
+                        ? attendees.map(ig => `<span class="attendee-tag">IG: ${ig}</span>`).join('')
+                        : '<p style="color: #666; font-size: 0.9rem; font-family: Inter;">Aún no hay filmmakers anotados.</p>';
+
+                    container.innerHTML += `
+                        <div class="card">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 15px;">
+                                <h3 style="color: #fff; font-size: 1.5rem;">${ev.name}</h3>
+                                <div style="display: flex; gap: 15px; align-items: center;">
+                                    <button class="btn" onclick="alert('Descargando paquete de videos raw y aftermovie...')" style="background: rgba(255,170,0,0.15); color: var(--brand-accent); border: 1px solid var(--brand-accent);">🎬 Descargar / Ver Versiones</button>
+                                    <div>
+                                        <select class="status-select" onchange="updateEventStatus('${ev.safe_name}', this.value)">
+                                            <option value="activo" ${currentStatus==='activo'?'selected':''}>🔥 Activo</option>
+                                            <option value="editandose" ${currentStatus==='editandose'?'selected':''}>⚙️ Editándose</option>
+                                            <option value="publicado" ${currentStatus==='publicado'?'selected':''}>✨ Publicado</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px; font-family: Inter;">Filmmakers confirmados (${attendees.length}):</p>
+                            <div class="attendee-list">${attendeesHtml}</div>
+                        </div>
+                    `;
+                });
+            } catch (err) {}
+        }
+
+        function updateEventStatus(safeName, status) {
+            localStorage.setItem(`status_${safeName}`, status);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fanmovie/ - Crear Evento</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        :root { --bg-dark: #050505; --surface: #111111; --text-primary: #ffffff; --text-secondary: #888888; --brand-main: #ff5500; --brand-accent: #ffaa00; --border-subtle: 1px solid rgba(255, 255, 255, 0.05); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text-primary); padding: 40px 20px; max-width: 600px; margin: 0 auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: var(--border-subtle); padding-bottom: 20px; }
+        .brand { font-weight: 800; font-size: 1.5rem; text-decoration: none; color: #fff; }
+        .card { background: var(--surface); border: var(--border-subtle); border-radius: 16px; padding: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 20px; color: var(--brand-accent); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600; }
+        input[type="text"], input[type="date"], select, input[type="file"] {
+            width: 100%; padding: 12px 16px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px; color: #fff; font-size: 1rem; outline: none; font-family: 'Inter', sans-serif;
+        }
+        input:focus, select:focus { border-color: var(--brand-main); }
+        select option { background: #111; color: #fff; }
+        .btn-submit {
+            width: 100%; padding: 14px; background: var(--brand-main); color: #fff; border: none; border-radius: 100px;
+            font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.2s; box-shadow: 0 0 15px rgba(255, 85, 0, 0.3); margin-top: 10px;
+        }
+        .btn-submit:hover { background: #ff6611; }
+        .btn-back { display: inline-flex; align-items: center; gap: 8px; color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 600; margin-bottom: 20px; }
+        .btn-back:hover { color: #fff; }
+    </style>
+</head>
+<body>
+    <div style="max-width: 600px; margin: 40px auto;">
+        <a href="/" class="btn-back">← Volver al inicio</a>
+        <div class="card">
+            <h1>Crear Evento</h1>
+            <form id="createEventForm" onsubmit="handleCreateEvent(event)">
+                <div class="form-group">
+                    <label for="eventName">Nombre</label>
+                    <input type="text" id="eventName" required placeholder="Ej: Fiesta Fin de Año">
+                </div>
+                <div class="form-group">
+                    <label for="eventDate">Fecha</label>
+                    <input type="date" id="eventDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventCircuit">Circuito</label>
+                    <select id="eventCircuit" required>
+                        <option value="" disabled selected>Elegí circuito...</option>
+                        <option value="CABA">CABA</option>
+                        <option value="AMBA">AMBA</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="eventFlyer">Flyer portada:</label>
+                    <input type="file" id="eventFlyer" accept="image/*">
+                </div>
+                <button type="submit" class="btn-submit">Publicar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        async function handleCreateEvent(e) {
+            e.preventDefault();
+            const name = document.getElementById('eventName').value.trim();
+            const date = document.getElementById('eventDate').value;
+            const circuit = document.getElementById('eventCircuit').value;
+            const flyerInput = document.getElementById('eventFlyer');
+            if (!name) return;
+            const safeName = name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+
+            // Guardar tanto en localStorage como registrar en array general de eventos
+            let events = JSON.parse(localStorage.getItem('fanmovie_events') || '[]');
+            const newEv = { name, safe_name: safeName, date, circuit, has_banner: flyerInput.files.length > 0 };
+            events.push(newEv);
+            localStorage.setItem('fanmovie_events', JSON.stringify(events));
+            localStorage.setItem(`status_${safeName}`, 'activo');
+            localStorage.setItem(`count_${safeName}`, '3');
+
+            alert('✨ ¡Evento publicado con éxito!');
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>
