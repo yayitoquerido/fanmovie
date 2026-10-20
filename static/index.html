@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>fanmovie/ - Contenido Real</title>
+    <title>fanmovie/ - Contenido Real.</title>
     <link rel="icon" href="/static/logo.png" type="image/png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700;800&display=swap');
@@ -15,167 +15,590 @@
             font-style: normal;
         }
 
+        :root {
+            --bg-dark: #050505; --surface: #0e0e0e; --surface-hover: #161616;
+            --text-primary: #ffffff; --text-secondary: #888888;
+            --brand-main: #ff5500; --brand-accent: #ffaa00;
+            --border-subtle: 1px solid rgba(255, 255, 255, 0.08);
+            --radius-lg: 20px; --radius-md: 14px; --radius-sm: 8px;
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        /* ESTÉTICA EDITORIAL CRUDA: Fondo blanco, texto negro */
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #ffffff; 
-            color: #000000; 
-            line-height: 1.5; 
-            overflow-x: hidden; 
-        }
+        /* FONDO GENERAL OSCURO PARA LA PLATAFORMA */
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text-primary); line-height: 1.5; overflow-x: hidden; }
 
-        h1, h2, h3 {
+        h1, h2, h3, .brand, .step-number {
             font-family: 'Druk Wide', 'Impact', sans-serif;
             text-transform: uppercase;
             font-weight: normal;
-            letter-spacing: 0px;
+            letter-spacing: 1px;
         }
 
-        /* EL NUEVO LOGO TIPEADO CON LA SONRISA EN LA "n" */
-        nav {
-            position: fixed; top: 0; width: 100%; padding: 25px 40px; 
+        /* NAVEGACIÓN INTELIGENTE (Cambia de color al scrollear) */
+        nav { 
+            position: fixed; top: 0; width: 100%; padding: 18px 40px; 
             display: flex; justify-content: space-between; align-items: center; 
-            background: transparent; z-index: 100;
+            background: transparent; backdrop-filter: blur(0px); 
+            z-index: 100; transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
         }
+        nav.scrolled {
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: var(--border-subtle);
+        }
+
         .logo-type {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #000;
-            text-decoration: none;
-            letter-spacing: -1px;
-            display: flex;
-            align-items: center;
+            font-size: 1.6rem; font-weight: 700;
+            color: #000; text-decoration: none; letter-spacing: -1px;
+            display: flex; align-items: center; transition: color 0.3s ease;
         }
-        .smile-n {
-            position: relative;
-            display: inline-block;
-        }
-        /* Los dos puntos debajo simulando la sonrisa */
+        nav.scrolled .logo-type { color: #fff; }
+        
+        .smile-n { position: relative; display: inline-block; }
         .smile-n::after {
-            content: '..';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            font-weight: 800;
-            color: #ff5500; /* Un toque del naranja original para destacar la sonrisa */
+            content: '..'; position: absolute; bottom: -10px; left: 50%;
+            transform: translateX(-50%); font-size: 0.8rem; letter-spacing: 2px;
+            font-weight: 800; color: var(--brand-main);
         }
 
+        .nav-links { display: flex; gap: 10px; align-items: center; }
+        
         .btn-nav {
             font-family: 'JetBrains Mono', monospace;
             background: #000; color: #fff;
             padding: 10px 20px; font-size: 0.85rem;
-            border: none; border-radius: 0; /* Bordes rectos, crudos */
-            cursor: pointer; text-transform: lowercase;
+            border: 1px solid #000; border-radius: 0; 
+            cursor: pointer; text-transform: lowercase; transition: all 0.3s ease;
         }
+        nav.scrolled .btn-nav { background: #fff; color: #000; border-color: #fff; }
 
-        /* HERO MANIFESTO */
+        /* =========================================
+           SECCIÓN BLANCA: HERO MANIFESTO (EDITORIAL)
+           ========================================= */
         .manifesto-hero { 
             position: relative; min-height: 100vh; 
             display: flex; flex-direction: column; justify-content: center; 
             padding: 140px 40px 80px; 
-            border-bottom: 2px solid #000;
+            background-color: #ffffff; color: #000000;
+            border-bottom: 8px solid #000; /* Corte brutalista hacia lo oscuro */
         }
 
-        /* Espacio para el background de Nina Kraviz (Opacidad muy baja para no tapar el texto) */
         .video-kraviz-bg {
             position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; 
-            opacity: 0.08; /* Muy sutil, solo para dar textura visual */
-            filter: grayscale(100%) contrast(1.5);
-            z-index: -1; pointer-events: none;
+            opacity: 0.06; filter: grayscale(100%) contrast(1.5);
+            z-index: 0; pointer-events: none;
         }
 
+        .hero-content { position: relative; z-index: 10; max-width: 1400px; margin: 0 auto; width: 100%; }
+
+        /* Elementos tipo periódico */
+        .editorial-marks { display: flex; gap: 8px; margin-bottom: 20px; }
+        .editorial-marks .rect { width: 40px; height: 8px; background: #000; }
+        .editorial-marks .line { width: 120px; height: 8px; background: var(--brand-main); }
+
         .main-headline {
-            font-size: clamp(3rem, 7vw, 6.5rem); 
-            line-height: 0.95; 
-            margin-bottom: 30px; 
-            max-width: 1200px;
+            font-size: clamp(2.5rem, 6vw, 6rem); 
+            line-height: 0.95; margin-bottom: 25px; 
+            color: #000; letter-spacing: -1px;
+        }
+
+        /* Techno Cursor (BPM 140 -> 0.43s) */
+        @keyframes technoBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+        .techno-cursor {
+            display: inline-block; width: clamp(15px, 3vw, 30px); height: 0.8em;
+            background-color: var(--brand-main);
+            animation: technoBlink 0.43s infinite;
+            vertical-align: text-bottom; margin-left: 8px;
         }
 
         .hero-subtitle { 
-            font-size: clamp(1.2rem, 2vw, 1.8rem); 
-            font-weight: 600; 
-            max-width: 900px; 
-            margin-bottom: 60px; 
-            letter-spacing: -0.5px;
+            font-size: clamp(1.1rem, 2vw, 1.6rem); font-weight: 600; 
+            max-width: 900px; margin-bottom: 50px; letter-spacing: -0.5px;
         }
+        .highlight-black { background-color: #000; color: #fff; padding: 0 10px; }
 
+        /* TAGS INTERACTIVOS */
         .tags-container {
-            display: flex; gap: 15px; margin-bottom: 40px; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; font-weight: 700;
+            display: flex; gap: 15px; margin-bottom: 40px; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; font-weight: 700; flex-wrap: wrap;
         }
-        .tag { background: #eee; padding: 8px 16px; border: 1px solid #ccc; text-transform: lowercase; }
+        .tag { 
+            background: #f4f4f4; padding: 8px 16px; border: 1px solid #ccc; text-transform: lowercase;
+            cursor: pointer; transition: all 0.2s ease; user-select: none; color: #000;
+        }
+        .tag:hover, .tag.active {
+            background: var(--brand-main); color: #fff; border-color: var(--brand-main); transform: translateY(-2px);
+        }
 
         /* PILARES FUNDAMENTADOS */
-        .pillars-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 40px; margin-top: 60px; max-width: 1400px;
+        .pillars-grid-manifesto {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+            gap: 40px; margin-top: 40px;
         }
-        .pillar-item {
-            border-top: 4px solid #000; padding-top: 20px;
-        }
-        .pillar-item h3 {
-            font-size: 1.4rem; margin-bottom: 15px; line-height: 1.2;
-        }
-        .pillar-item p {
-            font-size: 0.95rem; font-weight: 400; color: #333; font-family: 'Inter', sans-serif;
-        }
+        .pillar-item { border-top: 3px solid #000; padding-top: 20px; }
+        .pillar-item h3 { font-size: 1.2rem; margin-bottom: 15px; line-height: 1.2; color: #000; }
+        .pillar-item p { font-size: 0.95rem; font-weight: 400; color: #444; font-family: 'Inter', sans-serif; }
 
-        /* Resaltar la palabra CREADORES */
-        .highlight-black { background-color: #000; color: #fff; padding: 0 10px; }
+        /* =========================================
+           SECCIÓN OSCURA: PLATAFORMA / APP
+           ========================================= */
+        .btn { padding: 12px 22px; border-radius: 100px; font-weight: 600; font-size: 0.88rem; text-decoration: none; transition: all 0.25s ease; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif;}
+        .btn-primary { background: var(--brand-main); color: #ffffff; box-shadow: 0 0 20px rgba(255, 85, 0, 0.35); }
+        .btn-primary:hover { transform: scale(1.03); box-shadow: 0 0 28px rgba(255, 85, 0, 0.6); }
+        .btn-cyan { background: rgba(255, 170, 0, 0.12); color: var(--brand-accent); border: 1px solid var(--brand-accent); box-shadow: 0 0 15px rgba(255, 170, 0, 0.2); }
+        .btn-cyan:hover { background: var(--brand-accent); color: #000; box-shadow: 0 0 25px rgba(255, 170, 0, 0.5); }
+        .btn-dark { background: rgba(255,255,255,0.06); color: #ffffff; border: 1px solid rgba(255,255,255,0.18); backdrop-filter: blur(10px); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 80px 20px; }
+        .section-title { font-size: 1.8rem; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; color: #fff;}
+
+        .search-bar-wrap { margin-bottom: 28px; position: relative; }
+        .search-input {
+            width: 100%; padding: 16px 22px 16px 48px; background: var(--surface); border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 100px; color: #fff; font-size: 1rem; outline: none; transition: 0.25s; font-family: 'Inter', sans-serif;
+        }
+        .search-input:focus { border-color: var(--brand-main); box-shadow: 0 0 20px rgba(255, 85, 0, 0.22); }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #888; pointer-events: none; }
+
+        /* Grilla Eventos */
+        .events-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-bottom: 80px; }
+        .event-card { background: var(--surface); border: var(--border-subtle); border-radius: var(--radius-lg); padding: 16px; transition: all 0.3s ease; color: white; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
+        .event-card:hover { transform: translateY(-4px); border-color: var(--brand-main); box-shadow: 0 0 22px rgba(255, 85, 0, 0.2); }
+        .event-img { width: 100%; aspect-ratio: 4 / 5; border-radius: var(--radius-md); background: #222; margin-bottom: 16px; position: relative; overflow: hidden; }
+        .event-img::after { content: 'REC ●'; font-family: 'JetBrains Mono', monospace; position: absolute; top: 12px; right: 12px; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; color: var(--brand-main); border: 1px solid rgba(255, 85, 0, 0.4); }
+        .event-info h4 { font-size: 1.1rem; margin-bottom: 6px; }
+        .event-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.9rem; font-family: 'Inter', sans-serif;}
+        .event-meta-type { color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
+        .event-meta-count { color: var(--brand-main); font-weight: 700; background: rgba(255, 85, 0, 0.1); padding: 2px 8px; border-radius: 6px; font-size: 0.8rem; border: 1px solid rgba(255, 85, 0, 0.3); font-family: 'Inter', sans-serif;}
+        .tag-badge { background: #222; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: #ccc; border: 1px solid #444; margin-left: 5px;}
+
+        /* Banner League */
+        .league-banner { background: linear-gradient(135deg, rgba(255, 85, 0, 0.14), rgba(255, 170, 0, 0.14)); border: 1px solid rgba(255, 85, 0, 0.35); border-radius: var(--radius-lg); padding: 40px; margin-bottom: 80px; }
+        .league-banner h3 { font-size: 1.8rem; margin-bottom: 12px; color: #fff; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;}
+        .league-banner p { color: #ccc; font-weight: 300; margin-bottom: 28px; max-width: 800px; font-family: 'Inter', sans-serif;}
+        .rules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .rule-card { background: rgba(0,0,0,0.6); border: var(--border-subtle); border-radius: var(--radius-md); padding: 25px; text-align: center; transition: 0.3s; }
+        .rule-card .points { font-size: 1.5rem; color: var(--brand-accent); margin-bottom: 10px; }
+        .rule-card h4 { color: #fff; font-size: 1.1rem; margin-bottom: 8px; }
+        .rule-card p { color: var(--text-secondary); font-size: 0.9rem; margin: 0; font-family: 'Inter', sans-serif;}
+
+        /* Modales */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); backdrop-filter: blur(10px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-box { background: #0c0c0c; padding: 32px; border-radius: 24px; border: 1px solid var(--brand-main); max-width: 820px; width: 100%; max-height: 92vh; overflow-y: auto; position: relative; box-shadow: 0 0 40px rgba(255, 85, 0, 0.2); }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--brand-accent); margin-bottom: 8px; text-transform: uppercase; }
+        .form-group input, .form-group select { width: 100%; padding: 12px 16px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 1rem; outline: none; font-family: 'Inter', sans-serif; }
     </style>
 </head>
 <body>
 
-    <nav>
+    <!-- NAVEGACIÓN -->
+    <nav id="mainNav">
         <a href="/" class="logo-type">fa<span class="smile-n">n</span>movie</a>
-        <button class="btn-nav">entrar al estudio_</button>
+        <div class="nav-links">
+            <button onclick="abrirCreatorStudioLogin()" class="btn-nav">studio_</button>
+            <button onclick="abrirCrearEventoModal()" class="btn-nav" style="background: var(--brand-main); border-color: var(--brand-main); color: #fff;">+ evento</button>
+        </div>
     </nav>
 
+    <!-- SECCIÓN BLANCA: HERO MANIFESTO -->
     <header class="manifesto-hero">
-        <!-- Acá podés poner un video MP4 de Nina Kraviz tocando o textura de cinta -->
         <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?q=80&w=2000&auto=format&fit=crop" class="video-kraviz-bg" alt="Textura Rave">
         
-        <h1 class="main-headline">
-            HAY QUE HACER<br>
-            CONTENIDO <span style="color: #ff5500;">REAL.</span>
-        </h1>
-        
-        <p class="hero-subtitle">
-            Hoy nos convertimos en <span class="highlight-black">creadores</span> de contenido audiovisual.<br>
-            Registra tus eventos en vivo o crea tu propia película.
-        </p>
+        <div class="hero-content">
+            <div class="editorial-marks">
+                <div class="rect"></div>
+                <div class="line"></div>
+            </div>
 
-        <div class="tags-container">
-            <span class="tag">[ social ]</span>
-            <span class="tag">[ cultural ]</span>
-            <span class="tag">[ musical ]</span>
-            <span class="tag">[ underground ]</span>
-        </div>
+            <h1 class="main-headline">
+                HAY QUE HACER<br>
+                CONTENIDO REAL<span class="techno-cursor"></span>
+            </h1>
+            
+            <p class="hero-subtitle">
+                Hoy nos convertimos en <span class="highlight-black">creadores</span> de contenido audiovisual.<br>
+                Registra tus eventos en vivo o crea tu propia película.
+            </p>
 
-        <div class="pillars-grid">
-            <div class="pillar-item">
-                <h3>CANALIZAMOS IDEAS DEL OTRO MUNDO.</h3>
-                <p>Captamos la energía invisible de la pista y la conexión cruda de la multitud. Funcionamos como una antena para materializar vibraciones fugaces en piezas audiovisuales hipnóticas que rompen con lo terrenal.</p>
+            <!-- TAGS QUE FILTRAN ABAJO -->
+            <div class="tags-container" id="heroTags">
+                <span class="tag" onclick="filtrarPorTag('social', this)">[ social ]</span>
+                <span class="tag" onclick="filtrarPorTag('cultural', this)">[ cultural ]</span>
+                <span class="tag" onclick="filtrarPorTag('musical', this)">[ musical ]</span>
+                <span class="tag" onclick="filtrarPorTag('underground', this)">[ underground ]</span>
+                <span class="tag active" onclick="filtrarPorTag('todos', this)">[ ver todos ]</span>
             </div>
-            <div class="pillar-item">
-                <h3>HACEMOS INDUSTRIA DE CONTENIDO.</h3>
-                <p>Sistematizamos la captura masiva para que miles de celulares sean un equipo de cine coordinado. Generamos bancos de archivos de alto valor para productoras y marcas. No solo grabamos; construimos la industria.</p>
-            </div>
-            <div class="pillar-item">
-                <h3>ELEVAMOS DE NIVEL.</h3>
-                <p>Nos rebelamos contra el contenido plástico. Traemos el peso del formato VHS, el blanco y negro y la estética cinematográfica. Subimos la vara de cómo se cuenta la noche transformando el registro en arte colectivo.</p>
-            </div>
-            <div class="pillar-item">
-                <h3>SOMOS CREADORES.</h3>
-                <p>Dejamos de ser espectadores. Al registrar nuestro evento favorito o crear uno propio, estamos escribiendo y dirigiendo la historia de nuestra propia escena. La herramienta es nuestra, la película es nuestra.</p>
+
+            <div class="pillars-grid-manifesto">
+                <div class="pillar-item">
+                    <h3>CANALIZAMOS IDEAS DEL OTRO MUNDO.</h3>
+                    <p>Captamos la energía invisible de la pista y la conexión cruda de la multitud. Materializamos vibraciones fugaces en piezas audiovisuales hipnóticas que rompen con lo terrenal.</p>
+                </div>
+                <div class="pillar-item">
+                    <h3>HACEMOS INDUSTRIA DE CONTENIDO.</h3>
+                    <p>Sistematizamos la captura para que miles de celulares sean un equipo de cine coordinado. Generamos bancos de archivos de alto valor. No solo grabamos; construimos la industria.</p>
+                </div>
+                <div class="pillar-item">
+                    <h3>ELEVAMOS DE NIVEL.</h3>
+                    <p>Nos rebelamos contra el contenido plástico. Traemos el peso del formato VHS, el blanco y negro y la estética cinematográfica. Subimos la vara de cómo se cuenta la noche.</p>
+                </div>
+                <div class="pillar-item">
+                    <h3>SOMOS CREADORES.</h3>
+                    <p>Dejamos de ser espectadores. Al registrar nuestro evento o crear uno propio, dirigimos la historia de nuestra escena. La herramienta es nuestra, la película es nuestra.</p>
+                </div>
             </div>
         </div>
     </header>
 
+    <!-- SECCIÓN OSCURA: PLATAFORMA APP -->
+    <div class="container" id="appZone">
+        <h2 class="section-title" id="events">
+            <span>Próximos Eventos <span id="filtroActualTexto" style="color: var(--brand-main); font-size: 1rem;"></span></span>
+            <button onclick="alert('Abriendo circuito...')" class="btn btn-cyan" style="padding: 9px 18px; font-size: 0.85rem;">Explora el circuito</button>
+        </h2>
+
+        <div class="search-bar-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="eventSearchInput" class="search-input" placeholder="Buscar evento, fiesta o fecha dentro de FanMovie..." oninput="filtrarEventosText()">
+        </div>
+
+        <div class="events-grid" id="eventsContainer"></div>
+
+        <div class="league-banner">
+            <h3>
+                🏆 Creator League 
+                <button onclick="alert('El Podio global con el ranking de filmmakers estará disponible pronto.')" class="btn btn-cyan" style="padding: 8px 16px; font-size: 0.85rem;">Ver Podio</button>
+            </h3>
+            <p>FanMovie es el archivo audiovisual colectivo donde la multitud se convierte en directora. Filma clips exclusivos de 5 segundos, súmate a los créditos y desbloquea beneficios reales.</p>
+            <div class="rules-grid">
+                <div class="rule-card">
+                    <div class="points">+10 🌟</div>
+                    <h4>Check-in</h4>
+                    <p>Confirmá asistencia.</p>
+                </div>
+                <div class="rule-card">
+                    <div class="points">+15 🌟</div>
+                    <h4>Primer Clip</h4>
+                    <p>Rompé el hielo.</p>
+                </div>
+                <div class="rule-card">
+                    <div class="points">+50 🌟</div>
+                    <h4>Escuadrón</h4>
+                    <p>Carga 5 clips.</p>
+                </div>
+                <div class="rule-card">
+                    <div class="points">+120 🌟</div>
+                    <h4>Director Pro</h4>
+                    <p>Sube 10 clips.</p>
+                </div>
+                <div class="rule-card" style="border-color: var(--brand-main); background: rgba(255,85,0,0.1);">
+                    <div class="points" style="color: var(--brand-main);">🔥 RACHA</div>
+                    <h4>x2 Puntos</h4>
+                    <p>3 eventos seguidos.</p>
+                </div>
+            </div>
+            <p style="margin-top: 25px; font-size: 0.9rem; color: #aaa; font-family: 'Inter', sans-serif;"><em>* Estate atento: Durante la noche se habilitarán <strong>Retos Flash</strong> para ganar puntos extra sorpresa.</em></p>
+        </div>
+    </div>
+
+    <!-- MODAL ONBOARDING (REGISTRO) -->
+    <div id="onboardingModal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 420px; text-align: center;">
+            <div id="stepLoginView">
+                <h2 style="color: var(--brand-accent); margin-bottom: 10px;">Tu Perfil</h2>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 25px; font-family: 'Inter', sans-serif;">
+                    Ingresá para guardar tu progreso, sumar rachas y aparecer en los créditos.
+                </p>
+                <button class="btn btn-dark" style="width: 100%; margin-bottom: 12px; justify-content: center; font-size: 1rem; border-color: rgba(255,255,255,0.3);">
+                    <span style="margin-right: 10px;">G</span> Continuar con Google
+                </button>
+                <button class="btn btn-dark" style="width: 100%; margin-bottom: 12px; justify-content: center; font-size: 1rem; border-color: rgba(255,255,255,0.3);">
+                    <span style="font-size: 1.2rem; margin-right: 10px;"></span> Continuar con Apple
+                </button>
+                <p style="font-size: 0.8rem; color: var(--brand-main); margin-top: 20px; cursor: pointer; font-family: 'JetBrains Mono', monospace;" onclick="simularLoginExitoso()">[ Simular login para probar ]</p>
+            </div>
+            <div id="stepInstagramView" style="display: none;">
+                <h2 style="color: #fff; margin-bottom: 15px;">¡Último paso!</h2>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">¿Cuál es tu usuario de Instagram para darte los créditos en la película oficial?</p>
+                <input type="text" id="perfilIgInput" placeholder="@tu_usuario" style="width: 100%; padding: 14px; margin-bottom: 20px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 8px; text-align: center; font-size: 1.1rem; outline: none; font-family: 'Inter', sans-serif;">
+                <button onclick="finalizarCreacionPerfil()" class="btn btn-primary" style="width: 100%; justify-content: center;">Guardar Perfil 🚀</button>
+            </div>
+            <button onclick="cerrarOnboarding()" style="position: absolute; top: 15px; right: 15px; background: transparent; color: #fff; border: none; font-size: 1.2rem; cursor: pointer;">✕</button>
+        </div>
+    </div>
+
+    <!-- MODAL CREAR EVENTO (Ahora con Categoría) -->
+    <div id="crearEventoModal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 550px;">
+            <h2 style="color: var(--brand-accent); margin-bottom: 10px;">Crear Evento</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">Configurá los datos del show para abrir el canal de recepción.</p>
+            <form id="createEventForm" onsubmit="handleCreateEvent(event)">
+                <div class="form-group">
+                    <label>Nombre del Evento</label>
+                    <input type="text" id="eventName" required placeholder="Ej: Rave en la Fábrica">
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Fecha</label>
+                        <input type="date" id="eventDate" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Categoría</label>
+                        <select id="eventTagSelection" required>
+                            <option value="underground">Underground</option>
+                            <option value="musical">Musical</option>
+                            <option value="social">Social</option>
+                            <option value="cultural">Cultural</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Flyer portada (Opcional):</label>
+                    <input type="file" id="eventFlyer" accept="image/*">
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1; justify-content: center;">Publicar Evento</button>
+                    <button type="button" onclick="document.getElementById('crearEventoModal').style.display='none'" class="btn btn-dark">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DE DETALLE DE EVENTO -->
+    <div id="detalleEventoModal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 500px; padding: 0; overflow: hidden;">
+            <div id="detalleBanner" style="height: 250px; background: #222; background-size: cover; background-position: center; position: relative;">
+                <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);"></div>
+                <button onclick="document.getElementById('detalleEventoModal').style.display='none'" style="position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); color: #fff; border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 35px; height: 35px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: bold; transition: 0.2s;">X</button>
+                <div style="position: absolute; bottom: 20px; left: 20px;">
+                    <h2 id="detalleTitulo" style="color: #fff; margin-bottom: 5px; font-size: 1.6rem; text-shadow: 0 2px 10px rgba(0,0,0,0.8);">Título</h2>
+                    <p id="detalleMeta" style="color: var(--brand-accent); font-size: 0.9rem; font-family: 'JetBrains Mono', monospace;">10/10/2026</p>
+                </div>
+            </div>
+            <div style="padding: 30px;">
+                <p style="color: var(--text-secondary); font-family: 'Inter', sans-serif; margin-bottom: 20px; font-size: 0.95rem;">Unite al archivo colectivo de este evento. Tu registro formará parte del Aftermovie.</p>
+                <div id="detalleAcciones"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL STUDIO LOGIN -->
+    <div id="pinLoginModal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 400px; text-align: center;">
+            <h2 style="color: var(--brand-main); margin-bottom: 10px;">Creator Studio</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">Ingresá el PIN de administrador.</p>
+            <input type="password" id="adminPinInput" placeholder="PIN de acceso" style="width: 100%; padding: 14px; margin-bottom: 20px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 8px; text-align: center; font-size: 1.2rem; outline: none;">
+            <div style="display: flex; gap: 10px;">
+                <button onclick="alert('Entrando al estudio...')" class="btn btn-primary" style="flex: 1; justify-content: center;">Ingresar</button>
+                <button onclick="document.getElementById('pinLoginModal').style.display='none'" class="btn btn-dark">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // LOGICA DE SCROLL PARA LA BARRA DE NAVEGACION
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('mainNav');
+            const heroHeight = document.querySelector('.manifesto-hero').offsetHeight;
+            if(window.scrollY > heroHeight - 80) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        let globalEventsData = [];
+        let currentTagFilter = 'todos';
+        let selectedEventSafeName = "";
+
+        // CREAR EVENTOS DE PRUEBA SI NO HAY
+        if(!localStorage.getItem('fanmovie_events')) {
+            const dummies = [
+                {name: "Boiler Room Arg", safe_name: "boiler_arg", date: "2026-11-10", circuit: "CABA", category: "underground"},
+                {name: "Festival Primavera", safe_name: "fest_pri", date: "2026-11-15", circuit: "AMBA", category: "musical"},
+                {name: "Feria de Arte Local", safe_name: "feria_arte", date: "2026-11-20", circuit: "CABA", category: "cultural"}
+            ];
+            localStorage.setItem('fanmovie_events', JSON.stringify(dummies));
+        }
+
+        function loadEvents() {
+            let localEvents = JSON.parse(localStorage.getItem('fanmovie_events') || '[]');
+            globalEventsData = localEvents;
+            renderEventsList();
+        }
+
+        function renderEventsList(eventsToRender = globalEventsData) {
+            const container = document.getElementById("eventsContainer");
+            container.innerHTML = "";
+            if (eventsToRender.length === 0) {
+                container.innerHTML = "<p style='color: #666; font-family: Inter;'>No hay eventos para esta categoría.</p>";
+                return;
+            }
+            eventsToRender.forEach(ev => {
+                const encodedName = encodeURIComponent(ev.safe_name);
+                let bgUrl = "'/static/vhs_gradient_grain.jpg'";
+                if (ev.has_banner) {
+                    const localBanner = localStorage.getItem(`banner_${ev.safe_name}`);
+                    bgUrl = localBanner ? `'${localBanner}'` : `'/uploads/${encodedName}/banner.jpg'`;
+                }
+                const bgStyle = `background: url(${bgUrl}) center/cover no-repeat, linear-gradient(45deg, #111, #333);`;
+                const countKey = `count_${ev.safe_name}`;
+                let count = parseInt(localStorage.getItem(countKey) || (Math.floor(Math.random() * 8) + 3));
+                let isJoined = localStorage.getItem(`joined_${ev.safe_name}`) === "true";
+                let tagCat = ev.category || 'underground';
+
+                let btnHtml = isJoined ? 
+                    `<button class="btn btn-dark" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center; border-color: rgba(255,255,255,0.2);">Subir Videos ↗</button>` :
+                    `<button class="btn btn-primary" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center;">¡Participar!</button>`;
+
+                container.innerHTML += `
+                    <div class="event-card" onclick="abrirDetalleEvento('${encodedName}')">
+                        <div>
+                            <div class="event-img" style="${bgStyle}"></div>
+                            <div class="event-info">
+                                <h4>${ev.name} <span class="tag-badge">${tagCat}</span></h4>
+                                <div class="event-meta">
+                                    <span class="event-meta-type">TAPE // REC</span>
+                                    <span class="event-meta-count">🔥 ${count} anotados</span>
+                                </div>
+                                ${btnHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // LÓGICA DE TAGS (Filtro por Categoría)
+        function filtrarPorTag(tag, el) {
+            // Actualizar diseño de botones tags
+            document.querySelectorAll('#heroTags .tag').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+
+            currentTagFilter = tag;
+            document.getElementById("filtroActualTexto").innerText = tag === 'todos' ? "" : ` / ${tag}`;
+            
+            // Hacer scroll suave hacia los eventos
+            document.getElementById("events").scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            filtrarEventosText(); // Aplica texto + tag
+        }
+
+        function filtrarEventosText() {
+            const q = document.getElementById("eventSearchInput").value.toLowerCase().trim();
+            let filtered = globalEventsData.filter(ev => ev.name.toLowerCase().includes(q));
+            
+            if(currentTagFilter !== 'todos') {
+                filtered = filtered.filter(ev => (ev.category || 'underground') === currentTagFilter);
+            }
+            renderEventsList(filtered);
+        }
+
+        // CREAR EVENTO
+        function abrirCrearEventoModal() { document.getElementById('crearEventoModal').style.display = 'flex'; }
+        function handleCreateEvent(e) {
+            e.preventDefault();
+            const name = document.getElementById('eventName').value.trim();
+            const date = document.getElementById('eventDate').value;
+            const category = document.getElementById('eventTagSelection').value;
+            const flyerInput = document.getElementById('eventFlyer');
+            if (!name) return;
+            const safeName = name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+            
+            let events = JSON.parse(localStorage.getItem('fanmovie_events') || '[]');
+            const hasBanner = flyerInput.files.length > 0;
+            events.push({ name, safe_name: safeName, date, category: category, circuit: 'CABA', has_banner: hasBanner });
+            localStorage.setItem('fanmovie_events', JSON.stringify(events));
+            
+            if (hasBanner) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    localStorage.setItem(`banner_${safeName}`, evt.target.result);
+                    finalizarCreacionModal();
+                };
+                reader.readAsDataURL(flyerInput.files[0]);
+            } else {
+                finalizarCreacionModal();
+            }
+        }
+        function finalizarCreacionModal() {
+            document.getElementById('crearEventoModal').style.display='none';
+            loadEvents();
+            alert("✨ Evento creado con éxito y asignado a su categoría.");
+        }
+
+        // LÓGICA DEL ONBOARDING Y PARTICIPAR
+        function abrirDetalleEvento(safeNameDecoded) {
+            const safeName = decodeURIComponent(safeNameDecoded);
+            const ev = globalEventsData.find(e => e.safe_name === safeName);
+            if(!ev) return;
+            
+            selectedEventSafeName = ev.safe_name;
+            document.getElementById('detalleTitulo').innerText = ev.name;
+            document.getElementById('detalleMeta').innerText = `${ev.date || 'Próximamente'} // [${ev.category || 'underground'}]`;
+            
+            const isJoined = localStorage.getItem(`joined_${ev.safe_name}`) === "true";
+            const accionesDiv = document.getElementById('detalleAcciones');
+            
+            if(isJoined) {
+                accionesDiv.innerHTML = `
+                    <p style="color: #fff; font-size: 1rem; font-weight: bold; margin-bottom: 10px;">✓ Ya estás participando.</p>
+                    <button onclick="alert('Abriendo cámara VHS...')" class="btn btn-primary" style="width: 100%; justify-content: center;">Iniciar Película 🎥</button>
+                `;
+            } else {
+                accionesDiv.innerHTML = `
+                    <button onclick="intentarParticipar()" class="btn btn-primary" style="width: 100%; justify-content: center;">¡Participar!</button>
+                `;
+            }
+            document.getElementById('detalleEventoModal').style.display = 'flex';
+        }
+
+        function intentarParticipar() {
+            const isLogged = localStorage.getItem('fanmovie_user_logged') === 'true';
+            if (isLogged) {
+                unirseAlEventoOneClick();
+            } else {
+                document.getElementById('detalleEventoModal').style.display = 'none';
+                abrirOnboarding();
+            }
+        }
+
+        function abrirOnboarding() {
+            document.getElementById('stepLoginView').style.display = 'block';
+            document.getElementById('stepInstagramView').style.display = 'none';
+            document.getElementById('onboardingModal').style.display = 'flex';
+        }
+        function cerrarOnboarding() { document.getElementById('onboardingModal').style.display = 'none'; }
+        
+        function simularLoginExitoso() {
+            document.getElementById('stepLoginView').style.display = 'none';
+            document.getElementById('stepInstagramView').style.display = 'block';
+        }
+
+        function finalizarCreacionPerfil() {
+            const ig = document.getElementById('perfilIgInput').value.trim();
+            if(!ig) { alert("Escribí un usuario válido."); return; }
+            localStorage.setItem('fanmovie_user_ig', ig);
+            localStorage.setItem('fanmovie_user_logged', 'true');
+            cerrarOnboarding();
+            alert(`✨ ¡Perfil creado con éxito! Tu usuario es ${ig}`);
+            if (selectedEventSafeName) { unirseAlEventoOneClick(); }
+        }
+
+        function unirseAlEventoOneClick() {
+            localStorage.setItem(`joined_${selectedEventSafeName}`, "true");
+            let count = parseInt(localStorage.getItem(`count_${selectedEventSafeName}`) || 5);
+            localStorage.setItem(`count_${selectedEventSafeName}`, count + 1);
+            alert(`✅ ¡Anotado al evento! Tu usuario ya está en los créditos.`);
+            loadEvents();
+            abrirDetalleEvento(encodeURIComponent(selectedEventSafeName));
+        }
+
+        function abrirCreatorStudioLogin() { document.getElementById('pinLoginModal').style.display = 'flex'; }
+
+        document.addEventListener('DOMContentLoaded', () => { loadEvents(); });
+    </script>
 </body>
 </html>
