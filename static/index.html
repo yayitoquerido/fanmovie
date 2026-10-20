@@ -162,6 +162,61 @@
         .pillars-list li { margin-bottom: 8px; }
         .pillars-list strong { color: #fff; }
 
+        
+        /* =========================================
+           SECCIÓN BLANCA EDITORIAL (CÓMO FUNCIONA)
+           ========================================= */
+        .atmosphere-transition {
+            height: 200px;
+            background: linear-gradient(to bottom, var(--bg-dark) 0%, var(--brand-main) 45%, var(--brand-accent) 75%, #ffffff 100%);
+            position: relative;
+            z-index: 1;
+        }
+        .section-white {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 40px 0 100px;
+            position: relative;
+            z-index: 2;
+        }
+        .section-white .section-title {
+            color: #000;
+            display: inline-block;
+            border-bottom: 6px solid var(--brand-main);
+            padding-bottom: 5px;
+            margin-bottom: 40px;
+        }
+        
+        /* Tarjetas Brutalistas */
+        .section-white .step-card, 
+        .section-white .bento-card {
+            background: #fff;
+            border: 3px solid #000;
+            border-radius: 0;
+            box-shadow: 8px 8px 0px #000;
+            transition: all 0.2s ease;
+        }
+        .section-white .step-card:hover, 
+        .section-white .bento-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px var(--brand-main);
+            border-color: var(--brand-main);
+        }
+        
+        .section-white .step-card h3, 
+        .section-white .bento-card h3 { color: #000; font-family: 'Druk Wide', sans-serif; font-size: 1.1rem; }
+        
+        .section-white .step-card p, 
+        .section-white .bento-card p,
+        .section-white .pillars-list { color: #222; font-weight: 500; font-family: 'Inter', sans-serif; }
+        
+        .section-white .step-number { color: rgba(0,0,0,0.06); font-size: 4rem; top: 10px; right: 10px; }
+        .section-white .step-card:hover .step-number { color: rgba(255,85,0,0.15); }
+        
+        .section-white .bento-icon { background: #000; color: #fff; border-radius: 0; }
+        .section-white .pillars-list strong { color: #000; font-weight: 800; }
+        .section-white .text-secondary { color: #555 !important; }
+
         /* HERO BOTTOM (Antiguo Hero Restaurado) */
         .hero-bottom { position: relative; min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 80px 20px; overflow: hidden; border-top: var(--border-subtle); border-bottom: var(--border-subtle); background: #000; }
         .hero-bottom .hero-video-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(90%) sepia(20%) contrast(1.4) brightness(0.35) blur(0.5px); z-index: 0; }
@@ -315,41 +370,50 @@
             <p style="margin-top: 25px; font-size: 0.9rem; color: #aaa; font-family: 'Inter', sans-serif;"><em>* Estate atento: Durante la noche se habilitarán <strong>Retos Flash</strong> para ganar puntos extra sorpresa.</em></p>
         </div>
 
-        <!-- SECCIONES RESTAURADAS -->
-        <h2 class="section-title" style="margin-top: 60px;">¿Cómo funciona?</h2>
-        <p style="color: var(--text-secondary); font-weight: 300; margin-bottom: 35px; font-size: 1.05rem; font-family: 'Inter', sans-serif;">
-            FanMovie recopila las grabaciones crudas de la multitud. Inmortaliza tu registro de la noche en archivos audiovisuales únicos.
-        </p>
-        <div class="steps-grid">
-            <div class="step-card"><div class="step-number">01</div><h3>Elegí tu evento</h3><p>En el circuito o calendario aparecerán fechas de CABA y AMBA. Elegís el que más te guste, le das a "Participar" y te ayudamos a encontrar tu vibra.</p></div>
-            <div class="step-card"><div class="step-number">02</div><h3>Iniciar película</h3><p>El día del evento se habilitará la cámara. Haz clips cortos de la noche, cumple las misiones flash y suma puntos en el ranking.</p></div>
-            <div class="step-card"><div class="step-number">03</div><h3>Tu Recap VHS</h3><p>Al final tendrás un visionado previo del montaje. Nuestro motor lo edita automáticamente con estética VHS para guardarlo en tu perfil y compartirlo.</p></div>
-        </div>
+    </div> <!-- CIERRA EL APPZONE OSCURO AQUÍ -->
 
-        <h2 class="section-title" style="margin-top: 60px;">¿Para qué sirve fanmovie/?</h2>
-        <div class="bento-grid">
-            <div class="bento-card bento-large">
-                <div class="bento-icon">📼</div>
-                <h3>Mil perspectivas, un momento registrado</h3>
-                <p>Un <b>FanMovie</b> transforma los videos sueltos de los asistentes en una pieza con estética de archivo VHS y formato Letterbox cuadrado que respeta la imagen original sin taparla.</p>
+    <!-- TRANSICIÓN DE ATMÓSFERA -->
+    <div class="atmosphere-transition"></div>
+
+    <!-- SECCIÓN BLANCA EDITORIAL -->
+    <section class="section-white">
+        <div class="container" style="padding-top: 0;">
+            <h2 class="section-title">¿Cómo funciona?</h2>
+            <p class="text-secondary" style="font-weight: 500; margin-bottom: 35px; font-size: 1.1rem; font-family: 'Inter', sans-serif; max-width: 800px;">
+                FanMovie recopila las grabaciones crudas de la multitud. Inmortaliza tu registro de la noche en archivos audiovisuales únicos.
+            </p>
+            
+            <div class="steps-grid">
+                <div class="step-card"><div class="step-number">01</div><h3>Elegí tu evento</h3><p>En el circuito aparecerán fechas de CABA y AMBA. Elegís el que más te guste, le das a "Participar" y te ayudamos a encontrar tu vibra.</p></div>
+                <div class="step-card"><div class="step-number">02</div><h3>Iniciar película</h3><p>El día del evento se habilitará la cámara. Haz clips cortos de la noche, cumple las misiones flash y suma puntos en el ranking.</p></div>
+                <div class="step-card"><div class="step-number">03</div><h3>Tu Recap VHS</h3><p>Al final tendrás un visionado previo del montaje. Nuestro motor lo edita automáticamente con estética VHS para guardarlo en tu perfil.</p></div>
             </div>
-            <div class="bento-card bento-small">
-                <div class="bento-icon">🌟</div>
-                <h3>Tus créditos</h3>
-                <p>Si tu clip es seleccionado en el corte final, quedás registrado como co-creador oficial del evento.</p>
-            </div>
-            <div class="bento-card bento-large" style="grid-column: span 12;">
-                <div class="bento-icon">🚀</div>
-                <h3>Motor de Contenido para Productores y Creadores</h3>
-                <p>Además del aftermovie automático en múltiples versiones, el bot procesa los crudos para extraer clips en cámara lenta y blanco y negro listos para reutilizar:</p>
-                <ul class="pillars-list">
-                    <li><strong>1. Banco de Archivos (Asset Pooling):</strong> Recopilación masiva de crudos desde la pista.</li>
-                    <li><strong>2. Clipsitos Slow-Mo B&N:</strong> Extracción automática de tomas de 5 a 6 segundos.</li>
-                    <li><strong>3. Formato VHS Letterbox:</strong> Encuadre cuadrado con bandas negras que deja limpio el video y ubica la firma.</li>
-                </ul>
+
+            <h2 class="section-title" style="margin-top: 40px;">¿Para qué sirve fanmovie/?</h2>
+            <div class="bento-grid">
+                <div class="bento-card bento-large">
+                    <div class="bento-icon">📼</div>
+                    <h3>Mil perspectivas, un momento registrado</h3>
+                    <p>Un <b>FanMovie</b> transforma los videos sueltos de los asistentes en una pieza con estética de archivo VHS y formato cuadrado que respeta la imagen original.</p>
+                </div>
+                <div class="bento-card bento-small">
+                    <div class="bento-icon">🌟</div>
+                    <h3>Tus créditos</h3>
+                    <p>Si tu clip es seleccionado en el corte final, quedás registrado como co-creador oficial del evento.</p>
+                </div>
+                <div class="bento-card bento-large" style="grid-column: span 12;">
+                    <div class="bento-icon">🚀</div>
+                    <h3>Motor de Contenido para Productores</h3>
+                    <p style="margin-bottom: 15px;">Además del aftermovie automático, el motor extrae clips listos para reutilizar:</p>
+                    <ul class="pillars-list">
+                        <li><strong>1. Banco de Archivos (Asset Pooling):</strong> Recopilación masiva de crudos desde la pista.</li>
+                        <li><strong>2. Clipsitos Slow-Mo B&N:</strong> Extracción automática de tomas en cámara lenta.</li>
+                        <li><strong>3. Formato VHS Letterbox:</strong> Encuadre con bandas negras que deja limpio el video.</li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- HERO ANTIGUO RESTAURADO AL FINAL -->
     <header class="hero hero-bottom">
