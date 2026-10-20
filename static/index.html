@@ -42,7 +42,7 @@
             color: #ffffff; text-decoration: none; text-shadow: none;
         }
 
-        /* Nav limpio y despejado */
+        /* Nav limpio y despejado sin texto central que choque */
         nav { 
             position: fixed; top: 0; width: 100%; padding: 14px 24px; 
             display: flex; justify-content: space-between; align-items: center; 
@@ -51,7 +51,7 @@
         }
         .nav-links { display: flex; gap: 10px; align-items: center; }
 
-        .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 140px 20px 80px; overflow: hidden; border-bottom: var(--border-subtle); }
+        .hero { position: relative; min-height: 88vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 140px 20px 80px; overflow: hidden; border-bottom: var(--border-subtle); }
         .hero-video-bg { 
             position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; 
             filter: grayscale(90%) sepia(20%) contrast(1.4) brightness(0.35) blur(0.5px); 
@@ -70,62 +70,44 @@
         .vhs-hud-top-left { position: absolute; top: 95px; left: 40px; z-index: 10; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: rgba(255,255,255,0.65); text-align: left; line-height: 1.5; }
         .vhs-hud-top-right { position: absolute; top: 95px; right: 40px; z-index: 10; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: rgba(255,255,255,0.65); text-align: right; line-height: 1.4; }
         .vhs-hud-bottom-left { position: absolute; bottom: 25px; left: 40px; z-index: 10; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: rgba(255,255,255,0.65); }
-        
-        .hero-content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 900px;}
+        .hero-content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; }
 
         h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; margin-bottom: 20px;
+            font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; margin-bottom: 20px; max-width: 950px;
             color: #ffffff; display: flex; flex-direction: column; align-items: center; gap: 5px;
         }
 
-        /* ANIMACIÓN DE TIPEO HACIENDO UN CONTENIDO REAL */
         .typing-container {
+            display: inline-grid;
+            text-align: left;
+        }
+        
+        .typing-container::after {
+            content: "registrado.";
+            visibility: hidden;
+            grid-area: 1 / 1;
+            padding-right: 4px;
+        }
+
+        h1 .highlight-orange { 
+            grid-area: 1 / 1;
+            color: var(--brand-main); 
             display: inline-block;
             white-space: nowrap;
             overflow: hidden;
-            width: 0;
-            animation: typing 3s steps(25, end) forwards;
-            vertical-align: bottom;
+            border-right: 4px solid var(--brand-main);
+            padding-right: 4px;
+            justify-self: start;
+            width: 100%;
+            animation: typing 4s steps(11, end) infinite, blink 0.75s step-end infinite;
         }
 
-        .highlight-underline {
-            text-decoration: underline;
-            text-decoration-color: var(--brand-main);
-            text-decoration-thickness: 5px;
-            text-underline-offset: 6px;
-        }
+        @keyframes typing { 0% { width: 0; } 45%, 75% { width: 100%; } 100% { width: 0; } }
+        @keyframes blink { from, to { border-color: transparent; } 50% { border-color: var(--brand-main); } }
 
-        /* Cursor titilando a 140ppm (0.428s por ciclo) */
-        @keyframes blink {
-            0%, 49% { border-right-color: var(--brand-main); }
-            50%, 100% { border-right-color: transparent; }
-        }
-        
-        .cursor {
-            display: inline-block;
-            border-right: 5px solid var(--brand-main);
-            height: 1em;
-            vertical-align: bottom;
-            animation: blink 0.428s step-end infinite;
-            margin-left: 2px;
-        }
+        .hero p { font-size: clamp(1.05rem, 2vw, 1.25rem); color: #dedede; max-width: 650px; margin-bottom: 36px; font-weight: 300; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
 
-        @keyframes typing { 
-            0% { width: 0; } 
-            100% { width: 100%; } 
-        }
-
-        .hero p { font-size: clamp(1.05rem, 2vw, 1.2rem); color: #dedede; max-width: 650px; margin-bottom: 30px; font-weight: 300; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
-
-        .search-bar-wrap { margin-top: 20px; position: relative; width: 100%; max-width: 600px; }
-        .search-input {
-            width: 100%; padding: 18px 22px 18px 48px; background: rgba(14, 14, 14, 0.85); border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 100px; color: #fff; font-size: 1rem; outline: none; transition: 0.25s; font-family: 'Inter', sans-serif; backdrop-filter: blur(10px);
-        }
-        .search-input:focus { border-color: var(--brand-main); box-shadow: 0 0 20px rgba(255, 85, 0, 0.22); }
-        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #888; pointer-events: none; }
-
-        .btn-group { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 25px; }
+        .btn-group { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
         .btn { padding: 12px 22px; border-radius: 100px; font-weight: 600; font-size: 0.88rem; text-decoration: none; transition: all 0.25s ease; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif;}
         .btn-primary { background: var(--brand-main); color: #ffffff; box-shadow: 0 0 20px rgba(255, 85, 0, 0.35); }
         .btn-primary:hover { transform: scale(1.03); box-shadow: 0 0 28px rgba(255, 85, 0, 0.6); }
@@ -137,40 +119,27 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 60px 20px; }
         .section-title { font-size: 1.8rem; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
 
-        /* ANIMACIÓN SCROLL (Fade in Up) */
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 80px; }
+        .step-card {
+            background: var(--surface); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg);
+            padding: 35px; position: relative; transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1); overflow: hidden;
         }
-        .fade-in-up.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .step-card:hover { transform: translateY(-6px); border-color: var(--brand-main); box-shadow: 0 0 25px rgba(255, 85, 0, 0.28), inset 0 0 15px rgba(255, 170, 0, 0.12); }
+        .step-number { 
+            font-size: 2.8rem; color: rgba(255,255,255,0.04); position: absolute; top: 20px; right: 20px; 
+            z-index: 0; pointer-events: none; user-select: none; transition: color 0.3s ease; 
         }
+        .step-card:hover .step-number { color: rgba(255, 85, 0, 0.08); text-shadow: none; }
+        .step-card h3 { font-size: 1.2rem; margin-bottom: 12px; color: #fff; position: relative; z-index: 2; padding-right: 50px; }
+        .step-card p { color: var(--text-secondary); font-size: 0.95rem; font-weight: 300; font-family: 'Inter', sans-serif; position: relative; z-index: 2; }
 
-        /* Estilos del nuevo manifiesto */
-        .manifesto-block {
-            border-bottom: 2px solid rgba(255,255,255,0.15);
-            padding: 50px 0;
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: left;
+        .search-bar-wrap { margin-bottom: 28px; position: relative; }
+        .search-input {
+            width: 100%; padding: 16px 22px 16px 48px; background: var(--surface); border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 100px; color: #fff; font-size: 1rem; outline: none; transition: 0.25s; font-family: 'Inter', sans-serif;
         }
-        .manifesto-block:last-child {
-            border-bottom: none;
-        }
-        .manifesto-block h2 {
-            font-size: clamp(1.4rem, 4vw, 2.2rem);
-            margin-bottom: 15px;
-            color: #fff;
-            line-height: 1.2;
-        }
-        .manifesto-block p {
-            color: var(--text-secondary);
-            font-size: clamp(1rem, 2vw, 1.15rem);
-            font-weight: 300;
-            line-height: 1.6;
-        }
+        .search-input:focus { border-color: var(--brand-main); box-shadow: 0 0 20px rgba(255, 85, 0, 0.22); }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #888; pointer-events: none; }
 
         .events-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-bottom: 80px; }
         .event-card { background: var(--surface); border: var(--border-subtle); border-radius: var(--radius-lg); padding: 16px; transition: all 0.3s ease; color: white; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
@@ -181,6 +150,29 @@
         .event-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.9rem; font-family: 'Inter', sans-serif;}
         .event-meta-type { color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
         .event-meta-count { color: var(--brand-main); font-weight: 700; background: rgba(255, 85, 0, 0.1); padding: 2px 8px; border-radius: 6px; font-size: 0.8rem; border: 1px solid rgba(255, 85, 0, 0.3); font-family: 'Inter', sans-serif;}
+
+        .league-banner { background: linear-gradient(135deg, rgba(255, 85, 0, 0.14), rgba(255, 170, 0, 0.14)); border: 1px solid rgba(255, 85, 0, 0.35); border-radius: var(--radius-lg); padding: 40px; margin-bottom: 80px; }
+        .league-banner h3 { font-size: 1.8rem; margin-bottom: 12px; color: #fff; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;}
+        .league-banner p { color: #ccc; font-weight: 300; margin-bottom: 28px; max-width: 800px; font-family: 'Inter', sans-serif;}
+        .rules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .rule-card { background: rgba(0,0,0,0.6); border: var(--border-subtle); border-radius: var(--radius-md); padding: 25px; text-align: center; transition: 0.3s; }
+        .rule-card:hover { border-color: var(--brand-accent); transform: translateY(-3px); }
+        .rule-card .points { font-size: 1.5rem; color: var(--brand-accent); margin-bottom: 10px; }
+        .rule-card h4 { color: #fff; font-size: 1.1rem; margin-bottom: 8px; }
+        .rule-card p { color: var(--text-secondary); font-size: 0.9rem; margin: 0; font-family: 'Inter', sans-serif;}
+
+        .bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; margin-bottom: 60px; }
+        .bento-card { background: var(--surface); border: var(--border-subtle); border-radius: var(--radius-lg); padding: 40px; transition: 0.3s; }
+        .bento-card:hover { border-color: rgba(255, 85, 0, 0.45); box-shadow: 0 0 25px rgba(255, 85, 0, 0.12); }
+        .bento-large { grid-column: span 8; }
+        .bento-small { grid-column: span 4; }
+        @media (max-width: 900px) { .bento-large, .bento-small { grid-column: span 12; } }
+        .bento-icon { font-size: 2rem; margin-bottom: 20px; display: inline-block; background: rgba(255,255,255,0.05); padding: 14px; border-radius: var(--radius-md); }
+        .bento-card h3 { font-size: 1.3rem; margin-bottom: 12px; color: #fff; }
+        .bento-card p { color: var(--text-secondary); font-weight: 300; font-size: 0.95rem; font-family: 'Inter', sans-serif;}
+        .pillars-list { margin-top: 15px; padding-left: 20px; color: var(--text-secondary); font-weight: 300; font-size: 0.95rem; font-family: 'Inter', sans-serif;}
+        .pillars-list li { margin-bottom: 8px; }
+        .pillars-list strong { color: #fff; }
 
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); backdrop-filter: blur(10px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
         .modal-box { background: #0c0c0c; padding: 32px; border-radius: 24px; border: 1px solid var(--brand-main); max-width: 820px; width: 100%; max-height: 92vh; overflow-y: auto; position: relative; box-shadow: 0 0 40px rgba(255, 85, 0, 0.2); }
@@ -221,12 +213,12 @@
         </div>
     </div>
 
-    <!-- NAVEGACIÓN LIMPIA -->
+    <!-- NAVEGACIÓN LIMPIA: Solo logo a la izquierda y botones a la derecha -->
     <nav>
         <a href="/" class="code-logo brand">fanmovie/</a>
         <div class="nav-links">
-            <button onclick="abrirCreatorStudioLogin()" class="btn btn-cyan" style="padding: 7px 14px; font-size: 0.8rem;">studio_</button>
-            <button onclick="abrirCrearEventoModal()" class="btn btn-primary" style="padding: 7px 14px; font-size: 0.8rem;">+ evento</button>
+            <button onclick="abrirCreatorStudioLogin()" class="btn btn-cyan" style="padding: 7px 14px; font-size: 0.8rem;">Studio</button>
+            <button onclick="abrirCrearEventoModal()" class="btn btn-primary" style="padding: 7px 14px; font-size: 0.8rem;">+ Evento</button>
         </div>
     </nav>
 
@@ -249,54 +241,27 @@
         </div>
 
         <div class="hero-content">
-            <!-- TÍTULO CON ANIMACIÓN DE TIPEO Y CURSOR -->
-            <h1>
-                <span>HACIENDO UN</span>
-                <span style="display: inline-block;">
-                    <span class="typing-container">CONTENIDO <span class="highlight-underline">REAL</span></span><span class="cursor"></span>
-                </span>
-            </h1>
-            
-            <p>Hoy nos convertimos en creadores de contenido audiovisual. Registra tus eventos en vivo o crea tu propia película.</p>
-            
-            <!-- BUSCADOR SUBIDO AL HERO -->
-            <div class="search-bar-wrap">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="eventSearchInput" class="search-input" placeholder="Buscar (social) (cultural) (show) (fiesta)..." oninput="filtrarEventos()">
+            <h1><span>Un momento</span><span class="typing-container"><span class="highlight-orange">registrado.</span></span></h1>
+            <p>Carga tus videos, recorre el circuito y conviértete en filmmaker.</p>
+            <div class="btn-group">
+                <a href="#events" class="btn btn-dark">Ver eventos</a>
+                <button onclick="abrirCircuitoModal()" class="btn btn-cyan">Explora el circuito</button>
             </div>
         </div>
     </header>
 
     <div class="container">
-        <!-- SECCIÓN MANIFIESTO (Animación de scroll fade-in-up) -->
-        <div style="margin-top: 20px; margin-bottom: 80px;">
-            <div class="manifesto-block fade-in-up">
-                <h2>CANALIZAMOS IDEAS DEL OTRO MUNDO.</h2>
-                <p>Captamos la energía cruda de la pista. Materializamos la vibración de la multitud en piezas hipnóticas.</p>
-            </div>
-            
-            <div class="manifesto-block fade-in-up">
-                <h2>HACEMOS INDUSTRIA DE CONTENIDO.</h2>
-                <p>Sistematizamos la captura coordinando miles de celulares. No solo grabamos la noche; construimos su archivo.</p>
-            </div>
-            
-            <div class="manifesto-block fade-in-up">
-                <h2>ELEVAMOS DE NIVEL.</h2>
-                <p>Rechazamos el contenido plástico. Subimos la vara con la estética cinematográfica y el peso del formato VHS.</p>
-            </div>
-            
-            <div class="manifesto-block fade-in-up">
-                <h2>SOMOS CREADORES.</h2>
-                <p>Dejamos de ser espectadores. Al registrar la escena, la película y la herramienta pasan a ser nuestras.</p>
-            </div>
-        </div>
-
         <h2 class="section-title" id="events">
             <span>Próximos Eventos</span>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                 <button onclick="abrirCircuitoModal()" class="btn btn-cyan" style="padding: 9px 18px; font-size: 0.85rem;">Explora el circuito</button>
             </div>
         </h2>
+
+        <div class="search-bar-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="eventSearchInput" class="search-input" placeholder="Buscar evento, fiesta o fecha dentro de FanMovie..." oninput="filtrarEventos()">
+        </div>
 
         <div class="events-grid" id="eventsContainer"></div>
 
@@ -324,9 +289,54 @@
                 </div>
             </div>
         </div>
+
+        <h2 class="section-title" style="margin-top: 60px;">¿Cómo funciona?</h2>
+        <p style="color: var(--text-secondary); font-weight: 300; margin-bottom: 35px; font-size: 1.05rem; font-family: 'Inter', sans-serif;">
+            FanMovie recopila las grabaciones crudas de la multitud. Inmortaliza tu registro de la noche en archivos audiovisuales únicos.
+        </p>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">01</div>
+                <h3>Elegí tu evento</h3>
+                <p>Entrá al show al que asististe y participá de los que siguen en el circuito. También podés crear un evento propio.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">02</div>
+                <h3>Recolección de videos</h3>
+                <p>Cargá tus videos y agregá tu usuario de Instagram para los créditos. Se recompensará tu participación en cada show con estrellas.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">03</div>
+                <h3>¡Reaccioná en vivo!</h3>
+                <p>El administrador publicará el FanMovie listo para redes y se guardará como recuerdo y portafolio de tus momentos registrados.</p>
+            </div>
+        </div>
+
+        <h2 class="section-title" style="margin-top: 60px;">¿Para qué sirve fanmovie/?</h2>
+        <div class="bento-grid">
+            <div class="bento-card bento-large">
+                <div class="bento-icon">📼</div>
+                <h3>Mil perspectivas, un momento registrado</h3>
+                <p>Un <b>FanMovie</b> transforma los videos sueltos de los asistentes en una pieza con estética de archivo VHS y formato Letterbox cuadrado que respeta la imagen original sin taparla.</p>
+            </div>
+            <div class="bento-card bento-small">
+                <div class="bento-icon">🌟</div>
+                <h3>Tus créditos</h3>
+                <p>Si tu clip es seleccionado en el corte final, quedás registrado como co-creador oficial del evento.</p>
+            </div>
+            <div class="bento-card bento-large" style="grid-column: span 12;">
+                <div class="bento-icon">🚀</div>
+                <h3>Motor de Contenido para Productores y Creadores</h3>
+                <p>Además del aftermovie automático en múltiples versiones, el bot procesa los crudos para extraer clips en cámara lenta y blanco y negro listos para reutilizar:</p>
+                <ul class="pillars-list">
+                    <li><strong>1. Banco de Archivos (Asset Pooling):</strong> Recopilación masiva de crudos desde la pista.</li>
+                    <li><strong>2. Clipsitos Slow-Mo B&N:</strong> Extracción automática de tomas de 5 a 6 segundos en cámara lenta y blanco y negro.</li>
+                    <li><strong>3. Formato VHS Letterbox:</strong> Encuadre cuadrado con bandas negras que deja limpio el video y ubica la firma.</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
-    <!-- MODALES Y SCRIPTS -->
     <div id="detalleEventoModal" class="modal-overlay">
         <div class="modal-box" style="max-width: 500px; padding: 0; overflow: hidden;">
             <div id="detalleBanner" style="height: 250px; background: #222; background-size: cover; background-position: center; position: relative;">
@@ -441,19 +451,6 @@
             const tc = document.getElementById("vhsTimecode");
             if (tc) tc.innerText = `${h}:${m}:${s}`;
         }, 1000);
-
-        /* SCRIPT PARA ANIMACIÓN SCROLL (Fade-in-up) */
-        document.addEventListener("DOMContentLoaded", () => {
-            const fadeElements = document.querySelectorAll('.fade-in-up');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.15 });
-            fadeElements.forEach(el => observer.observe(el));
-        });
 
         async function loadEvents() {
             try {
