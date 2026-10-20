@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>fanmovie/ - Contenido Real.</title>
+    <title>fanmovie/ - Un momento registrado.</title>
     <link rel="icon" href="/static/logo.png" type="image/png">
+    <meta property="og:title" content="fanmovie/ - Una película hecha por los fans">
+    <meta property="og:description" content="Un momento registrado. Co-creá el aftermovie oficial de tus eventos.">
+    <meta property="og:image" content="/static/og-logo.jpg">
+    <meta property="og:type" content="website">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700;800&display=swap');
         
@@ -19,11 +23,11 @@
             --bg-dark: #050505; --surface: #0e0e0e; --surface-hover: #161616;
             --text-primary: #ffffff; --text-secondary: #888888;
             --brand-main: #ff5500; --brand-accent: #ffaa00;
+            --gradient: linear-gradient(135deg, var(--brand-main), var(--brand-accent));
             --border-subtle: 1px solid rgba(255, 255, 255, 0.08);
             --radius-lg: 20px; --radius-md: 14px; --radius-sm: 8px;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text-primary); line-height: 1.5; overflow-x: hidden; }
 
         h1, h2, h3, .brand, .step-number {
@@ -33,92 +37,140 @@
             letter-spacing: 1px;
         }
 
-        /* NAVEGACIÓN INTELIGENTE */
+        .code-logo {
+            font-size: 1.1rem;
+            color: #ffffff; text-decoration: none; text-shadow: none;
+        }
+
+        /* Nav limpio y despejado */
         nav { 
-            position: fixed; top: 0; width: 100%; padding: 18px 40px; 
+            position: fixed; top: 0; width: 100%; padding: 14px 24px; 
             display: flex; justify-content: space-between; align-items: center; 
-            background: transparent; backdrop-filter: blur(0px); 
-            z-index: 100; transition: all 0.3s ease;
-            border-bottom: 1px solid transparent;
+            background: rgba(5, 5, 5, 0.92); backdrop-filter: blur(12px); 
+            z-index: 100; border-bottom: var(--border-subtle); 
         }
-        nav.scrolled {
-            background: rgba(5, 5, 5, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: var(--border-subtle);
-        }
-
-        .logo-type {
-            font-family: 'JetBrains Mono', monospace; font-size: 1.6rem; font-weight: 700;
-            color: #000; text-decoration: none; letter-spacing: -1px;
-            display: flex; align-items: center; transition: color 0.3s ease;
-        }
-        nav.scrolled .logo-type { color: #fff; }
-        
-        .smile-n { position: relative; display: inline-block; }
-        .smile-n::after {
-            content: '..'; position: absolute; bottom: -10px; left: 50%;
-            transform: translateX(-50%); font-size: 0.8rem; letter-spacing: 2px;
-            font-weight: 800; color: var(--brand-main);
-        }
-
         .nav-links { display: flex; gap: 10px; align-items: center; }
-        
-        .btn-nav {
-            font-family: 'JetBrains Mono', monospace; background: #000; color: #fff;
-            padding: 10px 20px; font-size: 0.85rem; border: 1px solid #000; border-radius: 0; 
-            cursor: pointer; text-transform: lowercase; transition: all 0.3s ease;
-        }
-        nav.scrolled .btn-nav { background: #fff; color: #000; border-color: #fff; }
 
-        /* HERO MANIFESTO */
-        .manifesto-hero { 
-            position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; 
-            padding: 140px 40px 80px; background-color: #ffffff; color: #000000; border-bottom: 8px solid #000;
-        }
-        .video-kraviz-bg {
+        .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 140px 20px 80px; overflow: hidden; border-bottom: var(--border-subtle); }
+        .hero-video-bg { 
             position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; 
-            opacity: 0.06; filter: grayscale(100%) contrast(1.5); z-index: 0; pointer-events: none;
+            filter: grayscale(90%) sepia(20%) contrast(1.4) brightness(0.35) blur(0.5px); 
+            z-index: 0; 
         }
-        .hero-content { position: relative; z-index: 10; max-width: 1400px; margin: 0 auto; width: 100%; }
-
-        .editorial-marks { display: flex; gap: 8px; margin-bottom: 20px; }
-        .editorial-marks .rect { width: 40px; height: 8px; background: #000; }
-        .editorial-marks .line { width: 120px; height: 8px; background: var(--brand-main); }
-
-        .main-headline { font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.95; margin-bottom: 25px; color: #000; letter-spacing: -1px; }
-
-        @keyframes technoBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
-        .techno-cursor {
-            display: inline-block; width: clamp(15px, 3vw, 30px); height: 0.8em;
-            background-color: var(--brand-main); animation: technoBlink 0.43s infinite; vertical-align: text-bottom; margin-left: 8px;
+        
+        .vhs-scanlines {
+            position: absolute; inset: 0; pointer-events: none; z-index: 1;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%), 
+                        linear-gradient(90deg, rgba(255, 85, 0, 0.04), rgba(255, 170, 0, 0.02), rgba(0, 0, 0, 0.03));
+            background-size: 100% 4px, 8px 100%;
         }
-        .hero-subtitle { font-size: clamp(1.1rem, 2vw, 1.6rem); font-weight: 600; max-width: 900px; margin-bottom: 50px; letter-spacing: -0.5px; }
-        .highlight-black { background-color: #000; color: #fff; padding: 0 10px; }
+        
+        .hero-overlay { position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(5,5,5,0.1), #050505 98%); z-index: 2; }
+        
+        .vhs-hud-top-left { position: absolute; top: 95px; left: 40px; z-index: 10; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: rgba(255,255,255,0.65); text-align: left; line-height: 1.5; }
+        .vhs-hud-top-right { position: absolute; top: 95px; right: 40px; z-index: 10; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: rgba(255,255,255,0.65); text-align: right; line-height: 1.4; }
+        .vhs-hud-bottom-left { position: absolute; bottom: 25px; left: 40px; z-index: 10; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: rgba(255,255,255,0.65); }
+        
+        .hero-content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 900px;}
 
-        .tags-container { display: flex; gap: 15px; margin-bottom: 40px; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; font-weight: 700; flex-wrap: wrap; }
-        .tag { background: #f4f4f4; padding: 8px 16px; border: 1px solid #ccc; text-transform: lowercase; cursor: pointer; transition: all 0.2s ease; user-select: none; color: #000; }
-        .tag:hover, .tag.active { background: var(--brand-main); color: #fff; border-color: var(--brand-main); transform: translateY(-2px); }
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; margin-bottom: 20px;
+            color: #ffffff; display: flex; flex-direction: column; align-items: center; gap: 5px;
+        }
 
-        .pillars-grid-manifesto { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 40px; margin-top: 40px; }
-        .pillar-item { border-top: 3px solid #000; padding-top: 20px; }
-        .pillar-item h3 { font-size: 1.2rem; margin-bottom: 15px; line-height: 1.2; color: #000; }
-        .pillar-item p { font-size: 0.95rem; font-weight: 400; color: #444; font-family: 'Inter', sans-serif; }
+        /* ANIMACIÓN DE TIPEO HACIENDO UN CONTENIDO REAL */
+        .typing-container {
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 3s steps(25, end) forwards;
+            vertical-align: bottom;
+        }
 
-        /* PLATAFORMA APP */
+        .highlight-underline {
+            text-decoration: underline;
+            text-decoration-color: var(--brand-main);
+            text-decoration-thickness: 5px;
+            text-underline-offset: 6px;
+        }
+
+        /* Cursor titilando a 140ppm (0.428s por ciclo) */
+        @keyframes blink {
+            0%, 49% { border-right-color: var(--brand-main); }
+            50%, 100% { border-right-color: transparent; }
+        }
+        
+        .cursor {
+            display: inline-block;
+            border-right: 5px solid var(--brand-main);
+            height: 1em;
+            vertical-align: bottom;
+            animation: blink 0.428s step-end infinite;
+            margin-left: 2px;
+        }
+
+        @keyframes typing { 
+            0% { width: 0; } 
+            100% { width: 100%; } 
+        }
+
+        .hero p { font-size: clamp(1.05rem, 2vw, 1.2rem); color: #dedede; max-width: 650px; margin-bottom: 30px; font-weight: 300; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+
+        .search-bar-wrap { margin-top: 20px; position: relative; width: 100%; max-width: 600px; }
+        .search-input {
+            width: 100%; padding: 18px 22px 18px 48px; background: rgba(14, 14, 14, 0.85); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 100px; color: #fff; font-size: 1rem; outline: none; transition: 0.25s; font-family: 'Inter', sans-serif; backdrop-filter: blur(10px);
+        }
+        .search-input:focus { border-color: var(--brand-main); box-shadow: 0 0 20px rgba(255, 85, 0, 0.22); }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #888; pointer-events: none; }
+
+        .btn-group { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 25px; }
         .btn { padding: 12px 22px; border-radius: 100px; font-weight: 600; font-size: 0.88rem; text-decoration: none; transition: all 0.25s ease; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif;}
         .btn-primary { background: var(--brand-main); color: #ffffff; box-shadow: 0 0 20px rgba(255, 85, 0, 0.35); }
         .btn-primary:hover { transform: scale(1.03); box-shadow: 0 0 28px rgba(255, 85, 0, 0.6); }
         .btn-cyan { background: rgba(255, 170, 0, 0.12); color: var(--brand-accent); border: 1px solid var(--brand-accent); box-shadow: 0 0 15px rgba(255, 170, 0, 0.2); }
         .btn-cyan:hover { background: var(--brand-accent); color: #000; box-shadow: 0 0 25px rgba(255, 170, 0, 0.5); }
         .btn-dark { background: rgba(255,255,255,0.06); color: #ffffff; border: 1px solid rgba(255,255,255,0.18); backdrop-filter: blur(10px); }
+        .btn-dark:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.35); }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 80px 20px 40px; }
-        .section-title { font-size: 1.8rem; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; color: #fff;}
+        .container { max-width: 1200px; margin: 0 auto; padding: 60px 20px; }
+        .section-title { font-size: 1.8rem; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
 
-        .search-bar-wrap { margin-bottom: 28px; position: relative; }
-        .search-input { width: 100%; padding: 16px 22px 16px 48px; background: var(--surface); border: 1px solid rgba(255,255,255,0.14); border-radius: 100px; color: #fff; font-size: 1rem; outline: none; transition: 0.25s; font-family: 'Inter', sans-serif; }
-        .search-input:focus { border-color: var(--brand-main); box-shadow: 0 0 20px rgba(255, 85, 0, 0.22); }
-        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #888; pointer-events: none; }
+        /* ANIMACIÓN SCROLL (Fade in Up) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Estilos del nuevo manifiesto */
+        .manifesto-block {
+            border-bottom: 2px solid rgba(255,255,255,0.15);
+            padding: 50px 0;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .manifesto-block:last-child {
+            border-bottom: none;
+        }
+        .manifesto-block h2 {
+            font-size: clamp(1.4rem, 4vw, 2.2rem);
+            margin-bottom: 15px;
+            color: #fff;
+            line-height: 1.2;
+        }
+        .manifesto-block p {
+            color: var(--text-secondary);
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            font-weight: 300;
+            line-height: 1.6;
+        }
 
         .events-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-bottom: 80px; }
         .event-card { background: var(--surface); border: var(--border-subtle); border-radius: var(--radius-lg); padding: 16px; transition: all 0.3s ease; color: white; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
@@ -129,546 +181,318 @@
         .event-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.9rem; font-family: 'Inter', sans-serif;}
         .event-meta-type { color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
         .event-meta-count { color: var(--brand-main); font-weight: 700; background: rgba(255, 85, 0, 0.1); padding: 2px 8px; border-radius: 6px; font-size: 0.8rem; border: 1px solid rgba(255, 85, 0, 0.3); font-family: 'Inter', sans-serif;}
-        .tag-badge { background: #222; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: #ccc; border: 1px solid #444; margin-left: 5px;}
 
-        .league-banner { background: linear-gradient(135deg, rgba(255, 85, 0, 0.14), rgba(255, 170, 0, 0.14)); border: 1px solid rgba(255, 85, 0, 0.35); border-radius: var(--radius-lg); padding: 40px; margin-bottom: 80px; }
-        .league-banner h3 { font-size: 1.8rem; margin-bottom: 12px; color: #fff; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;}
-        .league-banner p { color: #ccc; font-weight: 300; margin-bottom: 28px; max-width: 800px; font-family: 'Inter', sans-serif;}
-        .rules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-        .rule-card { background: rgba(0,0,0,0.6); border: var(--border-subtle); border-radius: var(--radius-md); padding: 25px; text-align: center; transition: 0.3s; }
-        .rule-card .points { font-size: 1.5rem; color: var(--brand-accent); margin-bottom: 10px; }
-        .rule-card h4 { color: #fff; font-size: 1.1rem; margin-bottom: 8px; }
-        .rule-card p { color: var(--text-secondary); font-size: 0.9rem; margin: 0; font-family: 'Inter', sans-serif;}
-
-        /* SECCIONES RESTAURADAS: CÓMO FUNCIONA Y BENTO GRID */
-        .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 80px; }
-        .step-card { background: var(--surface); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: 35px; position: relative; transition: all 0.35s; overflow: hidden; }
-        .step-card:hover { transform: translateY(-6px); border-color: var(--brand-main); box-shadow: 0 0 25px rgba(255, 85, 0, 0.28), inset 0 0 15px rgba(255, 170, 0, 0.12); }
-        .step-number { font-size: 2.8rem; color: rgba(255,255,255,0.04); position: absolute; top: 20px; right: 20px; z-index: 0; pointer-events: none; user-select: none; transition: color 0.3s ease; }
-        .step-card:hover .step-number { color: rgba(255, 85, 0, 0.08); }
-        .step-card h3 { font-size: 1.2rem; margin-bottom: 12px; color: #fff; position: relative; z-index: 2; padding-right: 50px; }
-        .step-card p { color: var(--text-secondary); font-size: 0.95rem; font-weight: 300; font-family: 'Inter', sans-serif; position: relative; z-index: 2; }
-
-        .bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; margin-bottom: 60px; }
-        .bento-card { background: var(--surface); border: var(--border-subtle); border-radius: var(--radius-lg); padding: 40px; transition: 0.3s; }
-        .bento-card:hover { border-color: rgba(255, 85, 0, 0.45); box-shadow: 0 0 25px rgba(255, 85, 0, 0.12); }
-        .bento-large { grid-column: span 8; }
-        .bento-small { grid-column: span 4; }
-        @media (max-width: 900px) { .bento-large, .bento-small { grid-column: span 12; } }
-        .bento-icon { font-size: 2rem; margin-bottom: 20px; display: inline-block; background: rgba(255,255,255,0.05); padding: 14px; border-radius: var(--radius-md); }
-        .bento-card h3 { font-size: 1.3rem; margin-bottom: 12px; color: #fff; }
-        .bento-card p { color: var(--text-secondary); font-weight: 300; font-size: 0.95rem; font-family: 'Inter', sans-serif;}
-        .pillars-list { margin-top: 15px; padding-left: 20px; color: var(--text-secondary); font-weight: 300; font-size: 0.95rem; font-family: 'Inter', sans-serif;}
-        .pillars-list li { margin-bottom: 8px; }
-        .pillars-list strong { color: #fff; }
-
-        
-        /* =========================================
-           SECCIÓN BLANCA EDITORIAL (CÓMO FUNCIONA)
-           ========================================= */
-        .atmosphere-transition {
-            height: 200px;
-            background: linear-gradient(to bottom, var(--bg-dark) 0%, var(--brand-main) 45%, var(--brand-accent) 75%, #ffffff 100%);
-            position: relative;
-            z-index: 1;
-        }
-        .section-white {
-            background-color: #ffffff;
-            color: #000000;
-            padding: 40px 0 100px;
-            position: relative;
-            z-index: 2;
-        }
-        .section-white .section-title {
-            color: #000;
-            display: inline-block;
-            border-bottom: 6px solid var(--brand-main);
-            padding-bottom: 5px;
-            margin-bottom: 40px;
-        }
-        
-        /* Tarjetas Brutalistas */
-        .section-white .step-card, 
-        .section-white .bento-card {
-            background: #fff;
-            border: 3px solid #000;
-            border-radius: 0;
-            box-shadow: 8px 8px 0px #000;
-            transition: all 0.2s ease;
-        }
-        .section-white .step-card:hover, 
-        .section-white .bento-card:hover {
-            transform: translate(-4px, -4px);
-            box-shadow: 12px 12px 0px var(--brand-main);
-            border-color: var(--brand-main);
-        }
-        
-        .section-white .step-card h3, 
-        .section-white .bento-card h3 { color: #000; font-family: 'Druk Wide', sans-serif; font-size: 1.1rem; }
-        
-        .section-white .step-card p, 
-        .section-white .bento-card p,
-        .section-white .pillars-list { color: #222; font-weight: 500; font-family: 'Inter', sans-serif; }
-        
-        .section-white .step-number { color: rgba(0,0,0,0.06); font-size: 4rem; top: 10px; right: 10px; }
-        .section-white .step-card:hover .step-number { color: rgba(255,85,0,0.15); }
-        
-        .section-white .bento-icon { background: #000; color: #fff; border-radius: 0; }
-        .section-white .pillars-list strong { color: #000; font-weight: 800; }
-        .section-white .text-secondary { color: #555 !important; }
-
-        /* HERO BOTTOM (Antiguo Hero Restaurado) */
-        .hero-bottom { position: relative; min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 80px 20px; overflow: hidden; border-top: var(--border-subtle); border-bottom: var(--border-subtle); background: #000; }
-        .hero-bottom .hero-video-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(90%) sepia(20%) contrast(1.4) brightness(0.35) blur(0.5px); z-index: 0; }
-        .hero-bottom .vhs-scanlines { position: absolute; inset: 0; pointer-events: none; z-index: 1; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%), linear-gradient(90deg, rgba(255, 85, 0, 0.04), rgba(255, 170, 0, 0.02), rgba(0, 0, 0, 0.03)); background-size: 100% 4px, 8px 100%; }
-        .hero-bottom .hero-overlay { position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(5,5,5,0.1), #050505 98%); z-index: 2; }
-        .hero-bottom .hero-content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; }
-        .hero-bottom h1 { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; margin-bottom: 30px; color: #ffffff; display: flex; flex-direction: column; align-items: center; gap: 5px; }
-        .hero-bottom .typing-container { display: inline-grid; text-align: left; }
-        .hero-bottom .typing-container::after { content: "registrado."; visibility: hidden; grid-area: 1 / 1; padding-right: 4px; }
-        .hero-bottom .highlight-orange { grid-area: 1 / 1; color: var(--brand-main); display: inline-block; white-space: nowrap; overflow: hidden; border-right: 4px solid var(--brand-main); padding-right: 4px; justify-self: start; width: 100%; animation: typing 4s steps(11, end) infinite, blink 0.75s step-end infinite; }
-        @keyframes typing { 0% { width: 0; } 45%, 75% { width: 100%; } 100% { width: 0; } }
-        @keyframes blink { from, to { border-color: transparent; } 50% { border-color: var(--brand-main); } }
-
-        /* FOOTER */
-        footer { padding: 50px 20px; text-align: center; color: var(--text-secondary); font-size: 0.9rem; display: flex; flex-direction: column; align-items: center; gap: 20px; background: var(--bg-dark); }
-        .footer-socials a { color: var(--text-secondary); text-decoration: none; font-family: 'JetBrains Mono', monospace; transition: color 0.2s; }
-        .footer-socials a:hover { color: #fff; }
-
-        /* MODALES Y FORMULARIOS */
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); backdrop-filter: blur(10px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
         .modal-box { background: #0c0c0c; padding: 32px; border-radius: 24px; border: 1px solid var(--brand-main); max-width: 820px; width: 100%; max-height: 92vh; overflow-y: auto; position: relative; box-shadow: 0 0 40px rgba(255, 85, 0, 0.2); }
+        
+        .circuit-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: var(--border-subtle); padding-bottom: 10px; }
+        .circuit-tab { background: transparent; border: none; color: var(--text-secondary); font-size: 1rem; font-weight: 600; cursor: pointer; padding: 5px 10px; font-family: 'JetBrains Mono', monospace; transition: 0.2s; }
+        .circuit-tab.active { color: var(--brand-main); border-bottom: 2px solid var(--brand-main); }
+        .circuit-tab:hover { color: #fff; }
+
+        .circuit-Poster { background: #070707; border: 1px solid rgba(255,170,0,0.3); border-radius: 18px; padding: 24px; position: relative; overflow: hidden; }
+        .circuit-header-meta { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--brand-main); padding-bottom: 12px; margin-bottom: 20px; font-family: 'JetBrains Mono', monospace; }
+        .circuit-stage-wrap { position: relative; width: 100%; height: 420px; background: radial-gradient(circle at center, rgba(255,85,0,0.07), transparent 70%); border-radius: 12px; overflow: hidden; display: none; }
+        .circuit-stage-wrap.active { display: block; }
+        .circuit-spot { position: absolute; transform: translate(-50%, -50%); cursor: pointer; z-index: 5; transition: 0.25s; }
+        .circuit-spot:hover { transform: translate(-50%, -50%) scale(1.12); z-index: 10; }
+        .spot-dot { width: 18px; height: 18px; background: var(--brand-main); border: 3px solid var(--brand-accent); border-radius: 50%; box-shadow: 0 0 15px var(--brand-main); margin: 0 auto 6px; }
+        .spot-card { background: rgba(10,10,10,0.92); border: 1px solid var(--brand-accent); border-radius: 10px; padding: 6px 10px; min-width: 130px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.8); }
+        .spot-date { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--brand-accent); font-weight: 700; }
+        .spot-title { font-size: 0.8rem; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'Inter', sans-serif; }
+
         .form-group { margin-bottom: 20px; text-align: left; }
         .form-group label { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--brand-accent); margin-bottom: 8px; text-transform: uppercase; }
         .form-group input, .form-group select { width: 100%; padding: 12px 16px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 1rem; outline: none; font-family: 'Inter', sans-serif; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--brand-main); }
+        .form-group select option { background: #111; color: #fff; }
 
-        
-        /* =========================================
-           MODAL CIRCUITO (MAPA NEO-BRUTALISTA)
-           ========================================= */
-        #circuitoModal {
-            z-index: 1500;
-        }
-        #circuitoModal .modal-box {
-            background: #ffffff; color: #000000; border: 4px solid #000;
-            box-shadow: 12px 12px 0 var(--brand-main); max-width: 1000px;
-            height: 80vh; display: flex; flex-direction: column; padding: 0;
-            border-radius: 0; /* Neo-brutalism = bordes rectos */
-            overflow: hidden;
-        }
-        .circuito-header {
-            padding: 20px 30px; border-bottom: 4px solid #000;
-            display: flex; justify-content: space-between; align-items: center;
-            background: #fff; z-index: 10;
-        }
-        .circuito-body { display: flex; flex: 1; overflow: hidden; background: #f4f4f4; }
-        
-        .circuito-list {
-            width: 35%; border-right: 4px solid #000; overflow-y: auto; background: #fff;
-        }
-        .circuito-map-container {
-            width: 65%; position: relative; background: #f9f9f9; 
-            background-image: radial-gradient(#ccc 1px, transparent 1px);
-            background-size: 20px 20px; overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
-        }
-        
-        .circuito-item {
-            padding: 25px 20px; border-bottom: 2px solid #000; cursor: pointer; transition: 0.2s;
-        }
-        .circuito-item:hover, .circuito-item.active { background: var(--brand-main); color: #fff; }
-        .circuito-item.active h4 { color: #fff; }
-        .circuito-item h4 { font-family: 'Druk Wide', sans-serif; font-size: 0.95rem; margin-bottom: 5px; color: #000; }
-        .circuito-item p { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; margin: 0; color: #333;}
-        .circuito-item.active p { color: #ffe5d9; }
-        
-        /* SVG Map Elements */
-        .map-svg { width: 100%; height: 100%; min-width: 500px; }
-        .map-path { fill: none; stroke: #000; stroke-width: 4; stroke-dasharray: 8 4; }
-        .map-river { fill: none; stroke: #ccc; stroke-width: 12; }
-        .map-node { 
-            fill: #fff; stroke: #000; stroke-width: 4; cursor: pointer; transition: 0.3s;
-        }
-        .map-node:hover { fill: var(--brand-main); transform: scale(1.2); transform-origin: center; }
-        .map-node.active { fill: var(--brand-main); animation: pulseNode 1.5s infinite; }
-        .node-label { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: bold; pointer-events: none; text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff; }
-        
-        @keyframes pulseNode {
-            0% { stroke-width: 4; stroke: #000; }
-            50% { stroke-width: 10; stroke: rgba(255,85,0,0.5); }
-            100% { stroke-width: 4; stroke: #000; }
-        }
-
-        @media (max-width: 768px) {
-            .circuito-body { flex-direction: column; }
-            .circuito-map-container { width: 100%; height: 45%; border-right: none; border-bottom: 4px solid #000; }
-            .circuito-list { width: 100%; height: 55%; border-right: none; }
-        }
-
-        /* CÁMARA VHS FULLSCREEN */
-        #cameraModal { display: none; position: fixed; inset: 0; background: #000; z-index: 2000; flex-direction: column; overflow: hidden; }
-        #cameraFeed { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(80%) contrast(1.2); z-index: 1; }
-        .vhs-overlay-camera { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%); background-size: 100% 4px; }
-        .hud-top { position: absolute; top: 40px; left: 0; width: 100%; padding: 0 30px; display: flex; justify-content: space-between; z-index: 10; font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
-        .hud-rec { color: var(--brand-main); font-weight: bold; animation: technoBlink 1s infinite; }
-        .hud-close { position: absolute; top: 40px; right: 30px; z-index: 20; background: rgba(0,0,0,0.5); border: 1px solid #fff; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .record-controls { position: absolute; bottom: 60px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 10; }
-        .record-btn-wrap { position: relative; width: 80px; height: 80px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .record-ring { position: absolute; inset: 0; border-radius: 50%; border: 4px solid rgba(255,255,255,0.3); }
-        .record-progress { position: absolute; inset: 0; border-radius: 50%; border: 4px solid var(--brand-main); clip-path: polygon(50% 0%, 50% 0%, 50% 50%, 50% 50%); transform: rotate(-45deg); }
-        @keyframes fillProgress { 0% { clip-path: polygon(50% 50%, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%); } 25% { clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 50%, 100% 50%, 100% 50%, 100% 50%); } 50% { clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 50% 100%, 50% 100%, 50% 100%); } 75% { clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 50%, 0% 50%); } 100% { clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%, 50% 0%); } }
-        .record-btn-inner { width: 56px; height: 56px; background: #fff; border-radius: 50%; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(255,255,255,0.5); }
-        .record-btn-wrap.recording .record-btn-inner { transform: scale(0.5); border-radius: 8px; background: var(--brand-main); }
-        .record-btn-wrap.recording .record-progress { animation: fillProgress 5s linear forwards; }
-        .camera-flash { position: absolute; inset: 0; background: #fff; z-index: 30; opacity: 0; pointer-events: none; transition: opacity 0.1s ease; }
-        .camera-success-popup { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); background: rgba(0,0,0,0.85); border: 1px solid var(--brand-accent); padding: 20px 30px; border-radius: 16px; text-align: center; z-index: 40; opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .camera-success-popup.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-
-        /* AJUSTES MOBILE (MÁRGENES, LOGOS, BOTONES) */
-        @media (max-width: 768px) {
-            nav { padding: 15px 20px; }
-            .logo-type { font-size: 1.3rem; }
-            .btn-nav { padding: 8px 12px; font-size: 0.75rem; }
-            .btn-new-event-text { display: none; } /* Oculta la palabra "evento" en móvil */
-            .btn-new-event { padding: 8px 16px !important; border-radius: 8px !important; font-size: 1.2rem; line-height: 1; }
-            .manifesto-hero { padding: 120px 20px 60px; }
-            .main-headline { font-size: clamp(2rem, 10vw, 3rem); }
-            .hero-subtitle { font-size: 1rem; }
-            .tags-container { justify-content: center; }
-            .pillars-grid-manifesto { gap: 30px; }
-            .container { padding: 60px 15px; }
-            .hero-bottom h1 { font-size: 1.8rem; }
-        }
+        footer { border-top: var(--border-subtle); padding: 60px 20px; text-align: center; color: var(--text-secondary); font-size: 0.9rem; display: flex; flex-direction: column; align-items: center; gap: 20px; }
     </style>
 </head>
 <body>
+    <div id="pinSuccessModal" class="modal-overlay" style="z-index: 9999;">
+        <div class="modal-box" style="text-align: center; max-width: 400px; padding: 40px;">
+            <h2>¡EVENTO PUBLICADO!</h2>
+            <p style="color: #ccc; margin-bottom: 10px; font-family: 'Inter', sans-serif;">Tu PIN de Administrador para Creator Studio es:</p>
+            <h1 id="generatedPinDisplay" style="color: var(--brand-main); font-size: 4rem; margin-bottom: 20px; letter-spacing: 5px;">0000</h1>
+            <p style="color: var(--brand-accent); font-size: 0.8rem; margin-bottom: 30px; font-family: 'JetBrains Mono', monospace;">Guarda este número. Lo necesitarás para descargar el material.</p>
+            <button onclick="cerrarPinSuccess()" class="btn btn-primary" style="width: 100%; justify-content: center;">ACEPTAR Y CONTINUAR</button>
+        </div>
+    </div>
 
-    <!-- NAVEGACIÓN -->
-    <nav id="mainNav">
-        <a href="/" class="logo-type">fa<span class="smile-n">n</span>movie</a>
+    <!-- NAVEGACIÓN LIMPIA -->
+    <nav>
+        <a href="/" class="code-logo brand">fanmovie/</a>
         <div class="nav-links">
-            <button onclick="abrirCreatorStudioLogin()" class="btn-nav">studio_</button>
-            <button onclick="abrirCrearEventoModal()" class="btn-nav btn-new-event" style="background: var(--brand-main); border-color: var(--brand-main); color: #fff;">
-                + <span class="btn-new-event-text">evento</span>
-            </button>
+            <button onclick="abrirCreatorStudioLogin()" class="btn btn-cyan" style="padding: 7px 14px; font-size: 0.8rem;">studio_</button>
+            <button onclick="abrirCrearEventoModal()" class="btn btn-primary" style="padding: 7px 14px; font-size: 0.8rem;">+ evento</button>
         </div>
     </nav>
 
-    <!-- SECCIÓN BLANCA: HERO MANIFESTO -->
-    <header class="manifesto-hero">
-        <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?q=80&w=2000&auto=format&fit=crop" class="video-kraviz-bg" alt="Textura Rave">
-        
-        <div class="hero-content">
-            <div class="editorial-marks">
-                <div class="rect"></div>
-                <div class="line"></div>
-            </div>
+    <header class="hero">
+        <video id="heroBgVideo" class="hero-video-bg" autoplay muted loop playsinline></video>
+        <div class="vhs-scanlines"></div>
+        <div class="hero-overlay"></div>
 
-            <h1 class="main-headline">
-                HAY QUE HACER<br>
-                CONTENIDO REAL<span class="techno-cursor"></span>
+        <div class="vhs-hud-top-left">
+            <div>CAMERA 1</div>
+            <div>PLAY ►</div>
+            <div id="vhsTimecode">00:00:08</div>
+        </div>
+        <div class="vhs-hud-top-right">
+            <div>VCR TAPE [B&W]</div>
+            <div id="vhsSpeedMode">SPD: SLOW-MO [0.75x]</div>
+        </div>
+        <div class="vhs-hud-bottom-left">
+            <span style="color: var(--brand-main);">REC ●</span> BUENOS AIRES // ARCHIVO COLECTIVO
+        </div>
+
+        <div class="hero-content">
+            <!-- TÍTULO CON ANIMACIÓN DE TIPEO Y CURSOR -->
+            <h1>
+                <span>HACIENDO UN</span>
+                <span style="display: inline-block;">
+                    <span class="typing-container">CONTENIDO <span class="highlight-underline">REAL</span></span><span class="cursor"></span>
+                </span>
             </h1>
             
-            <p class="hero-subtitle">
-                Hoy nos convertimos en <span class="highlight-black">creadores</span> de contenido audiovisual.<br>
-                Registra tus eventos en vivo o crea tu propia película.
-            </p>
-
-            <div class="tags-container" id="heroTags">
-                <span class="tag" onclick="filtrarPorTag('social', this)">[ social ]</span>
-                <span class="tag" onclick="filtrarPorTag('cultural', this)">[ cultural ]</span>
-                <span class="tag" onclick="filtrarPorTag('musical', this)">[ musical ]</span>
-                <span class="tag" onclick="filtrarPorTag('underground', this)">[ underground ]</span>
-                <span class="tag active" onclick="filtrarPorTag('todos', this)">[ ver todos ]</span>
-            </div>
-
-            <div class="pillars-grid-manifesto">
-                <div class="pillar-item">
-                    <h3>CANALIZAMOS IDEAS DEL OTRO MUNDO.</h3>
-                    <p>Captamos la energía invisible de la pista y la conexión cruda de la multitud. Materializamos vibraciones fugaces en piezas audiovisuales hipnóticas que rompen con lo terrenal.</p>
-                </div>
-                <div class="pillar-item">
-                    <h3>HACEMOS INDUSTRIA DE CONTENIDO.</h3>
-                    <p>Sistematizamos la captura para que miles de celulares sean un equipo de cine coordinado. Generamos bancos de archivos de alto valor. No solo grabamos; construimos la industria.</p>
-                </div>
-                <div class="pillar-item">
-                    <h3>ELEVAMOS DE NIVEL.</h3>
-                    <p>Nos rebelamos contra el contenido plástico. Traemos el peso del formato VHS, el blanco y negro y la estética cinematográfica. Subimos la vara de cómo se cuenta la noche.</p>
-                </div>
-                <div class="pillar-item">
-                    <h3>SOMOS CREADORES.</h3>
-                    <p>Dejamos de ser espectadores. Al registrar nuestro evento o crear uno propio, dirigimos la historia de nuestra escena. La herramienta es nuestra, la película es nuestra.</p>
-                </div>
+            <p>Hoy nos convertimos en creadores de contenido audiovisual. Registra tus eventos en vivo o crea tu propia película.</p>
+            
+            <!-- BUSCADOR SUBIDO AL HERO -->
+            <div class="search-bar-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="eventSearchInput" class="search-input" placeholder="Buscar (social) (cultural) (show) (fiesta)..." oninput="filtrarEventos()">
             </div>
         </div>
     </header>
 
-    <!-- SECCIÓN OSCURA: PLATAFORMA APP -->
-    <div class="container" id="appZone">
-        <h2 class="section-title" id="events">
-            <span>Próximos Eventos <span id="filtroActualTexto" style="color: var(--brand-main); font-size: 1rem;"></span></span>
-            <button onclick="abrirCircuitoModal()" class="btn btn-cyan" style="padding: 9px 18px; font-size: 0.85rem;">Explora el circuito</button>
-        </h2>
-
-        <div class="search-bar-wrap">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="eventSearchInput" class="search-input" placeholder="Buscar evento, fiesta o fecha dentro de FanMovie..." oninput="filtrarEventosText()">
+    <div class="container">
+        <!-- SECCIÓN MANIFIESTO (Animación de scroll fade-in-up) -->
+        <div style="margin-top: 20px; margin-bottom: 80px;">
+            <div class="manifesto-block fade-in-up">
+                <h2>CANALIZAMOS IDEAS DEL OTRO MUNDO.</h2>
+                <p>Captamos la energía cruda de la pista. Materializamos la vibración de la multitud en piezas hipnóticas.</p>
+            </div>
+            
+            <div class="manifesto-block fade-in-up">
+                <h2>HACEMOS INDUSTRIA DE CONTENIDO.</h2>
+                <p>Sistematizamos la captura coordinando miles de celulares. No solo grabamos la noche; construimos su archivo.</p>
+            </div>
+            
+            <div class="manifesto-block fade-in-up">
+                <h2>ELEVAMOS DE NIVEL.</h2>
+                <p>Rechazamos el contenido plástico. Subimos la vara con la estética cinematográfica y el peso del formato VHS.</p>
+            </div>
+            
+            <div class="manifesto-block fade-in-up">
+                <h2>SOMOS CREADORES.</h2>
+                <p>Dejamos de ser espectadores. Al registrar la escena, la película y la herramienta pasan a ser nuestras.</p>
+            </div>
         </div>
+
+        <h2 class="section-title" id="events">
+            <span>Próximos Eventos</span>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button onclick="abrirCircuitoModal()" class="btn btn-cyan" style="padding: 9px 18px; font-size: 0.85rem;">Explora el circuito</button>
+            </div>
+        </h2>
 
         <div class="events-grid" id="eventsContainer"></div>
 
         <div class="league-banner">
             <h3>
                 🏆 Creator League 
-                <button onclick="alert('El Podio global con el ranking de filmmakers estará disponible pronto.')" class="btn btn-cyan" style="padding: 8px 16px; font-size: 0.85rem;">Ver Podio</button>
+                <button onclick="alert('El Podio global con el ranking de filmmakers estará disponible pronto.')" class="btn btn-cyan" style="padding: 8px 16px; font-size: 0.85rem; font-family: 'Inter', sans-serif;">Ver Podio</button>
             </h3>
-            <p>FanMovie es el archivo audiovisual colectivo donde la multitud se convierte en directora. Filma clips exclusivos de 5 segundos, súmate a los créditos y desbloquea beneficios reales.</p>
+            <p>FanMovie es un juego de co-creación donde tu participación tiene valor real. Junta la mayor cantidad de estrellas 🌟 según 3 simples reglas:</p>
             <div class="rules-grid">
-                <div class="rule-card"><div class="points">+10 🌟</div><h4>Check-in</h4><p>Confirmá asistencia.</p></div>
-                <div class="rule-card"><div class="points">+15 🌟</div><h4>Primer Clip</h4><p>Rompé el hielo.</p></div>
-                <div class="rule-card"><div class="points">+50 🌟</div><h4>Escuadrón</h4><p>Carga 5 clips.</p></div>
-                <div class="rule-card"><div class="points">+120 🌟</div><h4>Director Pro</h4><p>Sube 10 clips.</p></div>
-                <div class="rule-card" style="border-color: var(--brand-main); background: rgba(255,85,0,0.1);"><div class="points" style="color: var(--brand-main);">🔥 RACHA</div><h4>x2 Puntos</h4><p>3 eventos seguidos.</p></div>
-            </div>
-            <p style="margin-top: 25px; font-size: 0.9rem; color: #aaa; font-family: 'Inter', sans-serif;"><em>* Estate atento: Durante la noche se habilitarán <strong>Retos Flash</strong> para ganar puntos extra sorpresa.</em></p>
-        </div>
-
-    </div> <!-- CIERRA EL APPZONE OSCURO AQUÍ -->
-
-    <!-- TRANSICIÓN DE ATMÓSFERA -->
-    <div class="atmosphere-transition"></div>
-
-    <!-- SECCIÓN BLANCA EDITORIAL -->
-    <section class="section-white">
-        <div class="container" style="padding-top: 0;">
-            <h2 class="section-title">¿Cómo funciona?</h2>
-            <p class="text-secondary" style="font-weight: 500; margin-bottom: 35px; font-size: 1.1rem; font-family: 'Inter', sans-serif; max-width: 800px;">
-                FanMovie recopila las grabaciones crudas de la multitud. Inmortaliza tu registro de la noche en archivos audiovisuales únicos.
-            </p>
-            
-            <div class="steps-grid">
-                <div class="step-card"><div class="step-number">01</div><h3>Elegí tu evento</h3><p>En el circuito aparecerán fechas de CABA y AMBA. Elegís el que más te guste, le das a "Participar" y te ayudamos a encontrar tu vibra.</p></div>
-                <div class="step-card"><div class="step-number">02</div><h3>Iniciar película</h3><p>El día del evento se habilitará la cámara. Haz clips cortos de la noche, cumple las misiones flash y suma puntos en el ranking.</p></div>
-                <div class="step-card"><div class="step-number">03</div><h3>Tu Recap VHS</h3><p>Al final tendrás un visionado previo del montaje. Nuestro motor lo edita automáticamente con estética VHS para guardarlo en tu perfil.</p></div>
-            </div>
-
-            <h2 class="section-title" style="margin-top: 40px;">¿Para qué sirve fanmovie/?</h2>
-            <div class="bento-grid">
-                <div class="bento-card bento-large">
-                    <div class="bento-icon">📼</div>
-                    <h3>Mil perspectivas, un momento registrado</h3>
-                    <p>Un <b>FanMovie</b> transforma los videos sueltos de los asistentes en una pieza con estética de archivo VHS y formato cuadrado que respeta la imagen original.</p>
+                <div class="rule-card">
+                    <div class="points">+1 🌟</div>
+                    <h4>Participá</h4>
+                    <p>Confirmá tu asistencia al evento en el calendario.</p>
                 </div>
-                <div class="bento-card bento-small">
-                    <div class="bento-icon">🌟</div>
-                    <h3>Tus créditos</h3>
-                    <p>Si tu clip es seleccionado en el corte final, quedás registrado como co-creador oficial del evento.</p>
+                <div class="rule-card">
+                    <div class="points">+3 🌟</div>
+                    <h4>Carga 5 videos</h4>
+                    <p>Súbelos y conviértelos en un FanMovie.</p>
                 </div>
-                <div class="bento-card bento-large" style="grid-column: span 12;">
-                    <div class="bento-icon">🚀</div>
-                    <h3>Motor de Contenido para Productores</h3>
-                    <p style="margin-bottom: 15px;">Además del aftermovie automático, el motor extrae clips listos para reutilizar:</p>
-                    <ul class="pillars-list">
-                        <li><strong>1. Banco de Archivos (Asset Pooling):</strong> Recopilación masiva de crudos desde la pista.</li>
-                        <li><strong>2. Clipsitos Slow-Mo B&N:</strong> Extracción automática de tomas en cámara lenta.</li>
-                        <li><strong>3. Formato VHS Letterbox:</strong> Encuadre con bandas negras que deja limpio el video.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- HERO ANTIGUO RESTAURADO AL FINAL -->
-    <header class="hero hero-bottom">
-        <video id="heroBgVideoBottom" class="hero-video-bg" autoplay muted loop playsinline></video>
-        <div class="vhs-scanlines"></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1><span>Un momento</span><span class="typing-container"><span class="highlight-orange">registrado.</span></span></h1>
-            <div class="btn-group" style="margin-top: 20px;">
-                <button onclick="document.getElementById('events').scrollIntoView({behavior: 'smooth'})" class="btn btn-dark">Subir al circuito</button>
-            </div>
-        </div>
-    </header>
-
-    <!-- FOOTER -->
-    <footer>
-        <a href="/" class="logo-type" style="color: #fff; font-size: 1.4rem;">fa<span class="smile-n">n</span>movie</a>
-        <div class="footer-socials" style="display: flex; gap: 25px; margin-top: 10px;">
-            <a href="#">[ instagram ]</a>
-            <a href="#">[ tiktok ]</a>
-            <a href="#">[ email ]</a>
-        </div>
-        <p style="margin-top: 10px; color: #555;">© 2026 CULTUREBA. Todos los derechos reservados.</p>
-    </footer>
-
-    <!-- MODALES -->
-
-    <!-- MODAL CIRCUITO (MAPA) -->
-    <div id="circuitoModal" class="modal-overlay">
-        <div class="modal-box">
-            <div class="circuito-header">
-                <h2 style="margin:0; font-size: 1.2rem; color: #000; font-family: 'JetBrains Mono', monospace; font-weight: 800;">[ EXPLORA EL CIRCUITO ]</h2>
-                <button onclick="cerrarCircuitoModal()" style="background: #000; color: #fff; border: none; width: 35px; height: 35px; font-family: 'Inter', sans-serif; font-weight: bold; cursor: pointer; font-size: 1.2rem; border-radius: 0;">✕</button>
-            </div>
-            <div class="circuito-body">
-                <div class="circuito-list" id="circuitoList">
-                    <!-- Eventos inyectados por JS -->
-                </div>
-                <div class="circuito-map-container">
-                    <svg class="map-svg" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Río de la Plata aproximado -->
-                        <path class="map-river" d="M 400 -50 Q 350 200 450 450 T 700 650" />
-                        <text x="470" y="300" fill="#ccc" font-family="'Druk Wide', sans-serif" font-size="24" transform="rotate(45 470 300)">RIO DE LA PLATA</text>
-                        
-                        <!-- Líneas abstractas (CABA / AMBA) -->
-                        <path class="map-path" d="M 100 100 L 250 250 L 200 450" />
-                        <path class="map-path" d="M 50 300 L 250 250 L 400 150" />
-                        <path class="map-path" d="M 250 250 L 350 350 L 300 550" />
-
-                        <!-- Nodos inyectados por JS -->
-                        <g id="mapNodesLayer"></g>
-                    </svg>
+                <div class="rule-card">
+                    <div class="points">+5 🌟</div>
+                    <h4>Seleccionado</h4>
+                    <p>Si tus clips aparecen ganás puntos extra.</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="onboardingModal" class="modal-overlay">
-        <div class="modal-box" style="max-width: 420px; text-align: center;">
-            <div id="stepLoginView">
-                <h2 style="color: var(--brand-accent); margin-bottom: 10px;">Tu Perfil</h2>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 25px; font-family: 'Inter', sans-serif;">Ingresá para guardar tu progreso, sumar rachas y aparecer en los créditos.</p>
-                <button class="btn btn-dark" style="width: 100%; margin-bottom: 12px; justify-content: center; font-size: 1rem; border-color: rgba(255,255,255,0.3);"><span style="margin-right: 10px;">G</span> Continuar con Google</button>
-                <button class="btn btn-dark" style="width: 100%; margin-bottom: 12px; justify-content: center; font-size: 1rem; border-color: rgba(255,255,255,0.3);"><span style="font-size: 1.2rem; margin-right: 10px;"></span> Continuar con Apple</button>
-                <p style="font-size: 0.8rem; color: var(--brand-main); margin-top: 20px; cursor: pointer; font-family: 'JetBrains Mono', monospace;" onclick="simularLoginExitoso()">[ Simular login para probar ]</p>
+    <!-- MODALES Y SCRIPTS -->
+    <div id="detalleEventoModal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 500px; padding: 0; overflow: hidden;">
+            <div id="detalleBanner" style="height: 250px; background: #222; background-size: cover; background-position: center; position: relative;">
+                <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);"></div>
+                <button onclick="cerrarDetalleEvento()" style="position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); color: #fff; border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 35px; height: 35px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: bold; transition: 0.2s;">X</button>
+                <div style="position: absolute; bottom: 20px; left: 20px;">
+                    <h2 id="detalleTitulo" style="color: #fff; margin-bottom: 5px; font-size: 1.6rem; text-shadow: 0 2px 10px rgba(0,0,0,0.8);">Título</h2>
+                    <p id="detalleMeta" style="color: var(--brand-accent); font-size: 0.9rem; font-family: 'JetBrains Mono', monospace;">CABA // 10/10/2026</p>
+                </div>
             </div>
-            <div id="stepInstagramView" style="display: none;">
-                <h2 style="color: #fff; margin-bottom: 15px;">¡Último paso!</h2>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">¿Cuál es tu usuario de Instagram para darte los créditos en la película oficial?</p>
-                <input type="text" id="perfilIgInput" placeholder="@tu_usuario" style="width: 100%; padding: 14px; margin-bottom: 20px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 8px; text-align: center; font-size: 1.1rem; outline: none; font-family: 'Inter', sans-serif;">
-                <button onclick="finalizarCreacionPerfil()" class="btn btn-primary" style="width: 100%; justify-content: center;">Guardar Perfil 🚀</button>
+            <div style="padding: 30px;">
+                <p style="color: var(--text-secondary); font-family: 'Inter', sans-serif; margin-bottom: 20px; font-size: 0.95rem;">Unite al archivo colectivo de este evento. Recordá que tu registro formará parte del Aftermovie oficial.</p>
+                <div id="detalleAcciones"></div>
             </div>
-            <button onclick="cerrarOnboarding()" style="position: absolute; top: 15px; right: 15px; background: transparent; color: #fff; border: none; font-size: 1.2rem; cursor: pointer;">✕</button>
         </div>
     </div>
 
     <div id="crearEventoModal" class="modal-overlay">
         <div class="modal-box" style="max-width: 550px;">
             <h2 style="color: var(--brand-accent); margin-bottom: 10px;">Crear Evento</h2>
-            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">Configurá los datos del show para abrir el canal de recepción.</p>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">Configurá los datos del show para abrir el canal de recepción de crudos.</p>
             <form id="createEventForm" onsubmit="handleCreateEvent(event)">
-                <div class="form-group"><label>Nombre del Evento</label><input type="text" id="eventName" required placeholder="Ej: Rave en la Fábrica"></div>
-                <div style="display: flex; gap: 15px;">
-                    <div class="form-group" style="flex: 1;"><label>Fecha</label><input type="date" id="eventDate" required></div>
-                    <div class="form-group" style="flex: 1;">
-                        <label>Categoría</label>
-                        <select id="eventTagSelection" required>
-                            <option value="underground">Underground</option>
-                            <option value="musical">Musical</option>
-                            <option value="social">Social</option>
-                            <option value="cultural">Cultural</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label for="eventName">Nombre del Evento</label>
+                    <input type="text" id="eventName" required placeholder="Ej: Fiesta Fin de Año">
                 </div>
-                <div class="form-group"><label>Flyer portada (Opcional):</label><input type="file" id="eventFlyer" accept="image/*"></div>
+                <div class="form-group">
+                    <label for="eventDate">Fecha</label>
+                    <input type="date" id="eventDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventCircuit">Circuito</label>
+                    <select id="eventCircuit" required>
+                        <option value="" disabled selected>Elegí circuito...</option>
+                        <option value="CABA">CABA</option>
+                        <option value="AMBA">AMBA</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="eventFlyer">Flyer portada (Opcional):</label>
+                    <input type="file" id="eventFlyer" accept="image/*">
+                </div>
                 <div style="display: flex; gap: 10px; margin-top: 15px;">
                     <button type="submit" class="btn btn-primary" style="flex: 1; justify-content: center;">Publicar Evento</button>
-                    <button type="button" onclick="document.getElementById('crearEventoModal').style.display='none'" class="btn btn-dark">Cancelar</button>
+                    <button type="button" onclick="cerrarCrearEventoModal()" class="btn btn-dark">Cancelar</button>
                 </div>
             </form>
-        </div>
-    </div>
-
-    <div id="detalleEventoModal" class="modal-overlay">
-        <div class="modal-box" style="max-width: 500px; padding: 0; overflow: hidden;">
-            <div id="detalleBanner" style="height: 250px; background: #222; background-size: cover; background-position: center; position: relative;">
-                <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);"></div>
-                <button onclick="document.getElementById('detalleEventoModal').style.display='none'" style="position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); color: #fff; border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 35px; height: 35px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: bold; transition: 0.2s;">X</button>
-                <div style="position: absolute; bottom: 20px; left: 20px;">
-                    <h2 id="detalleTitulo" style="color: #fff; margin-bottom: 5px; font-size: 1.6rem; text-shadow: 0 2px 10px rgba(0,0,0,0.8);">Título</h2>
-                    <p id="detalleMeta" style="color: var(--brand-accent); font-size: 0.9rem; font-family: 'JetBrains Mono', monospace;">10/10/2026</p>
-                </div>
-            </div>
-            <div style="padding: 30px;">
-                <p style="color: var(--text-secondary); font-family: 'Inter', sans-serif; margin-bottom: 20px; font-size: 0.95rem;">Unite al archivo colectivo de este evento. Tu registro formará parte del Aftermovie.</p>
-                <div id="detalleAcciones"></div>
-            </div>
         </div>
     </div>
 
     <div id="pinLoginModal" class="modal-overlay">
         <div class="modal-box" style="max-width: 400px; text-align: center;">
             <h2 style="color: var(--brand-main); margin-bottom: 10px;">Creator Studio</h2>
-            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">Ingresá el PIN de administrador.</p>
-            <input type="password" id="adminPinInput" placeholder="PIN de acceso" style="width: 100%; padding: 14px; margin-bottom: 20px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 8px; text-align: center; font-size: 1.2rem; outline: none;">
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">Ingresá el PIN de administrador para acceder al radar de filmmakers.</p>
+            <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px; font-family: 'JetBrains Mono', monospace;">PIN maestro de prueba: <b style="color:#fff;">2026</b></p>
+            <input type="password" id="adminPinInput" placeholder="PIN de acceso" style="width: 100%; padding: 14px; margin-bottom: 20px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 8px; text-align: center; font-size: 1.2rem; outline: none; font-family: 'Inter', sans-serif;">
             <div style="display: flex; gap: 10px;">
-                <button onclick="alert('Entrando al estudio...')" class="btn btn-primary" style="flex: 1; justify-content: center;">Ingresar</button>
-                <button onclick="document.getElementById('pinLoginModal').style.display='none'" class="btn btn-dark">Cancelar</button>
+                <button onclick="verificarPinStudio()" class="btn btn-primary" style="flex: 1; justify-content: center;">Ingresar</button>
+                <button onclick="cerrarCreatorStudioLogin()" class="btn btn-dark">Cancelar</button>
             </div>
         </div>
     </div>
-    
-    <div id="cameraModal">
-        <video id="cameraFeed" autoplay playsinline muted></video>
-        <div class="vhs-overlay-camera"></div>
-        <div class="camera-flash" id="cameraFlash"></div>
-        
-        <div class="hud-top">
-            <span class="hud-rec">REC ●</span>
-            <span id="cameraTimecode">00:00:00:00</span>
-        </div>
-        <button class="hud-close" onclick="cerrarCamara()">✕</button>
 
-        <div class="camera-success-popup" id="cameraSuccessPopup">
-            <h3 style="color: #fff; margin-bottom: 5px; font-size: 1.2rem;" id="cameraSuccessText">¡Toma 1 registrada!</h3>
-            <div style="font-size: 1.8rem; color: var(--brand-accent); font-family: 'Druk Wide', sans-serif;" id="cameraSuccessPoints">+15 🌟</div>
-        </div>
+    <div id="circuitoModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="circuit-tabs">
+                <button class="circuit-tab active" id="tab-caba" onclick="switchCircuitTab('CABA')">CABA</button>
+                <button class="circuit-tab" id="tab-amba" onclick="switchCircuitTab('AMBA')">AMBA</button>
+            </div>
 
-        <div class="record-controls">
-            <div class="record-btn-wrap" id="recordBtnWrap" onclick="toggleGrabacion()">
-                <div class="record-ring"></div>
-                <div class="record-progress" id="recordProgress"></div>
-                <div class="record-btn-inner" id="recordBtnInner"></div>
+            <div class="circuit-Poster">
+                <div id="stage-CABA" class="circuit-stage-wrap active">
+                    <svg viewBox="0 0 800 420" style="width: 100%; height: 100%; position: absolute; inset: 0;">
+                        <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
+                            <line x1="0" y1="100" x2="800" y2="100"/><line x1="0" y1="210" x2="800" y2="210"/>
+                            <line x1="200" y1="0" x2="200" y2="420"/><line x1="400" y1="0" x2="400" y2="420"/>
+                        </g>
+                        <path d="M 210,160 C 240,70 460,65 550,140 C 630,205 600,330 480,340 C 350,350 260,330 200,260 Z" fill="none" stroke="rgba(255, 85, 0, 0.35)" stroke-width="8" stroke-linecap="round"/>
+                    </svg>
+                    <div id="circuitSpotsContainerCABA"></div>
+                </div>
+
+                <div id="stage-AMBA" class="circuit-stage-wrap">
+                    <svg viewBox="0 0 800 420" style="width: 100%; height: 100%; position: absolute; inset: 0;">
+                        <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
+                            <line x1="0" y1="100" x2="800" y2="100"/><line x1="0" y1="210" x2="800" y2="210"/>
+                            <line x1="200" y1="0" x2="200" y2="420"/><line x1="400" y1="0" x2="400" y2="420"/>
+                        </g>
+                        <path d="M 150,200 C 300,100 500,50 650,200 C 500,350 300,300 150,200 Z" fill="none" stroke="rgba(255, 170, 0, 0.35)" stroke-width="8" stroke-linecap="round"/>
+                    </svg>
+                    <div id="circuitSpotsContainerAMBA"></div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #aaa;">
+                    <span>● Hacé clic en cada spot para entrar al evento</span>
+                    <button onclick="cerrarCircuitoModal()" class="btn btn-primary" style="padding: 10px 22px; font-size: 0.85rem;">Cerrar Circuito</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('mainNav');
-            const heroHeight = document.querySelector('.manifesto-hero').offsetHeight;
-            if(window.scrollY > heroHeight - 80) { nav.classList.add('scrolled'); } 
-            else { nav.classList.remove('scrolled'); }
+        let selectedEventSafeName = "";
+        let globalEventsData = [];
+
+        let totalSeconds = 8;
+        setInterval(() => {
+            totalSeconds++;
+            const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+            const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+            const s = String(totalSeconds % 60).padStart(2, '0');
+            const tc = document.getElementById("vhsTimecode");
+            if (tc) tc.innerText = `${h}:${m}:${s}`;
+        }, 1000);
+
+        /* SCRIPT PARA ANIMACIÓN SCROLL (Fade-in-up) */
+        document.addEventListener("DOMContentLoaded", () => {
+            const fadeElements = document.querySelectorAll('.fade-in-up');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.15 });
+            fadeElements.forEach(el => observer.observe(el));
         });
 
-        let globalEventsData = [];
-        let currentTagFilter = 'todos';
-        let selectedEventSafeName = "";
+        async function loadEvents() {
+            try {
+                let apiEvents = [];
+                try {
+                    const res = await fetch("/api/events");
+                    if(res.ok) {
+                        const data = await res.json();
+                        apiEvents = data.events || [];
+                    }
+                } catch(e) {}
 
-        if(!localStorage.getItem('fanmovie_events')) {
-            const dummies = [
-                {name: "Boiler Room Arg", safe_name: "boiler_arg", date: "2026-11-10", circuit: "CABA", category: "underground"},
-                {name: "Festival Primavera", safe_name: "fest_pri", date: "2026-11-15", circuit: "AMBA", category: "musical"},
-                {name: "Feria de Arte Local", safe_name: "feria_arte", date: "2026-11-20", circuit: "CABA", category: "cultural"}
-            ];
-            localStorage.setItem('fanmovie_events', JSON.stringify(dummies));
+                let localEvents = JSON.parse(localStorage.getItem('fanmovie_events') || '[]');
+                localEvents = localEvents.filter(ev => ev.name !== 'Todo Terreno');
+                localStorage.setItem('fanmovie_events', JSON.stringify(localEvents));
+                
+                let allMap = new Map();
+                apiEvents.forEach(ev => allMap.set(ev.safe_name, ev));
+                localEvents.forEach(ev => { 
+                    if (!allMap.has(ev.safe_name)) {
+                        allMap.set(ev.safe_name, ev); 
+                    }
+                });
+                
+                globalEventsData = Array.from(allMap.values());
+                renderEventsList(globalEventsData);
+            } catch (error) {
+                document.getElementById("eventsContainer").innerHTML = "<p style='color: var(--brand-main);'>Error al cargar eventos.</p>";
+            }
         }
 
-        function loadEvents() {
-            let localEvents = JSON.parse(localStorage.getItem('fanmovie_events') || '[]');
-            globalEventsData = localEvents;
-            renderEventsList();
-        }
-
-        function renderEventsList(eventsToRender = globalEventsData) {
+        function renderEventsList(eventsList) {
             const container = document.getElementById("eventsContainer");
             container.innerHTML = "";
-            if (eventsToRender.length === 0) {
-                container.innerHTML = "<p style='color: #666; font-family: Inter;'>No hay eventos para esta categoría.</p>";
+            if (eventsList.length === 0) {
+                container.innerHTML = "<p style='color: #666; font-family: Inter;'>No se encontraron eventos.</p>";
                 return;
             }
-            eventsToRender.forEach(ev => {
+            eventsList.forEach(ev => {
                 const encodedName = encodeURIComponent(ev.safe_name);
                 let bgUrl = "'/static/vhs_gradient_grain.jpg'";
                 if (ev.has_banner) {
@@ -678,21 +502,30 @@
                 const bgStyle = `background: url(${bgUrl}) center/cover no-repeat, linear-gradient(45deg, #111, #333);`;
                 const countKey = `count_${ev.safe_name}`;
                 let count = parseInt(localStorage.getItem(countKey) || (Math.floor(Math.random() * 8) + 3));
+                let eventStatus = localStorage.getItem(`status_${ev.safe_name}`) || "activo";
                 let isJoined = localStorage.getItem(`joined_${ev.safe_name}`) === "true";
-                let tagCat = ev.category || 'underground';
-
-                let btnHtml = isJoined ? 
-                    `<button class="btn btn-dark" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center; border-color: rgba(255,255,255,0.2);">Subir Videos ↗</button>` :
-                    `<button class="btn btn-primary" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center;">¡Participar!</button>`;
+                let btnHtml = "";
+                
+                if (eventStatus === 'activo') {
+                    if (isJoined) {
+                        btnHtml = `<button class="btn btn-dark" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center; border-color: rgba(255,255,255,0.2);">Subir Videos ↗</button>`;
+                    } else {
+                        btnHtml = `<button class="btn btn-primary" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center;">¡Participar!</button>`;
+                    }
+                } else if (eventStatus === 'publicado') {
+                    btnHtml = `<button class="btn btn-cyan" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center;">✨ Ver Aftermovie</button>`;
+                } else {
+                    btnHtml = `<button class="btn" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center; background: rgba(255,170,0,0.1); color: var(--brand-accent); border: 1px solid var(--brand-accent);">⚙️ Editándose</button>`;
+                }
 
                 container.innerHTML += `
-                    <div class="event-card" onclick="abrirDetalleEvento('${encodedName}')">
+                    <div class="event-card" onclick="abrirDetalleEvento('${encodedName}')" style="cursor: pointer;">
                         <div>
                             <div class="event-img" style="${bgStyle}"></div>
                             <div class="event-info">
-                                <h4>${ev.name} <span class="tag-badge">${tagCat}</span></h4>
+                                <h4>${ev.name}</h4>
                                 <div class="event-meta">
-                                    <span class="event-meta-type">TAPE // REC</span>
+                                    <span class="event-meta-type">${eventStatus === 'publicado' ? 'TAPE // READY' : 'TAPE // REC'}</span>
                                     <span class="event-meta-count">🔥 ${count} anotados</span>
                                 </div>
                                 ${btnHtml}
@@ -703,227 +536,195 @@
             });
         }
 
-        function filtrarPorTag(tag, el) {
-            document.querySelectorAll('#heroTags .tag').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-            currentTagFilter = tag;
-            document.getElementById("filtroActualTexto").innerText = tag === 'todos' ? "" : ` / ${tag}`;
-            document.getElementById("events").scrollIntoView({ behavior: 'smooth', block: 'start' });
-            filtrarEventosText();
-        }
-
-        function filtrarEventosText() {
+        function filtrarEventos() {
             const q = document.getElementById("eventSearchInput").value.toLowerCase().trim();
-            let filtered = globalEventsData.filter(ev => ev.name.toLowerCase().includes(q));
-            if(currentTagFilter !== 'todos') { filtered = filtered.filter(ev => (ev.category || 'underground') === currentTagFilter); }
+            const filtered = globalEventsData.filter(ev => ev.name.toLowerCase().includes(q));
             renderEventsList(filtered);
-        }
-
-        function abrirCrearEventoModal() { document.getElementById('crearEventoModal').style.display = 'flex'; }
-        function handleCreateEvent(e) {
-            e.preventDefault();
-            const name = document.getElementById('eventName').value.trim();
-            const date = document.getElementById('eventDate').value;
-            const category = document.getElementById('eventTagSelection').value;
-            const flyerInput = document.getElementById('eventFlyer');
-            if (!name) return;
-            const safeName = name.toLowerCase().replace(/[^a-z0-9]/g, '_');
-            
-            let events = JSON.parse(localStorage.getItem('fanmovie_events') || '[]');
-            const hasBanner = flyerInput.files.length > 0;
-            events.push({ name, safe_name: safeName, date, category: category, circuit: 'CABA', has_banner: hasBanner });
-            localStorage.setItem('fanmovie_events', JSON.stringify(events));
-            
-            if (hasBanner) {
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    localStorage.setItem(`banner_${safeName}`, evt.target.result);
-                    finalizarCreacionModal();
-                };
-                reader.readAsDataURL(flyerInput.files[0]);
-            } else { finalizarCreacionModal(); }
-        }
-        function finalizarCreacionModal() {
-            document.getElementById('crearEventoModal').style.display='none';
-            loadEvents();
-            alert("✨ Evento creado con éxito y asignado a su categoría.");
         }
 
         function abrirDetalleEvento(safeNameDecoded) {
             const safeName = decodeURIComponent(safeNameDecoded);
             const ev = globalEventsData.find(e => e.safe_name === safeName);
             if(!ev) return;
+            
             selectedEventSafeName = ev.safe_name;
+            const bgStyle = `url('/static/vhs_gradient_grain.jpg') center/cover no-repeat, linear-gradient(45deg, #111, #333)`;
+            
+            document.getElementById('detalleBanner').style.background = bgStyle;
             document.getElementById('detalleTitulo').innerText = ev.name;
-            document.getElementById('detalleMeta').innerText = `${ev.date || 'Próximamente'} // [${ev.category || 'underground'}]`;
+            document.getElementById('detalleMeta').innerText = `${ev.circuit || 'CABA'} // ${ev.date || 'Próximamente'}`;
+            
             const isJoined = localStorage.getItem(`joined_${ev.safe_name}`) === "true";
+            let status = localStorage.getItem(`status_${ev.safe_name}`) || "activo";
+            
             const accionesDiv = document.getElementById('detalleAcciones');
-            if(isJoined) {
-                accionesDiv.innerHTML = `<p style="color: #fff; font-size: 1rem; font-weight: bold; margin-bottom: 10px;">✓ Ya estás participando.</p><button onclick="abrirCamara()" class="btn btn-primary" style="width: 100%; justify-content: center;">Iniciar Película 🎥</button>`;
+            accionesDiv.innerHTML = '';
+            
+            if(status === 'activo') {
+                if(isJoined) {
+                    accionesDiv.innerHTML = `
+                        <p style="color: #fff; font-size: 1rem; margin-bottom: 10px; font-weight: bold; font-family: 'Inter', sans-serif;">✓ Ya estás participando.</p>
+                        <p style="color: #888; font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Seleccioná tus crudos para el motor:</p>
+                        <input type="file" multiple accept="video/*" id="crudosUpload" style="margin-bottom: 15px; width: 100%; padding: 15px; background: #1a1a1a; border: 1px dashed var(--brand-main); color: #fff; border-radius: 8px; font-family: 'Inter', sans-serif;">
+                        <button onclick="simularSubida()" class="btn btn-primary" style="width: 100%; justify-content: center;">Subir mis videos ↗</button>
+                    `;
+                } else {
+                    accionesDiv.innerHTML = `
+                        <p style="color: #ccc; font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Anotate con tu Instagram para habilitar la subida:</p>
+                        <input type="text" id="modalIgInput" placeholder="@tu_instagram" style="width: 100%; padding: 14px; margin-bottom: 15px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 8px; outline: none; font-family: 'Inter', sans-serif;">
+                        <button onclick="guardarParticipacionModal()" class="btn btn-primary" style="width: 100%; justify-content: center;">¡Participo!</button>
+                    `;
+                }
+            } else if(status === 'editandose') {
+                 accionesDiv.innerHTML = `
+                    <div style="padding: 15px; background: rgba(255,170,0,0.1); border: 1px solid var(--brand-accent); border-radius: 8px; text-align: center; color: var(--brand-accent); font-family: 'Inter', sans-serif;">
+                        ⚙️ El evento está <b>Editándose</b>. Ya no se reciben más videos.
+                    </div>
+                 `;
             } else {
-                accionesDiv.innerHTML = `<button onclick="intentarParticipar()" class="btn btn-primary" style="width: 100%; justify-content: center;">¡Participar!</button>`;
+                 accionesDiv.innerHTML = `
+                    <button class="btn btn-cyan" onclick="alert('Descargando Aftermovie Oficial...')" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 15px;">✨ Ver Aftermovie Oficial</button>
+                 `;
             }
+            
             document.getElementById('detalleEventoModal').style.display = 'flex';
         }
 
-        function intentarParticipar() {
-            const isLogged = localStorage.getItem('fanmovie_user_logged') === 'true';
-            if (isLogged) { unirseAlEventoOneClick(); } 
-            else { document.getElementById('detalleEventoModal').style.display = 'none'; abrirOnboarding(); }
-        }
+        function cerrarDetalleEvento() { document.getElementById('detalleEventoModal').style.display = 'none'; }
 
-        function abrirOnboarding() { document.getElementById('stepLoginView').style.display = 'block'; document.getElementById('stepInstagramView').style.display = 'none'; document.getElementById('onboardingModal').style.display = 'flex'; }
-        function cerrarOnboarding() { document.getElementById('onboardingModal').style.display = 'none'; }
-        function simularLoginExitoso() { document.getElementById('stepLoginView').style.display = 'none'; document.getElementById('stepInstagramView').style.display = 'block'; }
-
-        function finalizarCreacionPerfil() {
-            const ig = document.getElementById('perfilIgInput').value.trim();
-            if(!ig) { alert("Escribí un usuario válido."); return; }
-            localStorage.setItem('fanmovie_user_ig', ig);
-            localStorage.setItem('fanmovie_user_logged', 'true');
-            cerrarOnboarding();
-            alert(`✨ ¡Perfil creado con éxito! Tu usuario es ${ig}`);
-            if (selectedEventSafeName) { unirseAlEventoOneClick(); }
-        }
-
-        function unirseAlEventoOneClick() {
+        function guardarParticipacionModal() {
+            const ig = document.getElementById('modalIgInput').value.trim();
+            if(!ig) { alert("Ingresá tu usuario de Instagram."); return; }
             localStorage.setItem(`joined_${selectedEventSafeName}`, "true");
+            localStorage.setItem(`attendee_${selectedEventSafeName}_${Date.now()}`, ig);
             let count = parseInt(localStorage.getItem(`count_${selectedEventSafeName}`) || 5);
             localStorage.setItem(`count_${selectedEventSafeName}`, count + 1);
-            alert(`✅ ¡Anotado al evento! Tu usuario ya está en los créditos.`);
-            loadEvents();
-            abrirDetalleEvento(encodeURIComponent(selectedEventSafeName));
-        }
-
-        let cameraStream = null;
-        let recordingTimer = null;
-        let isRecording = false;
-
-        async function abrirCamara() {
-            document.getElementById('detalleEventoModal').style.display = 'none';
-            document.getElementById('cameraModal').style.display = 'flex';
-            try {
-                cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
-                document.getElementById('cameraFeed').srcObject = cameraStream;
-            } catch (err) { console.warn("Simulando cámara."); }
-        }
-
-        function cerrarCamara() {
-            if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
-            document.getElementById('cameraModal').style.display = 'none';
-            if (selectedEventSafeName) { abrirDetalleEvento(encodeURIComponent(selectedEventSafeName)); }
-        }
-
-        function toggleGrabacion() {
-            if (isRecording) return; 
-            isRecording = true;
-            document.getElementById('recordBtnWrap').classList.add('recording');
-            recordingTimer = setTimeout(() => { detenerGrabacionYPremiar(); }, 5000);
-        }
-
-        function detenerGrabacionYPremiar() {
-            isRecording = false;
-            document.getElementById('recordBtnWrap').classList.remove('recording');
-            const flash = document.getElementById('cameraFlash');
-            flash.style.opacity = '1';
-            setTimeout(() => { flash.style.opacity = '0'; }, 150);
-
-            let countKey = `clips_usr_${selectedEventSafeName}`;
-            let clipsDone = parseInt(localStorage.getItem(countKey) || 0) + 1;
-            localStorage.setItem(countKey, clipsDone);
-
-            let points = clipsDone === 1 ? 15 : (clipsDone === 5 ? 50 : 10);
-            document.getElementById('cameraSuccessText').innerText = `¡Toma ${clipsDone}/5 guardada!`;
-            document.getElementById('cameraSuccessPoints').innerText = `+${points} 🌟`;
             
-            const popup = document.getElementById('cameraSuccessPopup');
-            popup.classList.add('show');
-            setTimeout(() => { popup.classList.remove('show'); }, 2500);
+            abrirDetalleEvento(encodeURIComponent(selectedEventSafeName)); 
+            loadEvents(); 
         }
 
+        function simularSubida() {
+            const fileInput = document.getElementById('crudosUpload');
+            if(fileInput.files.length === 0) { alert("Seleccioná al menos un video."); return; }
+            alert("✨ ¡Tus videos se subieron con éxito y ya están en el motor de FanMovie!");
+            cerrarDetalleEvento();
+        }
+
+        function abrirCrearEventoModal() { document.getElementById('crearEventoModal').style.display = 'flex'; }
+        function cerrarCrearEventoModal() { document.getElementById('crearEventoModal').style.display = 'none'; }
         
-        // =========================================
-        // LÓGICA DEL MAPA DEL CIRCUITO
-        // =========================================
-        let currentActiveNode = null;
+        function handleCreateEvent(e) {
+            e.preventDefault();
+            const name = document.getElementById('eventName').value.trim();
+            const date = document.getElementById('eventDate').value;
+            const circuit = document.getElementById('eventCircuit').value || 'CABA';
+            const flyerInput = document.getElementById('eventFlyer');
+            if (!name) return;
+            const safeName = name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+            
+            let events = JSON.parse(localStorage.getItem('fanmovie_events') || '[]');
+            const hasBanner = flyerInput.files.length > 0;
+            events.push({ name, safe_name: safeName, date, circuit, has_banner: hasBanner });
+            localStorage.setItem('fanmovie_events', JSON.stringify(events));
+            localStorage.setItem(`status_${safeName}`, 'activo');
+            
+            let adminPin = Math.floor(1000 + Math.random() * 9000);
+            localStorage.setItem(`pin_${safeName}`, adminPin);
+
+            if (hasBanner) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    localStorage.setItem(`banner_${safeName}`, evt.target.result);
+                    finishCreateEventModal(adminPin);
+                };
+                reader.readAsDataURL(flyerInput.files[0]);
+            } else {
+                finishCreateEventModal(adminPin);
+            }
+        }
+
+        function finishCreateEventModal(adminPin) {
+            cerrarCrearEventoModal();
+            loadEvents();
+            if(document.getElementById('generatedPinDisplay')) {
+                document.getElementById('generatedPinDisplay').innerText = adminPin;
+                document.getElementById('pinSuccessModal').style.display = 'flex';
+            }
+        }
+
+        function cerrarPinSuccess() { document.getElementById('pinSuccessModal').style.display = 'none'; }
 
         function abrirCircuitoModal() {
-            document.getElementById('circuitoModal').style.display = 'flex';
-            renderizarCircuito();
+            renderizarCircuitos();
+            document.getElementById("circuitoModal").style.display = "flex";
         }
-
-        function cerrarCircuitoModal() {
-            document.getElementById('circuitoModal').style.display = 'none';
-        }
-
-        function renderizarCircuito() {
-            const listContainer = document.getElementById('circuitoList');
-            const mapLayer = document.getElementById('mapNodesLayer');
+        function cerrarCircuitoModal() { document.getElementById("circuitoModal").style.display = "none"; }
+        
+        function switchCircuitTab(tab) {
+            document.getElementById('tab-caba').classList.remove('active');
+            document.getElementById('tab-amba').classList.remove('active');
+            document.getElementById('stage-CABA').classList.remove('active');
+            document.getElementById('stage-AMBA').classList.remove('active');
             
-            listContainer.innerHTML = '';
-            mapLayer.innerHTML = '';
+            if(tab === 'CABA') {
+                document.getElementById('tab-caba').classList.add('active');
+                document.getElementById('stage-CABA').classList.add('active');
+            } else {
+                document.getElementById('tab-amba').classList.add('active');
+                document.getElementById('stage-AMBA').classList.add('active');
+            }
+        }
 
-            // Coordenadas fijas abstractas para la silueta del mapa
-            const coords = [
-                {x: 250, y: 250}, // Centro CABA
-                {x: 400, y: 150}, // Zona Norte
-                {x: 200, y: 450}, // Zona Sur (Avellaneda aprox)
-                {x: 100, y: 100}, // Zona Oeste
-                {x: 350, y: 350}  // La Boca / Barracas
-            ];
+        function renderizarCircuitos() {
+            const containerCABA = document.getElementById("circuitSpotsContainerCABA");
+            const containerAMBA = document.getElementById("circuitSpotsContainerAMBA");
+            containerCABA.innerHTML = ""; containerAMBA.innerHTML = "";
 
-            globalEventsData.forEach((ev, index) => {
-                const safeName = ev.safe_name;
-                const pos = coords[index % coords.length];
-                
-                // 1. Agregar a la lista (Directorio)
-                const itemHTML = `
-                    <div class="circuito-item" id="c_item_${safeName}" onclick="activarNodo('${safeName}')">
-                        <h4>${ev.name}</h4>
-                        <p style="margin-bottom: 15px;">📍 ${ev.circuit || 'AMBA'} // ${ev.date}</p>
-                        <button onclick="abrirDetalleEvento(encodeURIComponent('${safeName}')); cerrarCircuitoModal(); event.stopPropagation();" 
-                                style="background: #000; color: #fff; border: none; padding: 8px 12px; font-family: 'JetBrains Mono', monospace; cursor: pointer; font-size: 0.75rem; text-transform: uppercase;">
-                            Entrar al spot ➔
-                        </button>
+            const coords = [ { top: "30%", left: "34%" }, { top: "40%", left: "68%" }, { top: "70%", left: "62%" }, { top: "60%", left: "28%" }, { top: "50%", left: "50%" } ];
+            let cabaCount = 0; let ambaCount = 0;
+
+            globalEventsData.forEach((ev) => {
+                const isCaba = ev.circuit !== 'AMBA';
+                const pos = isCaba ? coords[cabaCount % coords.length] : coords[ambaCount % coords.length];
+                if(isCaba) cabaCount++; else ambaCount++;
+
+                const encoded = ev.safe_name ? encodeURIComponent(ev.safe_name) : "";
+                const spotHtml = `
+                    <div class="circuit-spot" style="top: ${pos.top}; left: ${pos.left};" onclick="cerrarCircuitoModal(); abrirDetalleEvento('${encoded}')">
+                        <div class="spot-dot"></div>
+                        <div class="spot-card">
+                            <div class="spot-date">SPOT // ${ev.circuit || 'CABA'}</div>
+                            <div class="spot-title">${ev.name}</div>
+                        </div>
                     </div>
                 `;
-                listContainer.innerHTML += itemHTML;
-
-                // 2. Agregar al SVG (Nodos)
-                const nodeHTML = `
-                    <g onclick="activarNodo('${safeName}')" style="cursor:pointer;">
-                        <circle cx="${pos.x}" cy="${pos.y}" r="14" class="map-node" id="c_node_${safeName}" />
-                        <text x="${pos.x + 22}" y="${pos.y + 5}" class="node-label" fill="#000">${ev.name.toUpperCase()}</text>
-                    </g>
-                `;
-                mapLayer.innerHTML += nodeHTML;
+                if(isCaba) containerCABA.innerHTML += spotHtml;
+                else containerAMBA.innerHTML += spotHtml;
             });
         }
 
-        function activarNodo(safeName) {
-            // Limpiar activos
-            document.querySelectorAll('.circuito-item').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.map-node').forEach(el => el.classList.remove('active'));
-            
-            // Activar nuevos
-            const item = document.getElementById(`c_item_${safeName}`);
-            const node = document.getElementById(`c_node_${safeName}`);
-            
-            if (item) {
-                item.classList.add('active');
-                item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        function abrirCreatorStudioLogin() { document.getElementById('pinLoginModal').style.display = 'flex'; }
+        function cerrarCreatorStudioLogin() { document.getElementById('pinLoginModal').style.display = 'none'; }
+        function verificarPinStudio() {
+            const pin = document.getElementById('adminPinInput').value.trim();
+            let allowed = false;
+            if(pin === "2026") allowed = true;
+            for(let i=0; i<localStorage.length; i++) {
+                if(localStorage.key(i).startsWith('pin_') && localStorage.getItem(localStorage.key(i)) === pin) allowed = true;
             }
-            if (node) node.classList.add('active');
-            
-            currentActiveNode = safeName;
+            if(allowed) { 
+                window.location.href = '/static/creator-studio.html';
+            } else {
+                alert("❌ PIN incorrecto.");
+                document.getElementById('adminPinInput').value = "";
+            }
         }
 
-        function abrirCreatorStudioLogin() { document.getElementById('pinLoginModal').style.display = 'flex'; }
-
-        document.addEventListener('DOMContentLoaded', () => { 
-            loadEvents(); 
-            const vid = document.getElementById("heroBgVideoBottom");
-            if (vid) { vid.src = "/static/bg_crowd_2.mp4"; vid.playbackRate = 0.75; }
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroVideoEl = document.getElementById("heroBgVideo");
+            if (heroVideoEl) { heroVideoEl.src = "/static/bg_crowd_2.mp4"; heroVideoEl.playbackRate = 0.75; }
+            loadEvents();
         });
     </script>
 </body>
