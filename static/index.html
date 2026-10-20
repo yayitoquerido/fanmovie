@@ -20,17 +20,12 @@
         }
 
         :root {
-            --bg-dark: #f0f0f0; /* Fondo principal más claro */
-            --surface: #ffffff; /* Superficie de tarjetas blancas */
-            --surface-hover: #fafafa;
-            --text-primary: #050505; /* Texto oscuro sobre fondo claro */
-            --text-secondary: #555555;
-            --brand-main: #ff5500; 
-            --brand-accent: #ffaa00;
-            --border-subtle: 2px solid #000; /* Bordes negros gruesos */
-            --radius-lg: 0px; /* Bordes rectos para un look más industrial/editorial */
-            --radius-md: 0px; 
-            --radius-sm: 0px;
+            --bg-dark: #050505; --surface: #0e0e0e; --surface-hover: #161616;
+            --text-primary: #ffffff; --text-secondary: #888888;
+            --brand-main: #ff5500; --brand-accent: #ffaa00;
+            --gradient: linear-gradient(135deg, var(--brand-main), var(--brand-accent));
+            --border-subtle: 1px solid rgba(255, 255, 255, 0.08);
+            --radius-lg: 20px; --radius-md: 14px; --radius-sm: 8px;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text-primary); line-height: 1.5; overflow-x: hidden; }
@@ -40,30 +35,59 @@
             text-transform: uppercase;
             font-weight: normal;
             letter-spacing: 1px;
-            color: #000;
         }
 
         .code-logo {
             font-size: 1.1rem;
-            color: #000; text-decoration: none; text-shadow: none;
+            color: #ffffff; text-decoration: none; text-shadow: none;
         }
 
-        /* Nav claro con bordes negros */
+        /* Nav limpio y despejado */
         nav { 
             position: fixed; top: 0; width: 100%; padding: 14px 24px; 
             display: flex; justify-content: space-between; align-items: center; 
             background: rgba(240, 240, 240, 0.95); backdrop-filter: blur(12px); 
-            z-index: 100; border-bottom: var(--border-subtle); 
+            z-index: 100; border-bottom: 2px solid #000; 
         }
+        
+        nav .code-logo {
+            color: #000;
+        }
+
         .nav-links { display: flex; gap: 10px; align-items: center; }
 
-        .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 140px 20px 80px; overflow: hidden; border-bottom: var(--border-subtle); background: var(--bg-dark);}
+        .btn-nav-studio {
+            background: #000; color: #fff; padding: 7px 14px; font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; border: none; font-weight: bold; cursor: pointer;
+        }
+        .btn-nav-add {
+            background: var(--brand-main); color: #fff; padding: 7px 14px; font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; border: none; font-weight: bold; cursor: pointer;
+        }
+
+        .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 140px 20px 80px; overflow: hidden; border-bottom: var(--border-subtle); }
+        .hero-video-bg { 
+            position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; 
+            filter: grayscale(90%) sepia(20%) contrast(1.4) brightness(0.35) blur(0.5px); 
+            z-index: 0; 
+        }
+        
+        .vhs-scanlines {
+            position: absolute; inset: 0; pointer-events: none; z-index: 1;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%), 
+                        linear-gradient(90deg, rgba(255, 85, 0, 0.04), rgba(255, 170, 0, 0.02), rgba(0, 0, 0, 0.03));
+            background-size: 100% 4px, 8px 100%;
+        }
+        
+        .hero-overlay { position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(5,5,5,0.1), #050505 98%); z-index: 2; }
+        
+        .vhs-hud-top-left { position: absolute; top: 95px; left: 40px; z-index: 10; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: rgba(255,255,255,0.65); text-align: left; line-height: 1.5; }
+        .vhs-hud-top-right { position: absolute; top: 95px; right: 40px; z-index: 10; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: rgba(255,255,255,0.65); text-align: right; line-height: 1.4; }
+        .vhs-hud-bottom-left { position: absolute; bottom: 25px; left: 40px; z-index: 10; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: rgba(255,255,255,0.65); }
         
         .hero-content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 900px;}
 
         h1 {
             font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; margin-bottom: 20px;
-            color: #000; display: flex; flex-direction: column; align-items: center; gap: 5px;
+            color: #ffffff; display: flex; flex-direction: column; align-items: center; gap: 5px;
         }
 
         /* ANIMACIÓN DE TIPEO HACIENDO UN CONTENIDO REAL */
@@ -103,25 +127,62 @@
             100% { width: 100%; } 
         }
 
-        .hero p { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--text-secondary); max-width: 650px; margin-bottom: 30px; font-weight: 400; }
+        .hero p { font-size: clamp(1.05rem, 2vw, 1.2rem); color: #dedede; max-width: 650px; margin-bottom: 30px; font-weight: 300; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
 
         .search-bar-wrap { margin-top: 20px; position: relative; width: 100%; max-width: 600px; }
         .search-input {
-            width: 100%; padding: 18px 22px 18px 48px; background: #fff; border: var(--border-subtle);
-            border-radius: 0; color: #000; font-size: 1rem; outline: none; transition: 0.25s; font-family: 'Inter', sans-serif;
+            width: 100%; padding: 18px 22px 18px 48px; background: rgba(14, 14, 14, 0.85); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 100px; color: #fff; font-size: 1rem; outline: none; transition: 0.25s; font-family: 'Inter', sans-serif; backdrop-filter: blur(10px);
         }
-        .search-input:focus { border-color: var(--brand-main); box-shadow: 4px 4px 0 var(--brand-main); }
-        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #000; pointer-events: none; }
+        .search-input:focus { border-color: var(--brand-main); box-shadow: 0 0 20px rgba(255, 85, 0, 0.22); }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #888; pointer-events: none; }
 
         .btn-group { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 25px; }
-        .btn { padding: 12px 22px; border-radius: 0; font-weight: 700; font-size: 0.88rem; text-decoration: none; transition: all 0.2s ease; cursor: pointer; border: var(--border-subtle); display: inline-flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; background: #fff; color: #000; text-transform: uppercase;}
-        .btn-primary { background: var(--brand-main); color: #ffffff; border: 2px solid var(--brand-main); }
-        .btn-primary:hover { box-shadow: 4px 4px 0 #000; transform: translate(-2px, -2px); }
-        .btn-dark { background: #000; color: #fff; }
-        .btn-dark:hover { box-shadow: 4px 4px 0 var(--brand-main); transform: translate(-2px, -2px); }
+        .btn { padding: 12px 22px; border-radius: 100px; font-weight: 600; font-size: 0.88rem; text-decoration: none; transition: all 0.25s ease; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif;}
+        .btn-primary { background: var(--brand-main); color: #ffffff; box-shadow: 0 0 20px rgba(255, 85, 0, 0.35); }
+        .btn-primary:hover { transform: scale(1.03); box-shadow: 0 0 28px rgba(255, 85, 0, 0.6); }
+        .btn-cyan { background: rgba(255, 170, 0, 0.12); color: var(--brand-accent); border: 1px solid var(--brand-accent); box-shadow: 0 0 15px rgba(255, 170, 0, 0.2); }
+        .btn-cyan:hover { background: var(--brand-accent); color: #000; box-shadow: 0 0 25px rgba(255, 170, 0, 0.5); }
+        .btn-dark { background: rgba(255,255,255,0.06); color: #ffffff; border: 1px solid rgba(255,255,255,0.18); backdrop-filter: blur(10px); }
+        .btn-dark:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.35); }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 60px 20px; }
-        .section-title { font-size: 1.8rem; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border-bottom: 4px solid #000; padding-bottom: 10px;}
+        .section-title { font-size: 1.8rem; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+
+        /* MANIFIESTO BLANCO - COMO LA CAPTURA DE PANTALLA */
+        .white-section {
+            background-color: #f4f4f4;
+            color: #000;
+            padding: 60px 20px;
+            margin: 0 calc(-50vw + 50%);
+        }
+        
+        .white-section-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .manifesto-block {
+            border-bottom: 4px solid #000;
+            padding: 50px 0;
+            text-align: left;
+        }
+        .manifesto-block:last-child {
+            border-bottom: none;
+        }
+        .manifesto-block h2 {
+            font-size: clamp(1.4rem, 4vw, 2.2rem);
+            margin-bottom: 15px;
+            color: #000;
+            line-height: 1.2;
+        }
+        .manifesto-block p {
+            color: #333;
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            font-weight: 400;
+            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
+        }
 
         /* ANIMACIÓN SCROLL (Fade in Up) */
         .fade-in-up {
@@ -134,70 +195,92 @@
             transform: translateY(0);
         }
 
-        /* Estilos del manifiesto (Versión Blanca/Editorial) */
-        .manifesto-block {
-            border-bottom: var(--border-subtle);
-            padding: 50px 0;
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: left;
-        }
-        .manifesto-block h2 {
-            font-size: clamp(1.4rem, 4vw, 2.2rem);
-            margin-bottom: 15px;
-            color: #000;
-            line-height: 1.2;
-        }
-        .manifesto-block p {
-            color: var(--text-secondary);
-            font-size: clamp(1rem, 2vw, 1.15rem);
-            font-weight: 400;
-            line-height: 1.6;
-        }
-
         .events-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-bottom: 80px; }
-        .event-card { background: var(--surface); border: var(--border-subtle); padding: 16px; transition: all 0.2s ease; color: #000; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
-        .event-card:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 rgba(0,0,0,1); }
-        .event-img { width: 100%; aspect-ratio: 4 / 5; background: #e0e0e0; margin-bottom: 16px; position: relative; overflow: hidden; border: 2px solid #000;}
-        .event-img::after { content: 'REC ●'; font-family: 'JetBrains Mono', monospace; position: absolute; top: 12px; right: 12px; background: #fff; padding: 4px 10px; border: 2px solid #000; font-size: 0.7rem; font-weight: 800; color: var(--brand-main); }
-        .event-info h4 { font-size: 1.1rem; margin-bottom: 6px; color: #000; font-family: 'Druk Wide', sans-serif;}
+        .event-card { background: var(--surface); border: var(--border-subtle); border-radius: var(--radius-lg); padding: 16px; transition: all 0.3s ease; color: white; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
+        .event-card:hover { transform: translateY(-4px); border-color: var(--brand-main); box-shadow: 0 0 22px rgba(255, 85, 0, 0.2); }
+        .event-img { width: 100%; aspect-ratio: 4 / 5; border-radius: var(--radius-md); background: #222; margin-bottom: 16px; position: relative; overflow: hidden; }
+        .event-img::after { content: 'REC ●'; font-family: 'JetBrains Mono', monospace; position: absolute; top: 12px; right: 12px; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; color: var(--brand-main); border: 1px solid rgba(255, 85, 0, 0.4); }
+        .event-info h4 { font-size: 1.1rem; margin-bottom: 6px; }
         .event-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.9rem; font-family: 'Inter', sans-serif;}
-        .event-meta-type { color: #555; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; }
-        .event-meta-count { color: #000; font-weight: 700; background: #fff; padding: 2px 8px; font-size: 0.8rem; border: 2px solid #000; font-family: 'JetBrains Mono', monospace;}
+        .event-meta-type { color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
+        .event-meta-count { color: var(--brand-main); font-weight: 700; background: rgba(255, 85, 0, 0.1); padding: 2px 8px; border-radius: 6px; font-size: 0.8rem; border: 1px solid rgba(255, 85, 0, 0.3); font-family: 'Inter', sans-serif;}
 
-        /* Modales */
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.9); backdrop-filter: blur(5px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-box { background: #fff; padding: 32px; border: 4px solid #000; max-width: 820px; width: 100%; max-height: 92vh; overflow-y: auto; position: relative; box-shadow: 10px 10px 0 #000; }
+        .league-banner { background: linear-gradient(135deg, rgba(255, 85, 0, 0.14), rgba(255, 170, 0, 0.14)); border: 1px solid rgba(255, 85, 0, 0.35); border-radius: var(--radius-lg); padding: 40px; margin-bottom: 80px; }
+        .league-banner h3 { font-size: 1.8rem; margin-bottom: 12px; color: #fff; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;}
+        .league-banner p { color: #ccc; font-weight: 300; margin-bottom: 28px; max-width: 800px; font-family: 'Inter', sans-serif;}
+        .rules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .rule-card { background: rgba(0,0,0,0.6); border: var(--border-subtle); border-radius: var(--radius-md); padding: 25px; text-align: center; transition: 0.3s; }
+        .rule-card:hover { border-color: var(--brand-accent); transform: translateY(-3px); }
+        .rule-card .points { font-size: 1.5rem; color: var(--brand-accent); margin-bottom: 10px; }
+        .rule-card h4 { color: #fff; font-size: 1.1rem; margin-bottom: 8px; }
+        .rule-card p { color: var(--text-secondary); font-size: 0.9rem; margin: 0; font-family: 'Inter', sans-serif;}
+
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); backdrop-filter: blur(10px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-box { background: #0c0c0c; padding: 32px; border-radius: 24px; border: 1px solid var(--brand-main); max-width: 820px; width: 100%; max-height: 92vh; overflow-y: auto; position: relative; box-shadow: 0 0 40px rgba(255, 85, 0, 0.2); }
         
+        .circuit-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: var(--border-subtle); padding-bottom: 10px; }
+        .circuit-tab { background: transparent; border: none; color: var(--text-secondary); font-size: 1rem; font-weight: 600; cursor: pointer; padding: 5px 10px; font-family: 'JetBrains Mono', monospace; transition: 0.2s; }
+        .circuit-tab.active { color: var(--brand-main); border-bottom: 2px solid var(--brand-main); }
+        .circuit-tab:hover { color: #fff; }
+
+        .circuit-Poster { background: #070707; border: 1px solid rgba(255,170,0,0.3); border-radius: 18px; padding: 24px; position: relative; overflow: hidden; }
+        .circuit-header-meta { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--brand-main); padding-bottom: 12px; margin-bottom: 20px; font-family: 'JetBrains Mono', monospace; }
+        .circuit-stage-wrap { position: relative; width: 100%; height: 420px; background: radial-gradient(circle at center, rgba(255,85,0,0.07), transparent 70%); border-radius: 12px; overflow: hidden; display: none; }
+        .circuit-stage-wrap.active { display: block; }
+        .circuit-spot { position: absolute; transform: translate(-50%, -50%); cursor: pointer; z-index: 5; transition: 0.25s; }
+        .circuit-spot:hover { transform: translate(-50%, -50%) scale(1.12); z-index: 10; }
+        .spot-dot { width: 18px; height: 18px; background: var(--brand-main); border: 3px solid var(--brand-accent); border-radius: 50%; box-shadow: 0 0 15px var(--brand-main); margin: 0 auto 6px; }
+        .spot-card { background: rgba(10,10,10,0.92); border: 1px solid var(--brand-accent); border-radius: 10px; padding: 6px 10px; min-width: 130px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.8); }
+        .spot-date { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--brand-accent); font-weight: 700; }
+        .spot-title { font-size: 0.8rem; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'Inter', sans-serif; }
+
         .form-group { margin-bottom: 20px; text-align: left; }
-        .form-group label { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: #000; margin-bottom: 8px; text-transform: uppercase; font-weight: 700;}
-        .form-group input, .form-group select { width: 100%; padding: 12px 16px; background: #fff; border: 2px solid #000; color: #000; font-size: 1rem; outline: none; font-family: 'Inter', sans-serif; }
-        .form-group input:focus, .form-group select:focus { border-color: var(--brand-main); box-shadow: 4px 4px 0 var(--brand-main);}
-        
-        footer { border-top: var(--border-subtle); padding: 60px 20px; text-align: center; color: var(--text-secondary); font-size: 0.9rem; display: flex; flex-direction: column; align-items: center; gap: 20px; background: #fff;}
+        .form-group label { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--brand-accent); margin-bottom: 8px; text-transform: uppercase; }
+        .form-group input, .form-group select { width: 100%; padding: 12px 16px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 1rem; outline: none; font-family: 'Inter', sans-serif; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--brand-main); }
+        .form-group select option { background: #111; color: #fff; }
+
+        footer { border-top: var(--border-subtle); padding: 60px 20px; text-align: center; color: var(--text-secondary); font-size: 0.9rem; display: flex; flex-direction: column; align-items: center; gap: 20px; }
     </style>
 </head>
 <body>
     <div id="pinSuccessModal" class="modal-overlay" style="z-index: 9999;">
         <div class="modal-box" style="text-align: center; max-width: 400px; padding: 40px;">
             <h2>¡EVENTO PUBLICADO!</h2>
-            <p style="color: #555; margin-bottom: 10px; font-family: 'Inter', sans-serif;">Tu PIN de Administrador para Creator Studio es:</p>
+            <p style="color: #ccc; margin-bottom: 10px; font-family: 'Inter', sans-serif;">Tu PIN de Administrador para Creator Studio es:</p>
             <h1 id="generatedPinDisplay" style="color: var(--brand-main); font-size: 4rem; margin-bottom: 20px; letter-spacing: 5px;">0000</h1>
-            <p style="color: #000; font-size: 0.8rem; margin-bottom: 30px; font-family: 'JetBrains Mono', monospace; font-weight: 700;">Guarda este número. Lo necesitarás para descargar el material.</p>
+            <p style="color: var(--brand-accent); font-size: 0.8rem; margin-bottom: 30px; font-family: 'JetBrains Mono', monospace;">Guarda este número. Lo necesitarás para descargar el material.</p>
             <button onclick="cerrarPinSuccess()" class="btn btn-primary" style="width: 100%; justify-content: center;">ACEPTAR Y CONTINUAR</button>
         </div>
     </div>
 
-    <!-- NAVEGACIÓN BLANCA -->
+    <!-- NAVEGACIÓN COMO LA CAPTURA: Blanca con botones específicos -->
     <nav>
-        <a href="/" class="code-logo brand">fanmovie/</a>
+        <a href="/" class="code-logo brand">fanmovie</a>
         <div class="nav-links">
-            <button onclick="abrirCreatorStudioLogin()" class="btn btn-dark" style="padding: 7px 14px; font-size: 0.8rem;">studio_</button>
-            <button onclick="abrirCrearEventoModal()" class="btn btn-primary" style="padding: 7px 14px; font-size: 0.8rem;">+ evento</button>
+            <button onclick="abrirCreatorStudioLogin()" class="btn-nav-studio">studio_</button>
+            <button onclick="abrirCrearEventoModal()" class="btn-nav-add">+</button>
         </div>
     </nav>
 
     <header class="hero">
+        <video id="heroBgVideo" class="hero-video-bg" autoplay muted loop playsinline></video>
+        <div class="vhs-scanlines"></div>
+        <div class="hero-overlay"></div>
+
+        <div class="vhs-hud-top-left">
+            <div>CAMERA 1</div>
+            <div>PLAY ►</div>
+            <div id="vhsTimecode">00:00:08</div>
+        </div>
+        <div class="vhs-hud-top-right">
+            <div>VCR TAPE [B&W]</div>
+            <div id="vhsSpeedMode">SPD: SLOW-MO [0.75x]</div>
+        </div>
+        <div class="vhs-hud-bottom-left">
+            <span style="color: var(--brand-main);">REC ●</span> BUENOS AIRES // ARCHIVO COLECTIVO
+        </div>
+
         <div class="hero-content">
             <!-- TÍTULO CON ANIMACIÓN DE TIPEO Y CURSOR -->
             <h1>
@@ -209,7 +292,7 @@
             
             <p>Hoy nos convertimos en creadores de contenido audiovisual. Registra tus eventos en vivo o crea tu propia película.</p>
             
-            <!-- BUSCADOR -->
+            <!-- BUSCADOR SUBIDO AL HERO -->
             <div class="search-bar-wrap">
                 <span class="search-icon">🔍</span>
                 <input type="text" id="eventSearchInput" class="search-input" placeholder="Buscar (social) (cultural) (show) (fiesta)..." oninput="filtrarEventos()">
@@ -217,57 +300,62 @@
         </div>
     </header>
 
-    <div class="container">
-        <!-- SECCIÓN MANIFIESTO BLANCO (Animación de scroll fade-in-up) -->
-        <div style="margin-top: 20px; margin-bottom: 80px;">
+    <!-- SECCIÓN MANIFIESTO EN BLANCO -->
+    <div class="white-section">
+        <div class="white-section-content">
             <div class="manifesto-block fade-in-up">
                 <h2>CANALIZAMOS IDEAS DEL OTRO MUNDO.</h2>
-                <p>Captamos la energía cruda de la pista. Materializamos la vibración de la multitud en piezas hipnóticas.</p>
+                <p>Captamos la energía invisible de la pista y la conexión cruda de la multitud. Materializamos vibraciones fugaces en piezas audiovisuales hipnóticas que rompen con lo terrenal.</p>
             </div>
             
             <div class="manifesto-block fade-in-up">
                 <h2>HACEMOS INDUSTRIA DE CONTENIDO.</h2>
-                <p>Sistematizamos la captura coordinando miles de celulares. No solo grabamos la noche; construimos su archivo.</p>
+                <p>Sistematizamos la captura para que miles de celulares sean un equipo de cine coordinado. Generamos bancos de archivos de alto valor. No solo grabamos; construimos la industria.</p>
             </div>
             
             <div class="manifesto-block fade-in-up">
                 <h2>ELEVAMOS DE NIVEL.</h2>
-                <p>Rechazamos el contenido plástico. Subimos la vara con la estética cinematográfica y el peso del formato VHS.</p>
+                <p>Nos rebelamos contra el contenido plástico. Traemos el peso del formato VHS, el blanco y negro y la estética cinematográfica. Subimos la vara de cómo se cuenta la noche.</p>
             </div>
             
-            <div class="manifesto-block fade-in-up">
+            <div class="manifesto-block fade-in-up" style="border-bottom:none;">
                 <h2>SOMOS CREADORES.</h2>
-                <p>Dejamos de ser espectadores. Al registrar la escena, la película y la herramienta pasan a ser nuestras.</p>
+                <p>Dejamos de ser espectadores. Al registrar nuestro evento o crear uno propio, dirigimos la historia de nuestra escena. La herramienta es nuestra, la película es nuestra.</p>
             </div>
         </div>
+    </div>
 
+    <div class="container">
         <h2 class="section-title" id="events">
             <span>Próximos Eventos</span>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button onclick="abrirCircuitoModal()" class="btn btn-cyan" style="padding: 9px 18px; font-size: 0.85rem;">Explora el circuito</button>
+            </div>
         </h2>
 
         <div class="events-grid" id="eventsContainer"></div>
 
-        <div class="league-banner" style="background: #fff; border: 4px solid #000; box-shadow: 10px 10px 0 #000;">
-            <h3 style="color:#000;">
+        <div class="league-banner">
+            <h3>
                 🏆 Creator League 
-                <button onclick="alert('El Podio global con el ranking de filmmakers estará disponible pronto.')" class="btn btn-dark" style="padding: 8px 16px; font-size: 0.85rem; font-family: 'Inter', sans-serif;">Ver Podio</button>
+                <button onclick="alert('El Podio global con el ranking de filmmakers estará disponible pronto.')" class="btn btn-cyan" style="padding: 8px 16px; font-size: 0.85rem; font-family: 'Inter', sans-serif;">Ver Podio</button>
             </h3>
-            <p style="color: #333; font-weight: 500;">FanMovie es un juego de co-creación donde tu participación tiene valor real. Junta la mayor cantidad de estrellas 🌟 según 3 simples reglas:</p>
-            <div class="rules-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
-                <div class="rule-card" style="background: #f9f9f9; border: 2px solid #000; padding: 25px; text-align: center;">
-                    <div class="points" style="font-size: 1.5rem; color: var(--brand-main); font-weight:bold;">+1 🌟</div>
-                    <h4 style="color:#000; font-family:'Druk Wide', sans-serif; font-size:0.9rem;">Participá</h4>
-                    <p style="color:#555;">Confirmá tu asistencia al evento en el calendario.</p>
+            <p>FanMovie es un juego de co-creación donde tu participación tiene valor real. Junta la mayor cantidad de estrellas 🌟 según 3 simples reglas:</p>
+            <div class="rules-grid">
+                <div class="rule-card">
+                    <div class="points">+1 🌟</div>
+                    <h4>Participá</h4>
+                    <p>Confirmá tu asistencia al evento en el calendario.</p>
                 </div>
-                <div class="rule-card" style="background: #f9f9f9; border: 2px solid #000; padding: 25px; text-align: center;">
-                    <div class="points" style="font-size: 1.5rem; color: var(--brand-main); font-weight:bold;">+3 🌟</div>
-                    <h4 style="color:#000; font-family:'Druk Wide', sans-serif; font-size:0.9rem;">Carga 5 videos</h4>
-                    <p style="color:#555;">Súbelos y conviértelos en un FanMovie.</p>
+                <div class="rule-card">
+                    <div class="points">+3 🌟</div>
+                    <h4>Carga 5 videos</h4>
+                    <p>Súbelos y conviértelos en un FanMovie.</p>
                 </div>
-                <div class="rule-card" style="background: #f9f9f9; border: 2px solid #000; padding: 25px; text-align: center;">
-                    <div class="points" style="font-size: 1.5rem; color: var(--brand-main); font-weight:bold;">+5 🌟</div>
-                    <h4 style="color:#000; font-family:'Druk Wide', sans-serif; font-size:0.9rem;">Seleccionado</h4>
-                    <p style="color:#555;">Si tus clips aparecen ganás puntos extra.</p>
+                <div class="rule-card">
+                    <div class="points">+5 🌟</div>
+                    <h4>Seleccionado</h4>
+                    <p>Si tus clips aparecen ganás puntos extra.</p>
                 </div>
             </div>
         </div>
@@ -276,15 +364,16 @@
     <!-- MODALES Y SCRIPTS -->
     <div id="detalleEventoModal" class="modal-overlay">
         <div class="modal-box" style="max-width: 500px; padding: 0; overflow: hidden;">
-            <div id="detalleBanner" style="height: 250px; background: #e0e0e0; background-size: cover; background-position: center; position: relative; border-bottom: 4px solid #000;">
-                <button onclick="cerrarDetalleEvento()" style="position: absolute; top: 15px; right: 15px; background: #fff; color: #000; border: 2px solid #000; width: 35px; height: 35px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: bold; transition: 0.2s; border-radius:0;">X</button>
+            <div id="detalleBanner" style="height: 250px; background: #222; background-size: cover; background-position: center; position: relative;">
+                <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);"></div>
+                <button onclick="cerrarDetalleEvento()" style="position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); color: #fff; border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 35px; height: 35px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: bold; transition: 0.2s;">X</button>
                 <div style="position: absolute; bottom: 20px; left: 20px;">
-                    <h2 id="detalleTitulo" style="color: #fff; margin-bottom: 5px; font-size: 1.6rem; font-family:'Druk Wide', sans-serif; text-shadow: 2px 2px 0 #000;">Título</h2>
-                    <p id="detalleMeta" style="color: #000; background: #fff; display:inline-block; padding: 2px 8px; border: 2px solid #000; font-size: 0.9rem; font-family: 'JetBrains Mono', monospace; font-weight: bold;">CABA // 10/10/2026</p>
+                    <h2 id="detalleTitulo" style="color: #fff; margin-bottom: 5px; font-size: 1.6rem; text-shadow: 0 2px 10px rgba(0,0,0,0.8);">Título</h2>
+                    <p id="detalleMeta" style="color: var(--brand-accent); font-size: 0.9rem; font-family: 'JetBrains Mono', monospace;">CABA // 10/10/2026</p>
                 </div>
             </div>
             <div style="padding: 30px;">
-                <p style="color: #555; font-family: 'Inter', sans-serif; margin-bottom: 20px; font-size: 0.95rem;">Unite al archivo colectivo de este evento. Recordá que tu registro formará parte del Aftermovie oficial.</p>
+                <p style="color: var(--text-secondary); font-family: 'Inter', sans-serif; margin-bottom: 20px; font-size: 0.95rem;">Unite al archivo colectivo de este evento. Recordá que tu registro formará parte del Aftermovie oficial.</p>
                 <div id="detalleAcciones"></div>
             </div>
         </div>
@@ -292,8 +381,8 @@
 
     <div id="crearEventoModal" class="modal-overlay">
         <div class="modal-box" style="max-width: 550px;">
-            <h2 style="color: #000; margin-bottom: 10px; font-family:'Druk Wide', sans-serif;">Crear Evento</h2>
-            <p style="color: #555; font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">Configurá los datos del show para abrir el canal de recepción de crudos.</p>
+            <h2 style="color: var(--brand-accent); margin-bottom: 10px;">Crear Evento</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">Configurá los datos del show para abrir el canal de recepción de crudos.</p>
             <form id="createEventForm" onsubmit="handleCreateEvent(event)">
                 <div class="form-group">
                     <label for="eventName">Nombre del Evento</label>
@@ -325,10 +414,10 @@
 
     <div id="pinLoginModal" class="modal-overlay">
         <div class="modal-box" style="max-width: 400px; text-align: center;">
-            <h2 style="color: #000; margin-bottom: 10px; font-family:'Druk Wide', sans-serif;">Creator Studio</h2>
-            <p style="color: #555; font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">Ingresá el PIN de administrador para acceder al radar de filmmakers.</p>
-            <p style="font-size: 0.8rem; color: #000; margin-bottom: 15px; font-family: 'JetBrains Mono', monospace; font-weight:700;">PIN maestro de prueba: <b>2026</b></p>
-            <input type="password" id="adminPinInput" placeholder="PIN de acceso" style="width: 100%; padding: 14px; margin-bottom: 20px; background: #fff; border: 2px solid #000; color: #000; text-align: center; font-size: 1.2rem; outline: none; font-family: 'Inter', sans-serif;">
+            <h2 style="color: var(--brand-main); margin-bottom: 10px;">Creator Studio</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">Ingresá el PIN de administrador para acceder al radar de filmmakers.</p>
+            <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px; font-family: 'JetBrains Mono', monospace;">PIN maestro de prueba: <b style="color:#fff;">2026</b></p>
+            <input type="password" id="adminPinInput" placeholder="PIN de acceso" style="width: 100%; padding: 14px; margin-bottom: 20px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 8px; text-align: center; font-size: 1.2rem; outline: none; font-family: 'Inter', sans-serif;">
             <div style="display: flex; gap: 10px;">
                 <button onclick="verificarPinStudio()" class="btn btn-primary" style="flex: 1; justify-content: center;">Ingresar</button>
                 <button onclick="cerrarCreatorStudioLogin()" class="btn btn-dark">Cancelar</button>
@@ -336,9 +425,57 @@
         </div>
     </div>
 
+    <div id="circuitoModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="circuit-tabs">
+                <button class="circuit-tab active" id="tab-caba" onclick="switchCircuitTab('CABA')">CABA</button>
+                <button class="circuit-tab" id="tab-amba" onclick="switchCircuitTab('AMBA')">AMBA</button>
+            </div>
+
+            <div class="circuit-Poster">
+                <div id="stage-CABA" class="circuit-stage-wrap active">
+                    <svg viewBox="0 0 800 420" style="width: 100%; height: 100%; position: absolute; inset: 0;">
+                        <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
+                            <line x1="0" y1="100" x2="800" y2="100"/><line x1="0" y1="210" x2="800" y2="210"/>
+                            <line x1="200" y1="0" x2="200" y2="420"/><line x1="400" y1="0" x2="400" y2="420"/>
+                        </g>
+                        <path d="M 210,160 C 240,70 460,65 550,140 C 630,205 600,330 480,340 C 350,350 260,330 200,260 Z" fill="none" stroke="rgba(255, 85, 0, 0.35)" stroke-width="8" stroke-linecap="round"/>
+                    </svg>
+                    <div id="circuitSpotsContainerCABA"></div>
+                </div>
+
+                <div id="stage-AMBA" class="circuit-stage-wrap">
+                    <svg viewBox="0 0 800 420" style="width: 100%; height: 100%; position: absolute; inset: 0;">
+                        <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
+                            <line x1="0" y1="100" x2="800" y2="100"/><line x1="0" y1="210" x2="800" y2="210"/>
+                            <line x1="200" y1="0" x2="200" y2="420"/><line x1="400" y1="0" x2="400" y2="420"/>
+                        </g>
+                        <path d="M 150,200 C 300,100 500,50 650,200 C 500,350 300,300 150,200 Z" fill="none" stroke="rgba(255, 170, 0, 0.35)" stroke-width="8" stroke-linecap="round"/>
+                    </svg>
+                    <div id="circuitSpotsContainerAMBA"></div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #aaa;">
+                    <span>● Hacé clic en cada spot para entrar al evento</span>
+                    <button onclick="cerrarCircuitoModal()" class="btn btn-primary" style="padding: 10px 22px; font-size: 0.85rem;">Cerrar Circuito</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         let selectedEventSafeName = "";
         let globalEventsData = [];
+
+        let totalSeconds = 8;
+        setInterval(() => {
+            totalSeconds++;
+            const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+            const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+            const s = String(totalSeconds % 60).padStart(2, '0');
+            const tc = document.getElementById("vhsTimecode");
+            if (tc) tc.innerText = `${h}:${m}:${s}`;
+        }, 1000);
 
         /* SCRIPT PARA ANIMACIÓN SCROLL (Fade-in-up) */
         document.addEventListener("DOMContentLoaded", () => {
@@ -406,18 +543,18 @@
                 
                 if (eventStatus === 'activo') {
                     if (isJoined) {
-                        btnHtml = `<button class="btn btn-dark" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center;">Subir Videos ↗</button>`;
+                        btnHtml = `<button class="btn btn-dark" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center; border-color: rgba(255,255,255,0.2);">Subir Videos ↗</button>`;
                     } else {
                         btnHtml = `<button class="btn btn-primary" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center;">¡Participar!</button>`;
                     }
                 } else if (eventStatus === 'publicado') {
-                    btnHtml = `<button class="btn btn-dark" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center; background:#fff; color:#000; border:2px solid #000;">✨ Ver Aftermovie</button>`;
+                    btnHtml = `<button class="btn btn-cyan" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center;">✨ Ver Aftermovie</button>`;
                 } else {
-                    btnHtml = `<button class="btn" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center; background: #f0f0f0; color: #000; border: 2px solid #000;">⚙️ Editándose</button>`;
+                    btnHtml = `<button class="btn" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center; background: rgba(255,170,0,0.1); color: var(--brand-accent); border: 1px solid var(--brand-accent);">⚙️ Editándose</button>`;
                 }
 
                 container.innerHTML += `
-                    <div class="event-card" onclick="abrirDetalleEvento('${encodedName}')">
+                    <div class="event-card" onclick="abrirDetalleEvento('${encodedName}')" style="cursor: pointer;">
                         <div>
                             <div class="event-img" style="${bgStyle}"></div>
                             <div class="event-info">
@@ -461,27 +598,27 @@
             if(status === 'activo') {
                 if(isJoined) {
                     accionesDiv.innerHTML = `
-                        <p style="color: #000; font-size: 1rem; margin-bottom: 10px; font-weight: bold; font-family: 'Inter', sans-serif;">✓ Ya estás participando.</p>
-                        <p style="color: #555; font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Seleccioná tus crudos para el motor:</p>
-                        <input type="file" multiple accept="video/*" id="crudosUpload" style="margin-bottom: 15px; width: 100%; padding: 15px; background: #f9f9f9; border: 2px dashed #000; color: #000; font-family: 'Inter', sans-serif;">
+                        <p style="color: #fff; font-size: 1rem; margin-bottom: 10px; font-weight: bold; font-family: 'Inter', sans-serif;">✓ Ya estás participando.</p>
+                        <p style="color: #888; font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Seleccioná tus crudos para el motor:</p>
+                        <input type="file" multiple accept="video/*" id="crudosUpload" style="margin-bottom: 15px; width: 100%; padding: 15px; background: #1a1a1a; border: 1px dashed var(--brand-main); color: #fff; border-radius: 8px; font-family: 'Inter', sans-serif;">
                         <button onclick="simularSubida()" class="btn btn-primary" style="width: 100%; justify-content: center;">Subir mis videos ↗</button>
                     `;
                 } else {
                     accionesDiv.innerHTML = `
-                        <p style="color: #555; font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Anotate con tu Instagram para habilitar la subida:</p>
-                        <input type="text" id="modalIgInput" placeholder="@tu_instagram" style="width: 100%; padding: 14px; margin-bottom: 15px; background: #fff; border: 2px solid #000; color: #000; outline: none; font-family: 'Inter', sans-serif;">
+                        <p style="color: #ccc; font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Anotate con tu Instagram para habilitar la subida:</p>
+                        <input type="text" id="modalIgInput" placeholder="@tu_instagram" style="width: 100%; padding: 14px; margin-bottom: 15px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 8px; outline: none; font-family: 'Inter', sans-serif;">
                         <button onclick="guardarParticipacionModal()" class="btn btn-primary" style="width: 100%; justify-content: center;">¡Participo!</button>
                     `;
                 }
             } else if(status === 'editandose') {
                  accionesDiv.innerHTML = `
-                    <div style="padding: 15px; background: #f0f0f0; border: 2px solid #000; text-align: center; color: #000; font-family: 'Inter', sans-serif; font-weight:bold;">
-                        ⚙️ El evento está Editándose. Ya no se reciben más videos.
+                    <div style="padding: 15px; background: rgba(255,170,0,0.1); border: 1px solid var(--brand-accent); border-radius: 8px; text-align: center; color: var(--brand-accent); font-family: 'Inter', sans-serif;">
+                        ⚙️ El evento está <b>Editándose</b>. Ya no se reciben más videos.
                     </div>
                  `;
             } else {
                  accionesDiv.innerHTML = `
-                    <button class="btn btn-dark" onclick="alert('Descargando Aftermovie Oficial...')" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 15px; background:#fff; color:#000; border:2px solid #000;">✨ Ver Aftermovie Oficial</button>
+                    <button class="btn btn-cyan" onclick="alert('Descargando Aftermovie Oficial...')" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 15px;">✨ Ver Aftermovie Oficial</button>
                  `;
             }
             
@@ -553,6 +690,55 @@
 
         function cerrarPinSuccess() { document.getElementById('pinSuccessModal').style.display = 'none'; }
 
+        function abrirCircuitoModal() {
+            renderizarCircuitos();
+            document.getElementById("circuitoModal").style.display = "flex";
+        }
+        function cerrarCircuitoModal() { document.getElementById("circuitoModal").style.display = "none"; }
+        
+        function switchCircuitTab(tab) {
+            document.getElementById('tab-caba').classList.remove('active');
+            document.getElementById('tab-amba').classList.remove('active');
+            document.getElementById('stage-CABA').classList.remove('active');
+            document.getElementById('stage-AMBA').classList.remove('active');
+            
+            if(tab === 'CABA') {
+                document.getElementById('tab-caba').classList.add('active');
+                document.getElementById('stage-CABA').classList.add('active');
+            } else {
+                document.getElementById('tab-amba').classList.add('active');
+                document.getElementById('stage-AMBA').classList.add('active');
+            }
+        }
+
+        function renderizarCircuitos() {
+            const containerCABA = document.getElementById("circuitSpotsContainerCABA");
+            const containerAMBA = document.getElementById("circuitSpotsContainerAMBA");
+            containerCABA.innerHTML = ""; containerAMBA.innerHTML = "";
+
+            const coords = [ { top: "30%", left: "34%" }, { top: "40%", left: "68%" }, { top: "70%", left: "62%" }, { top: "60%", left: "28%" }, { top: "50%", left: "50%" } ];
+            let cabaCount = 0; let ambaCount = 0;
+
+            globalEventsData.forEach((ev) => {
+                const isCaba = ev.circuit !== 'AMBA';
+                const pos = isCaba ? coords[cabaCount % coords.length] : coords[ambaCount % coords.length];
+                if(isCaba) cabaCount++; else ambaCount++;
+
+                const encoded = ev.safe_name ? encodeURIComponent(ev.safe_name) : "";
+                const spotHtml = `
+                    <div class="circuit-spot" style="top: ${pos.top}; left: ${pos.left};" onclick="cerrarCircuitoModal(); abrirDetalleEvento('${encoded}')">
+                        <div class="spot-dot"></div>
+                        <div class="spot-card">
+                            <div class="spot-date">SPOT // ${ev.circuit || 'CABA'}</div>
+                            <div class="spot-title">${ev.name}</div>
+                        </div>
+                    </div>
+                `;
+                if(isCaba) containerCABA.innerHTML += spotHtml;
+                else containerAMBA.innerHTML += spotHtml;
+            });
+        }
+
         function abrirCreatorStudioLogin() { document.getElementById('pinLoginModal').style.display = 'flex'; }
         function cerrarCreatorStudioLogin() { document.getElementById('pinLoginModal').style.display = 'none'; }
         function verificarPinStudio() {
@@ -571,6 +757,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            const heroVideoEl = document.getElementById("heroBgVideo");
+            if (heroVideoEl) { heroVideoEl.src = "/static/bg_crowd_2.mp4"; heroVideoEl.playbackRate = 0.75; }
             loadEvents();
         });
     </script>
