@@ -122,13 +122,6 @@
             vertical-align: bottom;
         }
 
-        .highlight-underline {
-            text-decoration: underline;
-            text-decoration-color: var(--brand-main);
-            text-decoration-thickness: 5px;
-            text-underline-offset: 6px;
-        }
-
         /* Cursor titilando a 140ppm (0.428s por ciclo) */
         @keyframes blink {
             0%, 49% { border-right-color: var(--brand-main); }
@@ -251,8 +244,8 @@
             <!-- TÍTULO CON ANIMACIÓN DE TIPEO Y CURSOR -->
             <h1>
                 <span>UN MOTOR DE LA</span>
-                <span style="display: inline-block;">
-                    <span class="typing-container">CREACIÓ<span class="highlight-underline">N</span></span><span class="cursor"></span>
+                <span style="display: inline-block; white-space: nowrap;">
+                    <span class="typing-container">CREACIÓN</span><span class="cursor"></span>
                 </span>
             </h1>
             
@@ -498,7 +491,7 @@
                 
                 if (eventStatus === 'activo') {
                     if (isJoined) {
-                        btnHtml = `<button class="btn btn-dark" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center; border-color: rgba(255,255,255,0.2);">Subir Videos ↗</button>`;
+                        btnHtml = `<button class="btn btn-dark" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center;">Subir Videos ↗</button>`;
                     } else {
                         btnHtml = `<button class="btn btn-primary" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center;">¡Participar!</button>`;
                     }
