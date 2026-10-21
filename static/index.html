@@ -281,7 +281,7 @@
             <button onclick="toggleTheme()" class="btn-nav-studio" title="Modo Oscuro" id="themeToggleBtn" style="display:flex; align-items:center; justify-content:center; padding: 6px 10px;">
                 <!-- El icono se inyecta via JS -->
             </button>
-            <button onclick="abrirRegistroModal()" class="btn-nav-studio" title="Perfil / Registro" style="display:flex; align-items:center; justify-content:center; padding: 6px 10px;">
+            <button onclick="abrirRegistroModal()" id="profileBtnNav" class="btn-nav-studio" title="Perfil / Registro" style="display:flex; align-items:center; justify-content:center; padding: 6px 10px; overflow:hidden;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             </button>
             <button onclick="abrirCreatorStudioLogin()" class="btn-nav-studio">studio_</button>
@@ -404,7 +404,7 @@
             <h2 style="color: var(--contrast); margin-bottom: 10px; font-family:'JetBrains Mono', monospace; font-weight: 800; text-transform: uppercase;">Unite a la crew</h2>
             <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 25px; font-family: 'Inter', sans-serif;">Ingresá para crear eventos, subir tu material y sumar puntos en el circuito.</p>
             
-            <button onclick="simularRegistroGoogle()" class="btn" style="width: 100%; justify-content: center; background: var(--surface); border: 2px solid var(--contrast); color: var(--contrast); font-family: 'Inter', sans-serif; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+            <button onclick="iniciarSesionGoogle()" class="btn" style="width: 100%; justify-content: center; background: var(--surface); border: 2px solid var(--contrast); color: var(--contrast); font-family: 'Inter', sans-serif; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
                 Continuar con Google
             </button>
@@ -729,11 +729,6 @@
         /* LOGICA DE REGISTRO / PERFIL */
         function abrirRegistroModal() { document.getElementById('registroModal').style.display = 'flex'; }
         function cerrarRegistroModal() { document.getElementById('registroModal').style.display = 'none'; }
-        function simularRegistroGoogle() {
-            alert("✓ Sesión con Google iniciada correctamente.");
-            cerrarRegistroModal();
-            abrirCrearEventoModal();
-        }
 
         function abrirCrearEventoModal() { document.getElementById('crearEventoModal').style.display = 'flex'; }
         function cerrarCrearEventoModal() { document.getElementById('crearEventoModal').style.display = 'none'; }
@@ -882,5 +877,66 @@
             });
         }
     </script>
+
+    <!-- FIREBASE CONEXIÓN Y AUTENTICACIÓN -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        // Tus llaves de FanMovie
+        const firebaseConfig = {
+            apiKey: "AIzaSyBW53DwZgEvG8O_vvXDFd3WRvu1xvih7S4",
+            authDomain: "fanmoviefilm.firebaseapp.com",
+            projectId: "fanmoviefilm",
+            storageBucket: "fanmoviefilm.firebasestorage.app",
+            messagingSenderId: "425540665137",
+            appId: "1:425540665137:web:fad6d0be0dcb6a4fdffa10"
+        };
+
+        // Inicializar Firebase y Autenticación
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        // Función para iniciar sesión (atada al window para que el HTML la encuentre)
+        window.iniciarSesionGoogle = async function() {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+                cerrarRegistroModal();
+                alert("✓ Bienvenido a la crew, " + user.displayName.split(" ")[0] + "!");
+                abrirCrearEventoModal();
+            } catch (error) {
+                console.error("Error al iniciar sesión:", error);
+                alert("Hubo un error al conectar con Google. Intentá de nuevo.");
+            }
+        };
+
+        window.cerrarSesion = async function() {
+            await signOut(auth);
+            alert("Sesión cerrada correctamente.");
+        };
+
+        // Escuchamos si el usuario está logueado o no en tiempo real
+        onAuthStateChanged(auth, (user) => {
+            const profileBtn = document.getElementById('profileBtnNav');
+            if (user) {
+                // Cambiamos la silueta por su foto de perfil de Google
+                profileBtn.innerHTML = `<img src="${user.photoURL}" style="width:16px; height:16px; border-radius:50%; object-fit:cover;" alt="Perfil" />`;
+                profileBtn.title = `Cerrar sesión de ${user.displayName}`;
+                profileBtn.onclick = () => {
+                    if(confirm(`¿Cerrar sesión de ${user.displayName}?`)) {
+                        cerrarSesion();
+                    }
+                };
+            } else {
+                // Si no hay sesión, vuelve la silueta
+                profileBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
+                profileBtn.title = "Perfil / Registro";
+                profileBtn.onclick = abrirRegistroModal;
+            }
+        });
+    </script>
+
 </body>
 </html>
