@@ -112,7 +112,7 @@
             color: #111; display: flex; flex-direction: column; align-items: center; gap: 5px;
         }
 
-        /* ANIMACIÓN DE TIPEO HACIENDO UN CONTENIDO REAL */
+        /* ANIMACIÓN DE TIPEO: UN MOTOR DE LA CREACIÓN */
         .typing-container {
             display: inline-block;
             white-space: nowrap;
@@ -141,7 +141,7 @@
             height: 1em;
             vertical-align: bottom;
             animation: blink 0.428s step-end infinite;
-            margin-left: 2px;
+            margin-left: 2px; /* Margen de pocos píxeles después de la N */
         }
 
         @keyframes typing { 
@@ -151,7 +151,7 @@
 
         .hero p { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--text-secondary); max-width: 650px; margin-bottom: 30px; font-weight: 500; }
 
-        .search-bar-wrap { margin-top: 20px; position: relative; width: 100%; max-width: 600px; }
+        .search-bar-wrap { margin-top: 30px; position: relative; width: 100%; max-width: 600px; }
         .search-input {
             width: 100%; padding: 18px 22px 18px 48px; background: #fff; border: var(--border-subtle);
             border-radius: 0; color: #111; font-size: 1rem; outline: none; transition: 0.25s; font-family: 'Inter', sans-serif;
@@ -159,7 +159,7 @@
         .search-input:focus { border-color: var(--brand-main); box-shadow: 4px 4px 0 var(--brand-main); }
         .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #111; pointer-events: none; }
 
-        .btn-group { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 25px; }
+        .btn-group { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
         .btn { padding: 12px 22px; border-radius: 0; font-weight: 700; font-size: 0.88rem; text-decoration: none; transition: all 0.2s ease; cursor: pointer; border: var(--border-subtle); display: inline-flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; background: #fff; color: #111; text-transform: uppercase;}
         .btn-primary { background: var(--brand-main); color: #ffffff; border: 2px solid var(--brand-main); }
         .btn-primary:hover { box-shadow: 4px 4px 0 #111; transform: translate(-2px, -2px); }
@@ -208,7 +208,7 @@
         .event-card { background: var(--surface); border: var(--border-subtle); padding: 16px; transition: all 0.2s ease; color: #111; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
         .event-card:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 rgba(17,17,17,1); }
         .event-img { width: 100%; aspect-ratio: 4 / 5; background: #e0e0e0; margin-bottom: 16px; position: relative; overflow: hidden; border: 2px solid #111;}
-        .event-img::after { content: 'REC ●'; font-family: 'JetBrains Mono', monospace; position: absolute; top: 12px; right: 12px; background: #fff; padding: 4px 10px; border: 2px solid #111; font-size: 0.7rem; font-weight: 800; color: var(--brand-main); }
+        .event-img::after { content: 'FAN ●'; font-family: 'JetBrains Mono', monospace; position: absolute; top: 12px; right: 12px; background: #fff; padding: 4px 10px; border: 2px solid #111; font-size: 0.7rem; font-weight: 800; color: var(--brand-main); }
         .event-info h4 { font-size: 1.1rem; margin-bottom: 6px; color: #111; font-family: 'Druk Wide', sans-serif;}
         .event-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.9rem; font-family: 'Inter', sans-serif;}
         .event-meta-type { color: #555; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; }
@@ -250,18 +250,23 @@
         <div class="hero-content">
             <!-- TÍTULO CON ANIMACIÓN DE TIPEO Y CURSOR -->
             <h1>
-                <span>HACIENDO UN</span>
+                <span>UN MOTOR DE LA</span>
                 <span style="display: inline-block;">
-                    <span class="typing-container">CONTENIDO <span class="highlight-underline">REAL</span></span><span class="cursor"></span>
+                    <span class="typing-container">CREACIÓ<span class="highlight-underline">N</span></span><span class="cursor"></span>
                 </span>
             </h1>
             
-            <p>Hoy nos convertimos en creadores de contenido audiovisual. Registra tus eventos en vivo o crea tu propia película.</p>
+            <p>Graba tu evento favorito, arma tu recap, y suma puntos recorriendo el circuito.</p>
+
+            <div class="btn-group">
+                <button onclick="abrirCircuitoModal()" class="btn btn-dark">Explora circuito</button>
+                <button onclick="abrirCrearEventoModal()" class="btn btn-primary">Crear evento</button>
+            </div>
             
-            <!-- BUSCADOR -->
-            <div class="search-bar-wrap">
+            <!-- BUSCADOR ABAJO DE LOS BOTONES -->
+            <div class="search-bar-wrap" style="margin-top: 30px;">
                 <span class="search-icon">🔍</span>
-                <input type="text" id="eventSearchInput" class="search-input" placeholder="Buscar (social) (cultural) (show) (fiesta)..." oninput="filtrarEventos()">
+                <input type="text" id="eventSearchInput" class="search-input" placeholder="Nombre de tu evento, show, fiesta..." oninput="filtrarEventos()">
             </div>
         </div>
     </header>
@@ -385,6 +390,44 @@
         </div>
     </div>
 
+    <div id="circuitoModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="circuit-tabs">
+                <button class="circuit-tab active" id="tab-caba" onclick="switchCircuitTab('CABA')">CABA</button>
+                <button class="circuit-tab" id="tab-amba" onclick="switchCircuitTab('AMBA')">AMBA</button>
+            </div>
+
+            <div class="circuit-Poster">
+                <div id="stage-CABA" class="circuit-stage-wrap active">
+                    <svg viewBox="0 0 800 420" style="width: 100%; height: 100%; position: absolute; inset: 0;">
+                        <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
+                            <line x1="0" y1="100" x2="800" y2="100"/><line x1="0" y1="210" x2="800" y2="210"/>
+                            <line x1="200" y1="0" x2="200" y2="420"/><line x1="400" y1="0" x2="400" y2="420"/>
+                        </g>
+                        <path d="M 210,160 C 240,70 460,65 550,140 C 630,205 600,330 480,340 C 350,350 260,330 200,260 Z" fill="none" stroke="rgba(255, 85, 0, 0.35)" stroke-width="8" stroke-linecap="round"/>
+                    </svg>
+                    <div id="circuitSpotsContainerCABA"></div>
+                </div>
+
+                <div id="stage-AMBA" class="circuit-stage-wrap">
+                    <svg viewBox="0 0 800 420" style="width: 100%; height: 100%; position: absolute; inset: 0;">
+                        <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
+                            <line x1="0" y1="100" x2="800" y2="100"/><line x1="0" y1="210" x2="800" y2="210"/>
+                            <line x1="200" y1="0" x2="200" y2="420"/><line x1="400" y1="0" x2="400" y2="420"/>
+                        </g>
+                        <path d="M 150,200 C 300,100 500,50 650,200 C 500,350 300,300 150,200 Z" fill="none" stroke="rgba(255, 170, 0, 0.35)" stroke-width="8" stroke-linecap="round"/>
+                    </svg>
+                    <div id="circuitSpotsContainerAMBA"></div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #aaa;">
+                    <span>● Hacé clic en cada spot para entrar al evento</span>
+                    <button onclick="cerrarCircuitoModal()" class="btn btn-primary" style="padding: 10px 22px; font-size: 0.85rem;">Cerrar Circuito</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         let selectedEventSafeName = "";
         let globalEventsData = [];
@@ -455,7 +498,7 @@
                 
                 if (eventStatus === 'activo') {
                     if (isJoined) {
-                        btnHtml = `<button class="btn btn-dark" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center;">Subir Videos ↗</button>`;
+                        btnHtml = `<button class="btn btn-dark" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center; border-color: rgba(255,255,255,0.2);">Subir Videos ↗</button>`;
                     } else {
                         btnHtml = `<button class="btn btn-primary" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center;">¡Participar!</button>`;
                     }
