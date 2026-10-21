@@ -31,18 +31,23 @@
         }
 
         [data-theme="dark"] {
-            --bg-paper: #111111; 
-            --surface: #1a1a1a; 
+            --bg-paper: #000000; 
+            --surface: #000000; 
             --text-primary: #f4f1ea; 
-            --text-secondary: #aaaaaa;
-            --contrast: #f4f1ea;
-            --inverse: #111111;
+            --text-secondary: #888888;
+            --contrast: #ffffff;
+            --inverse: #000000;
             --border-subtle: 2px solid var(--contrast); 
             --border-thick: 4px solid var(--contrast);
-            --nav-bg: rgba(17, 17, 17, 0.95);
-            --map-bg: #222222;
-            --map-fill: #333333;
-            --map-caba: #444444;
+            --nav-bg: rgba(0, 0, 0, 0.95);
+            --map-bg: #050505;
+            --map-fill: #111111;
+            --map-caba: #333333;
+        }
+        
+        /* Eliminar las manchas/textura en modo oscuro */
+        [data-theme="dark"] body {
+            background-image: none;
         }
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
