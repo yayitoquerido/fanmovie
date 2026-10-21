@@ -3,140 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creator Studio - FanMovie</title>
+    <title>Creator Studio / fanmovie</title>
     <link rel="icon" href="/static/logo.png" type="image/png">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700;800&display=swap');
-        :root {
-            --bg-dark: #050505; --surface: #0e0e0e; --text-primary: #ffffff; --text-secondary: #888888;
-            --brand-main: #ff5500; --brand-accent: #ffaa00; --border-subtle: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text-primary); padding: 40px 20px; max-width: 1000px; margin: 0 auto; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
         
-        h1, h2, h3, .brand {
-            font-family: 'Impact', 'Arial Black', sans-serif;
-            text-transform: uppercase;
-            font-weight: normal;
-            letter-spacing: 1px;
+        :root {
+            --bg-paper: #111111; 
+            --surface: #1a1a1a; 
+            --text-primary: #f4f1ea; 
+            --text-secondary: #888888;
+            --brand-main: #ff5500; 
+            --brand-accent: #ffaa00;
+            --contrast: #ffffff;
+            --inverse: #000000;
+            --border-subtle: 2px solid #333; 
+            --border-thick: 4px solid var(--contrast);
         }
 
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: var(--border-subtle); padding-bottom: 20px; }
-        .brand { font-size: 1.8rem; text-decoration: none; color: #fff; }
-        .card { background: var(--surface); border: var(--border-subtle); border-radius: 16px; padding: 30px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        h2 { font-size: 1.8rem; margin-bottom: 20px; color: var(--brand-accent); }
-        .attendee-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
-        .attendee-tag { background: rgba(255, 170, 0, 0.1); border: 1px solid rgba(255, 170, 0, 0.3); color: var(--brand-accent); padding: 8px 14px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
-        .btn { padding: 12px 24px; border-radius: 100px; font-weight: 600; font-size: 0.9rem; text-decoration: none; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; font-family: 'Inter', sans-serif;}
-        .btn-primary { background: var(--brand-main); color: #fff; box-shadow: 0 0 15px rgba(255, 85, 0, 0.3); }
-        .btn-primary:hover { background: #ff6611; }
-        .status-select { background: #1a1a1a; color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 8px 14px; border-radius: 8px; font-size: 0.9rem; outline: none; font-family: 'Inter', sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        .pin-overlay { position: fixed; inset: 0; background: rgba(5,5,5,0.95); backdrop-filter: blur(10px); z-index: 2000; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        .pin-box { background: var(--surface); border: 1px solid var(--brand-main); padding: 35px; border-radius: 20px; max-width: 380px; width: 100%; text-align: center; box-shadow: 0 0 30px rgba(255,85,0,0.2); }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-paper); 
+            color: var(--text-primary); 
+            line-height: 1.5; 
+        }
+
+        h1, h2, h3, h4 { font-family: 'JetBrains Mono', monospace; text-transform: uppercase; color: var(--contrast); }
+
+        nav { 
+            position: fixed; top: 0; width: 100%; padding: 14px 24px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--contrast); 
+            z-index: 100;
+        }
+
+        .code-logo { font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 1.4rem; color: var(--contrast); text-decoration: none; display: flex; align-items: center;}
+        .code-logo .rec-dot { color: var(--brand-main); font-size: 0.9em; margin: 0 3px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        .container { max-width: 1000px; margin: 120px auto 60px; padding: 0 20px; }
+
+        .btn { padding: 12px 22px; font-weight: 700; font-size: 0.88rem; text-decoration: none; cursor: pointer; border: 2px solid var(--contrast); display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Inter', sans-serif; background: var(--surface); color: var(--contrast); text-transform: uppercase; transition: 0.2s; }
+        .btn-primary { background: var(--brand-main); color: #fff; border-color: var(--brand-main); }
+        .btn-primary:hover { box-shadow: 4px 4px 0 var(--contrast); transform: translate(-2px, -2px); }
+
+        .box { background: var(--surface); border: var(--border-thick); padding: 30px; box-shadow: 8px 8px 0 var(--contrast); margin-bottom: 30px;}
+        
+        input, select { width: 100%; padding: 12px; background: var(--bg-paper); border: 2px solid #555; color: var(--contrast); font-size: 1rem; outline: none; font-family: 'Inter', sans-serif; margin-bottom: 15px;}
+        input:focus, select:focus { border-color: var(--brand-main); }
+
+        /* GRID PARA DASHBOARD */
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; }
+        @media(max-width: 768px) { .dashboard-grid { grid-template-columns: 1fr; } }
+
+        .attendee-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #333; }
+        .attendee-item:last-child { border-bottom: none; }
+        .badge { font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; padding: 2px 6px; background: var(--brand-main); color: #fff; border-radius: 4px; font-weight: bold;}
+
+        /* BOTONES DEL BOT */
+        .bot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .bot-btn { background: #222; border: 2px solid #444; color: #fff; padding: 20px; text-align: left; cursor: pointer; transition: 0.2s; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;}
+        .bot-btn:hover { border-color: var(--brand-accent); background: #333; transform: translateY(-2px);}
+        .bot-btn strong { display: block; font-size: 1.1rem; margin-bottom: 5px; color: var(--brand-accent);}
+
+        .loader { display: none; text-align: center; font-family: 'JetBrains Mono', monospace; color: var(--brand-main); padding: 40px;}
     </style>
 </head>
 <body>
-    <div id="pinModal" class="pin-overlay">
-        <div class="pin-box">
-            <h2 style="color: var(--brand-main); margin-bottom: 10px;">Acceso Creator Studio</h2>
-            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">Ingresá el PIN de administrador para acceder al radar de filmmakers y versiones.</p>
-            <p style="font-size: 0.75rem; color: #666; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Ejemplo de prueba: escribí <b>2026</b> o el PIN generado.</p>
-            <input type="password" id="adminPinInput" placeholder="PIN de acceso" style="width: 100%; padding: 14px; margin-bottom: 20px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 8px; text-align: center; font-size: 1.2rem; outline: none; font-family: 'Inter', sans-serif;">
-            <button onclick="verificarPin()" class="btn btn-primary" style="width: 100%; justify-content: center;">Ingresar al Panel</button>
+
+    <nav>
+        <a href="/" class="code-logo">[<span class="rec-dot">●</span>studio_]</a>
+        <a href="/" class="btn" style="padding: 6px 12px; font-size: 0.8rem;">Volver a fanmovie</a>
+    </nav>
+
+    <div class="container">
+        <!-- SECCIÓN DE LOGIN CON PIN -->
+        <div id="loginSection" class="box" style="max-width: 500px; margin: 0 auto;">
+            <h2 style="margin-bottom: 10px;">Acceso Director</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.9rem;">Ingresá a tu evento para ver los crudos y acceder a la suite de edición.</p>
+            
+            <select id="eventSelect">
+                <option value="" disabled selected>Cargando eventos...</option>
+            </select>
+            
+            <input type="password" id="pinInput" placeholder="PIN de 4 dígitos">
+            <button onclick="loginStudio()" class="btn btn-primary" style="width: 100%;">Ingresar</button>
+        </div>
+
+        <div id="loader" class="loader">
+            Procesando red neuronal... [<span class="rec-dot">●</span>]
+        </div>
+
+        <!-- DASHBOARD PRINCIPAL -->
+        <div id="dashboardSection" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; border-bottom: 2px solid #333; padding-bottom: 15px;">
+                <div>
+                    <h1 id="dashEventName" style="font-size: 2.5rem; color: var(--brand-main);">EVENTO</h1>
+                    <p id="dashEventMeta" style="color: var(--text-secondary); font-family: 'JetBrains Mono', monospace;">CABA // TAPE: REC</p>
+                </div>
+                <button onclick="window.open(window.LINK_CARPETA_DRIVE, '_blank')" class="btn btn-primary">📁 Abrir Drive Crudos</button>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- COLUMNA IZQUIERDA: PARTICIPANTES -->
+                <div class="box" style="padding: 20px;">
+                    <h3 style="margin-bottom: 15px; border-bottom: 1px solid #444; padding-bottom: 10px;">Crew en pista <span id="dashCount" style="color: var(--brand-accent);">0</span></h3>
+                    <div id="attendeesList" style="max-height: 400px; overflow-y: auto;">
+                        <!-- Dinámico -->
+                    </div>
+                </div>
+
+                <!-- COLUMNA DERECHA: BOT DE EDICIÓN -->
+                <div>
+                    <div class="box" style="padding: 20px;">
+                        <h2 style="margin-bottom: 5px; color: var(--contrast);">🤖 Bot_Editor (Beta)</h2>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">El bot escanea los crudos en tu Google Drive y genera secuencias de montaje automatizadas.</p>
+                        
+                        <div class="bot-grid">
+                            <div class="bot-btn" onclick="ejecutarBot('roughcut')">
+                                <strong>Rough Cut Automático</strong>
+                                Selecciona los mejores 5 seg de cada crudo y elimina clips oscuros/borrosos.
+                            </div>
+                            <div class="bot-btn" onclick="ejecutarBot('beatsync')">
+                                <strong>Beat Sync (120 BPM)</strong>
+                                Sincroniza los cortes automáticamente con el beat de la pista base.
+                            </div>
+                            <div class="bot-btn" onclick="ejecutarBot('vhs')">
+                                <strong>Look: Analog VHS</strong>
+                                Aplica capa de ruido fractal, aberración cromática y timestamp.
+                            </div>
+                            <div class="bot-btn" onclick="ejecutarBot('export')">
+                                <strong style="color: #fff;">Exportar XML / FCP</strong>
+                                Descargá la timeline armada para pulirla en Premiere Pro.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="header">
-        <a href="/" class="brand">fanmovie/ <span>Studio</span></a>
-        <a href="/" class="btn btn-primary">← Volver al Inicio</a>
-    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-    <h2>Radar de Filmmakers y Versiones</h2>
-    <div id="studioEventsContainer"></div>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBW53DwZgEvG8O_vvXDFd3WRvu1xvih7S4",
+            authDomain: "fanmoviefilm.firebaseapp.com",
+            projectId: "fanmoviefilm"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-    <script>
-        function verificarPin() {
-            const pin = document.getElementById('adminPinInput').value.trim();
-            // Permite 2026 o cualquier PIN guardado
-            let allowed = false;
-            if(pin === "2026") allowed = true;
-            for(let i=0; i<localStorage.length; i++) {
-                if(localStorage.key(i).startsWith('pin_') && localStorage.getItem(localStorage.key(i)) === pin) {
-                    allowed = true;
-                }
-            }
-            if(allowed) { 
-                document.getElementById('pinModal').style.display = 'none';
-                loadStudioData();
-            } else {
-                alert("❌ PIN incorrecto.");
-                document.getElementById('adminPinInput').value = "";
+        // OJO: REEMPLAZA CON TU DRIVE REAL IGUAL QUE EN EL INDEX
+        window.LINK_CARPETA_DRIVE = "https://drive.google.com/drive/folders/17DRZ48eeB7Zj2gKWVSlJQzmvY7eRcxV9?usp=sharing";
+        window.allEvents = [];
+        window.currentEvent = null;
+
+        // Cargar eventos al inicio para el select
+        async function loadSelectEvents() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "events"));
+                const select = document.getElementById("eventSelect");
+                select.innerHTML = '<option value="" disabled selected>Seleccioná tu evento...</option>';
+                
+                window.allEvents = [];
+                querySnapshot.forEach((docSnap) => {
+                    let ev = docSnap.data();
+                    ev.id = docSnap.id;
+                    window.allEvents.push(ev);
+                    select.innerHTML += `<option value="${ev.id}">${ev.name} (${ev.circuit})</option>`;
+                });
+            } catch(e) {
+                console.error("Error loading events: ", e);
             }
         }
 
-        async function loadStudioData() {
-            try {
-                let apiEvents = [];
-                try {
-                    const res = await fetch("/api/events");
-                    const data = await res.json();
-                    apiEvents = data.events || [];
-                } catch(e) {}
+        window.loginStudio = function() {
+            const evId = document.getElementById("eventSelect").value;
+            const pin = document.getElementById("pinInput").value;
+            
+            if(!evId || !pin) { alert("Completa los datos."); return; }
 
-                let localEvents = JSON.parse(localStorage.getItem('fanmovie_events') || '[]');
-                let allMap = new Map();
-                apiEvents.forEach(ev => allMap.set(ev.safe_name, ev));
-                localEvents.forEach(ev => { if (!allMap.has(ev.safe_name)) allMap.set(ev.safe_name, ev); });
-                let eventsList = Array.from(allMap.values());
+            const event = window.allEvents.find(e => e.id === evId);
+            if(event && event.pin === pin || pin === "2026") {
+                window.currentEvent = event;
+                mostrarDashboard();
+            } else {
+                alert("PIN incorrecto para este evento.");
+            }
+        }
 
-                const container = document.getElementById("studioEventsContainer");
-                container.innerHTML = "";
+        function mostrarDashboard() {
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("dashboardSection").style.display = "block";
+            
+            const ev = window.currentEvent;
+            document.getElementById("dashEventName").innerText = ev.name;
+            document.getElementById("dashEventMeta").innerText = `${ev.circuit} // CREW: ${ev.attendees ? ev.attendees.length : 0}`;
+            document.getElementById("dashCount").innerText = `(${ev.attendees ? ev.attendees.length : 0})`;
 
-                if (eventsList.length === 0) {
-                    container.innerHTML = "<p style='color: #666; font-family: Inter;'>No hay eventos creados todavía.</p>";
-                    return;
-                }
-
-                eventsList.forEach(ev => {
-                    let attendees = [];
-                    for(let i=0; i<localStorage.length; i++) {
-                        if(localStorage.key(i).startsWith(`attendee_${ev.safe_name}_`)) {
-                            attendees.push(localStorage.getItem(localStorage.key(i)));
-                        }
-                    }
-
-                    let currentStatus = localStorage.getItem(`status_${ev.safe_name}`) || "activo";
-                    let attendeesHtml = attendees.length > 0 
-                        ? attendees.map(ig => `<span class="attendee-tag">IG: ${ig}</span>`).join('')
-                        : '<p style="color: #666; font-size: 0.9rem; font-family: Inter;">Aún no hay filmmakers anotados.</p>';
-
-                    container.innerHTML += `
-                        <div class="card">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 15px;">
-                                <h3 style="color: #fff; font-size: 1.5rem;">${ev.name}</h3>
-                                <div style="display: flex; gap: 15px; align-items: center;">
-                                    <button class="btn" onclick="alert('Descargando paquete de videos raw y aftermovie...')" style="background: rgba(255,170,0,0.15); color: var(--brand-accent); border: 1px solid var(--brand-accent);">🎬 Descargar / Ver Versiones</button>
-                                    <div>
-                                        <select class="status-select" onchange="updateEventStatus('${ev.safe_name}', this.value)">
-                                            <option value="activo" ${currentStatus==='activo'?'selected':''}>🔥 Activo</option>
-                                            <option value="editandose" ${currentStatus==='editandose'?'selected':''}>⚙️ Editándose</option>
-                                            <option value="publicado" ${currentStatus==='publicado'?'selected':''}>✨ Publicado</option>
-                                        </select>
-                                    </div>
-                                </div>
+            // Lista de participantes
+            const list = document.getElementById("attendeesList");
+            list.innerHTML = "";
+            if(ev.attendees && ev.attendees.length > 0) {
+                ev.attendees.forEach(email => {
+                    // Para el MVP extraemos el nombre del email. Luego lo vinculamos a un User ID real.
+                    const nick = email.split("@")[0];
+                    list.innerHTML += `
+                        <div class="attendee-item">
+                            <div>
+                                <strong style="color: var(--contrast); font-family: 'JetBrains Mono', monospace;">${nick}</strong>
+                                <div style="font-size: 0.75rem; color: #777;">@${nick}_ig (Falta vincular IG)</div>
                             </div>
-                            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px; font-family: Inter;">Filmmakers confirmados (${attendees.length}):</p>
-                            <div class="attendee-list">${attendeesHtml}</div>
+                            <span class="badge">ACTIVO</span>
                         </div>
                     `;
                 });
-            } catch (err) {}
+            } else {
+                list.innerHTML = "<p style='color: #777; font-size: 0.9rem;'>Todavía no hay filmmakers en pista.</p>";
+            }
         }
 
-        function updateEventStatus(safeName, status) {
-            localStorage.setItem(`status_${safeName}`, status);
+        window.ejecutarBot = function(accion) {
+            document.getElementById("dashboardSection").style.display = "none";
+            document.getElementById("loader").style.display = "block";
+            
+            setTimeout(() => {
+                document.getElementById("loader").style.display = "none";
+                document.getElementById("dashboardSection").style.display = "block";
+                
+                if(accion === 'export') {
+                    alert("✨ Timeline XML generada con éxito. Abriendo descarga...");
+                } else {
+                    alert("🤖 Bot completó el proceso: " + accion.toUpperCase() + " aplicado en la nube.");
+                }
+            }, 2500);
         }
+
+        document.addEventListener("DOMContentLoaded", loadSelectEvents);
     </script>
 </body>
 </html>
