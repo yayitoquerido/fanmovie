@@ -348,7 +348,7 @@
         </div>
     </div>
 
-    <!-- SECCIÓN MANIFIESTO EN BLANCO/OSCURO -->
+    <!-- SECCIÓN MANIFIE পুনরায় EN BLANCO/OSCURO -->
     <div class="white-section">
         <div class="white-section-content">
             <div class="manifesto-block fade-in-up">
@@ -449,7 +449,6 @@
         </div>
     </div>
 
-    <!-- MODAL CREAR EVENTO CON 41 PARTIDOS -->
     <div id="crearEventoModal" class="modal-overlay">
         <div class="modal-box" style="max-width: 550px;">
             <h2 style="color: var(--contrast); margin-bottom: 10px; font-family:'JetBrains Mono', monospace;">Crear Evento</h2>
@@ -457,7 +456,7 @@
             <form id="createEventForm" onsubmit="window.handleCreateEvent(event)">
                 <div class="form-group">
                     <label for="eventName">Nombre del Evento</label>
-                    <input type="text" id="eventName" required placeholder="Ej: Todo Terreno">
+                    <input type="text" id="eventName" required placeholder="Ej: Fiesta Fin de Año">
                 </div>
                 <div class="form-group">
                     <label for="eventDate">Fecha</label>
@@ -535,7 +534,7 @@
         </div>
     </div>
 
-    <!-- NUEVO MAPA AMBA UNIFICADO -->
+    <!-- MAPA AMBA UNIFICADO -->
     <div id="circuitoModal" class="modal-overlay">
         <div class="modal-box" style="max-width: 900px; padding: 20px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
@@ -567,8 +566,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, arrayUnion, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
+        // Tus llaves de FanMovie
         const firebaseConfig = {
             apiKey: "AIzaSyBW53DwZgEvG8O_vvXDFd3WRvu1xvih7S4",
             authDomain: "fanmoviefilm.firebaseapp.com",
@@ -580,14 +579,13 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
         window.globalEventsData = [];
-        window.selectedEventId = "";
+        window.selectedEventSafeName = "";
         window.currentUser = null;
 
-        // PEGAR ACÁ TU LINK DE GOOGLE DRIVE COMPARTIDO
+        // PEGA ACA TU LINK DE DRIVE (Reemplaza este texto)
         window.LINK_CARPETA_DRIVE = "https://drive.google.com/drive/folders/TU_CARPETA_AQUI"; 
 
         /* TEMA OSCURO */
@@ -610,22 +608,19 @@
             }
         }
 
-        /* CARGA DE EVENTOS DESDE FIRESTORE */
+        /* CARGA DE EVENTOS (LocalStorage / Offline) */
         window.loadEvents = async function() {
-            const q = query(collection(db, "events"), orderBy("createdAt", "desc"));
-            // Usamos onSnapshot para que se actualice en tiempo real
-            onSnapshot(q, (querySnapshot) => {
-                window.globalEventsData = [];
-                querySnapshot.forEach((docSnap) => {
-                    let ev = docSnap.data();
-                    ev.id = docSnap.id;
-                    window.globalEventsData.push(ev);
-                });
+            try {
+                let localEvents = JSON.parse(localStorage.getItem('fanmovie_events') || '[]');
+                localEvents = localEvents.filter(ev => ev.name !== 'Todo Terreno');
+                window.globalEventsData = localEvents;
                 window.renderEventsList(window.globalEventsData);
                 if (document.getElementById("circuitoModal").style.display === "flex") {
                     window.renderizarCircuitos();
                 }
-            });
+            } catch (error) {
+                document.getElementById("eventsContainer").innerHTML = "<p style='color: var(--brand-main);'>Error al cargar eventos.</p>";
+            }
         }
 
         window.renderEventsList = function(eventsList) {
@@ -636,21 +631,27 @@
                 return;
             }
             eventsList.forEach(ev => {
+                const encodedName = encodeURIComponent(ev.safe_name);
                 let bgUrl = "'/static/vhs_gradient_grain.jpg'";
-                if (ev.has_banner && localStorage.getItem(`banner_${ev.safe_name}`)) {
-                    bgUrl = `'${localStorage.getItem(`banner_${ev.safe_name}`)}'`;
+                if (ev.has_banner) {
+                    const localBanner = localStorage.getItem(`banner_${ev.safe_name}`);
+                    bgUrl = localBanner ? `'${localBanner}'` : `'/uploads/${encodedName}/banner.jpg'`;
                 }
                 const bgStyle = `background: url(${bgUrl}) center/cover no-repeat, linear-gradient(45deg, #111, #333);`;
+                const countKey = `count_${ev.safe_name}`;
+                let count = parseInt(localStorage.getItem(countKey) || (Math.floor(Math.random() * 8) + 3));
+                let eventStatus = localStorage.getItem(`status_${ev.safe_name}`) || "activo";
                 
-                let count = ev.attendees ? ev.attendees.length : 0;
-                let eventStatus = ev.status || "activo";
-                
+                // Check participacion usando el email del usuario logueado o el ID temporal
                 let isJoined = false;
-                if(window.currentUser && ev.attendees && ev.attendees.includes(window.currentUser.email)) {
-                    isJoined = true;
+                if (window.currentUser) {
+                    isJoined = localStorage.getItem(`joined_${ev.safe_name}_${window.currentUser.uid}`) === "true";
+                } else {
+                    isJoined = localStorage.getItem(`joined_${ev.safe_name}`) === "true";
                 }
 
                 let btnHtml = "";
+                
                 if (eventStatus === 'activo') {
                     if (isJoined) {
                         btnHtml = `<button class="btn" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center; background:var(--inverse); color:var(--contrast); border:2px solid var(--contrast);">Subir Videos ↗</button>`;
@@ -664,7 +665,7 @@
                 }
 
                 container.innerHTML += `
-                    <div class="event-card" onclick="window.abrirDetalleEvento('${ev.id}')">
+                    <div class="event-card" onclick="window.abrirDetalleEvento('${encodedName}')">
                         <div>
                             <div class="event-img" style="${bgStyle}"></div>
                             <div class="event-info">
@@ -688,11 +689,12 @@
         }
 
         /* MODAL DE DETALLE DE EVENTO */
-        window.abrirDetalleEvento = function(eventId) {
-            const ev = window.globalEventsData.find(e => e.id === eventId);
+        window.abrirDetalleEvento = function(safeNameDecoded) {
+            const safeName = decodeURIComponent(safeNameDecoded);
+            const ev = window.globalEventsData.find(e => e.safe_name === safeName);
             if(!ev) return;
             
-            window.selectedEventId = ev.id;
+            window.selectedEventSafeName = ev.safe_name;
             const bgStyle = `url('/static/vhs_gradient_grain.jpg') center/cover no-repeat, linear-gradient(45deg, #111, #333)`;
             
             document.getElementById('detalleBanner').style.background = bgStyle;
@@ -700,11 +702,13 @@
             document.getElementById('detalleMeta').innerText = `${ev.circuit || 'CABA'} // ${ev.date || 'Próximamente'}`;
             
             let isJoined = false;
-            if(window.currentUser && ev.attendees && ev.attendees.includes(window.currentUser.email)) {
-                isJoined = true;
+            if (window.currentUser) {
+                isJoined = localStorage.getItem(`joined_${ev.safe_name}_${window.currentUser.uid}`) === "true";
+            } else {
+                isJoined = localStorage.getItem(`joined_${ev.safe_name}`) === "true";
             }
-            let status = ev.status || "activo";
-            
+
+            let status = localStorage.getItem(`status_${ev.safe_name}`) || "activo";
             const accionesDiv = document.getElementById('detalleAcciones');
             accionesDiv.innerHTML = '';
             
@@ -719,12 +723,13 @@
                     if (window.currentUser) {
                         accionesDiv.innerHTML = `
                             <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Confirmá tu asistencia para habilitar el buzón de subida.</p>
-                            <button onclick="window.guardarParticipacionDB()" class="btn btn-primary" style="width: 100%; justify-content: center;">¡Quiero Participar!</button>
+                            <button onclick="window.guardarParticipacionModal()" class="btn btn-primary" style="width: 100%; justify-content: center;">¡Quiero Participar!</button>
                         `;
                     } else {
                         accionesDiv.innerHTML = `
-                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Iniciá sesión para participar y subir tus videos.</p>
-                            <button onclick="window.cerrarDetalleEvento(); window.abrirRegistroModal();" class="btn btn-primary" style="width: 100%; justify-content: center;">Iniciar Sesión</button>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Anotate con tu Instagram para habilitar la subida:</p>
+                            <input type="text" id="modalIgInput" placeholder="@tu_instagram" style="width: 100%; padding: 14px; margin-bottom: 15px; background: var(--surface); border: 2px solid var(--contrast); color: var(--contrast); outline: none; font-family: 'Inter', sans-serif;">
+                            <button onclick="window.guardarParticipacionNoLogin()" class="btn btn-primary" style="width: 100%; justify-content: center;">¡Participo!</button>
                         `;
                     }
                 }
@@ -745,31 +750,38 @@
 
         window.cerrarDetalleEvento = function() { document.getElementById('detalleEventoModal').style.display = 'none'; }
 
-        /* PARTICIPAR EN FIRESTORE */
-        window.guardarParticipacionDB = async function() {
-            if(!window.currentUser || !window.selectedEventId) return;
+        /* PARTICIPAR LOGICA OFFLINE/LOCAL */
+        window.guardarParticipacionModal = function() {
+            if(!window.currentUser) return;
+            localStorage.setItem(`joined_${window.selectedEventSafeName}_${window.currentUser.uid}`, "true");
             
-            try {
-                const eventRef = doc(db, "events", window.selectedEventId);
-                await updateDoc(eventRef, {
-                    attendees: arrayUnion(window.currentUser.email)
-                });
-                
-                let eventosAsistidos = parseInt(localStorage.getItem(`stats_${window.currentUser.uid}`) || "0");
-                localStorage.setItem(`stats_${window.currentUser.uid}`, eventosAsistidos + 1);
+            let count = parseInt(localStorage.getItem(`count_${window.selectedEventSafeName}`) || 5);
+            localStorage.setItem(`count_${window.selectedEventSafeName}`, count + 1);
+            
+            let eventosAsistidos = parseInt(localStorage.getItem(`stats_${window.currentUser.uid}`) || "0");
+            localStorage.setItem(`stats_${window.currentUser.uid}`, eventosAsistidos + 1);
 
-                alert("¡Excelente! Ya estás anotado. Ahora podés subir tus videos.");
-                window.abrirDetalleEvento(window.selectedEventId); 
-            } catch (error) {
-                console.error("Error al participar: ", error);
-                alert("Hubo un error. Intentá de nuevo.");
-            }
+            alert("¡Excelente! Ya estás anotado. Ahora podés subir tus videos.");
+            window.abrirDetalleEvento(encodeURIComponent(window.selectedEventSafeName)); 
+            window.loadEvents(); 
+        }
+
+        window.guardarParticipacionNoLogin = function() {
+            const ig = document.getElementById('modalIgInput').value.trim();
+            if(!ig) { alert("Ingresá tu usuario de Instagram."); return; }
+            localStorage.setItem(`joined_${window.selectedEventSafeName}`, "true");
+            localStorage.setItem(`attendee_${window.selectedEventSafeName}_${Date.now()}`, ig);
+            let count = parseInt(localStorage.getItem(`count_${window.selectedEventSafeName}`) || 5);
+            localStorage.setItem(`count_${window.selectedEventSafeName}`, count + 1);
+            
+            window.abrirDetalleEvento(encodeURIComponent(window.selectedEventSafeName)); 
+            window.loadEvents(); 
         }
 
         /* MOTOR DE SUBIDA A DRIVE */
         window.abrirDriveCrudos = function() {
             if (window.LINK_CARPETA_DRIVE === "https://drive.google.com/drive/folders/17DRZ48eeB7Zj2gKWVSlJQzmvY7eRcxV9?usp=sharing) {
-                alert("Falta configurar el enlace de Google Drive. Pega el link en el código.");
+                alert("Falta configurar el enlace de Google Drive. Por favor, pega el link en el archivo index.html en la línea 423.");
             } else {
                 window.open(window.LINK_CARPETA_DRIVE, '_blank');
             }
@@ -788,8 +800,8 @@
         }
         window.cerrarCrearEventoModal = function() { document.getElementById('crearEventoModal').style.display = 'none'; }
         
-        /* CREAR EVENTO EN FIRESTORE */
-        window.handleCreateEvent = async function(e) {
+        /* CREAR EVENTO LOCAL */
+        window.handleCreateEvent = function(e) {
             e.preventDefault();
             if(!window.currentUser) return;
 
@@ -800,43 +812,30 @@
             if (!name) return;
             
             const safeName = name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+            let events = JSON.parse(localStorage.getItem('fanmovie_events') || '[]');
             const hasBanner = flyerInput.files.length > 0;
+            events.push({ name, safe_name: safeName, date, circuit, has_banner: hasBanner });
+            localStorage.setItem('fanmovie_events', JSON.stringify(events));
+            localStorage.setItem(`status_${safeName}`, 'activo');
+            
             let adminPin = Math.floor(1000 + Math.random() * 9000);
+            localStorage.setItem(`pin_${safeName}`, adminPin);
 
-            const newEvent = {
-                name: name,
-                safe_name: safeName,
-                date: date,
-                circuit: circuit,
-                has_banner: hasBanner,
-                status: "activo",
-                pin: adminPin.toString(),
-                creatorEmail: window.currentUser.email,
-                attendees: [],
-                createdAt: new Date().toISOString()
-            };
-
-            try {
-                await addDoc(collection(db, "events"), newEvent);
-
-                if (hasBanner) {
-                    const reader = new FileReader();
-                    reader.onload = function(evt) {
-                        localStorage.setItem(`banner_${safeName}`, evt.target.result);
-                        window.finishCreateEventModal(adminPin);
-                    };
-                    reader.readAsDataURL(flyerInput.files[0]);
-                } else {
+            if (hasBanner) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    localStorage.setItem(`banner_${safeName}`, evt.target.result);
                     window.finishCreateEventModal(adminPin);
-                }
-            } catch (error) {
-                console.error("Error al crear evento: ", error);
-                alert("Error al publicar evento en la base de datos.");
+                };
+                reader.readAsDataURL(flyerInput.files[0]);
+            } else {
+                window.finishCreateEventModal(adminPin);
             }
         }
 
         window.finishCreateEventModal = function(adminPin) {
             window.cerrarCrearEventoModal();
+            window.loadEvents();
             if(document.getElementById('generatedPinDisplay')) {
                 document.getElementById('generatedPinDisplay').innerText = adminPin;
                 document.getElementById('pinSuccessModal').style.display = 'flex';
@@ -852,11 +851,9 @@
             const pin = document.getElementById('adminPinInput').value.trim();
             let allowed = false;
             if(pin === "2026") allowed = true;
-            
-            window.globalEventsData.forEach(ev => {
-                if(ev.pin === pin) allowed = true;
-            });
-
+            for(let i=0; i<localStorage.length; i++) {
+                if(localStorage.key(i).startsWith('pin_') && localStorage.getItem(localStorage.key(i)) === pin) allowed = true;
+            }
             if(allowed) { 
                 window.location.href = '/static/creator-studio.html';
             } else {
@@ -935,8 +932,9 @@
                 const topPos = baseCoords.top + offsetTop;
                 const leftPos = baseCoords.left + offsetLeft;
 
+                const encoded = ev.safe_name ? encodeURIComponent(ev.safe_name) : "";
                 const spotHtml = `
-                    <div class="circuit-spot" style="top: ${topPos}%; left: ${leftPos}%;" onclick="window.cerrarCircuitoModal(); window.abrirDetalleEvento('${ev.id}')">
+                    <div class="circuit-spot" style="top: ${topPos}%; left: ${leftPos}%;" onclick="window.cerrarCircuitoModal(); window.abrirDetalleEvento('${encoded}')">
                         <div class="spot-dot"></div>
                         <div class="spot-card">
                             <div class="spot-date">SPOT // ${ev.circuit || 'CABA'}</div>
@@ -970,8 +968,6 @@
             if(!window.currentUser) return;
 
             let eventosAsistidos = parseInt(localStorage.getItem(`stats_${window.currentUser.uid}`) || "0");
-            let userEvents = window.globalEventsData.filter(e => e.attendees && e.attendees.includes(window.currentUser.email));
-            if(userEvents.length > eventosAsistidos) eventosAsistidos = userEvents.length;
 
             let nivel = "NOVATO";
             if (eventosAsistidos >= 1 && eventosAsistidos <= 3) nivel = "AYUDANTE";
