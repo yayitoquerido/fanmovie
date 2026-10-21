@@ -398,6 +398,42 @@
         </div>
     </div>
 
+    <!-- MODAL DE PERFIL DE USUARIO -->
+    <div id="perfilUsuarioModal" class="modal-overlay" style="z-index: 1002;">
+        <div class="modal-box" style="max-width: 450px; text-align: center; padding: 40px 30px;">
+            <button onclick="cerrarPerfilUsuarioModal()" style="position: absolute; top: 15px; right: 15px; background: transparent; color: var(--contrast); border: none; font-size: 1.2rem; cursor: pointer; font-weight: bold;">X</button>
+
+            <!-- Foto de Perfil -->
+            <div style="position: relative; width: 100px; height: 100px; margin: 0 auto 20px;">
+                <img id="perfilFoto" src="" alt="Perfil" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: var(--border-thick);">
+                <button onclick="alert('La función de cambiar foto de perfil con la base de datos estará disponible próximamente.')" style="position: absolute; bottom: 0; right: 0; background: var(--brand-main); color: #fff; border: 2px solid var(--contrast); border-radius: 50%; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Cambiar foto">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                </button>
+            </div>
+
+            <!-- Nombre -->
+            <h2 id="perfilNombre" style="color: var(--contrast); font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; margin-bottom: 5px;">Nombre</h2>
+            <!-- Rol / Descripción -->
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">Creador de contenido / Filmmaker</p>
+
+            <!-- Nivel y Stats -->
+            <div style="background: var(--bg-paper); border: 2px solid var(--contrast); padding: 15px; margin-bottom: 25px; display: flex; justify-content: space-around; align-items: center;">
+                <div style="text-align: center;">
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; text-transform: uppercase;">Nivel actual</div>
+                    <div id="perfilNivel" style="color: var(--brand-main); font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; text-transform: uppercase;">NOVATO</div>
+                </div>
+                <div style="width: 2px; height: 40px; background: var(--contrast);"></div>
+                <div style="text-align: center;">
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; text-transform: uppercase;">Eventos asistidos</div>
+                    <div id="perfilEventos" style="color: var(--contrast); font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 1.2rem;">0</div>
+                </div>
+            </div>
+
+            <!-- Botones de Acción -->
+            <button onclick="cerrarSesion()" class="btn btn-dark" style="width: 100%; justify-content: center; font-size: 0.9rem;">Cerrar sesión</button>
+        </div>
+    </div>
+
     <!-- MODAL DE REGISTRO CON GOOGLE -->
     <div id="registroModal" class="modal-overlay" style="z-index: 1001;">
         <div class="modal-box" style="max-width: 400px; text-align: center;">
@@ -883,7 +919,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-        // Tus llaves de FanMovie
         const firebaseConfig = {
             apiKey: "AIzaSyBW53DwZgEvG8O_vvXDFd3WRvu1xvih7S4",
             authDomain: "fanmoviefilm.firebaseapp.com",
@@ -893,12 +928,10 @@
             appId: "1:425540665137:web:fad6d0be0dcb6a4fdffa10"
         };
 
-        // Inicializar Firebase y Autenticación
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
-        // Función para iniciar sesión (atada al window para que el HTML la encuentre)
         window.iniciarSesionGoogle = async function() {
             try {
                 const result = await signInWithPopup(auth, provider);
@@ -914,29 +947,55 @@
 
         window.cerrarSesion = async function() {
             await signOut(auth);
-            alert("Sesión cerrada correctamente.");
+            cerrarPerfilUsuarioModal();
         };
 
-        // Escuchamos si el usuario está logueado o no en tiempo real
+        window.abrirPerfilUsuarioModal = function() {
+            if(!window.currentUser) return;
+
+            // Calcular eventos asistidos desde localStorage
+            let eventosAsistidos = 0;
+            for(let i=0; i<localStorage.length; i++) {
+                if(localStorage.key(i).startsWith('joined_') && localStorage.getItem(localStorage.key(i)) === "true") {
+                    eventosAsistidos++;
+                }
+            }
+
+            // Sistema de Niveles
+            let nivel = "NOVATO";
+            if (eventosAsistidos >= 1 && eventosAsistidos <= 3) nivel = "AYUDANTE";
+            else if (eventosAsistidos >= 4 && eventosAsistidos <= 7) nivel = "CAMARÓGRAFO";
+            else if (eventosAsistidos >= 8) nivel = "DIRECTOR";
+
+            // Llenar datos
+            document.getElementById('perfilFoto').src = window.currentUser.photoURL || '/static/logo.png';
+            document.getElementById('perfilNombre').innerText = window.currentUser.displayName || 'Filmmaker';
+            document.getElementById('perfilEventos').innerText = eventosAsistidos;
+            document.getElementById('perfilNivel').innerText = nivel;
+
+            document.getElementById('perfilUsuarioModal').style.display = 'flex';
+        };
+
+        window.cerrarPerfilUsuarioModal = function() {
+            document.getElementById('perfilUsuarioModal').style.display = 'none';
+        };
+
         onAuthStateChanged(auth, (user) => {
             const profileBtn = document.getElementById('profileBtnNav');
             if (user) {
-                // Cambiamos la silueta por su foto de perfil de Google
+                window.currentUser = user;
                 profileBtn.innerHTML = `<img src="${user.photoURL}" style="width:16px; height:16px; border-radius:50%; object-fit:cover;" alt="Perfil" />`;
-                profileBtn.title = `Cerrar sesión de ${user.displayName}`;
+                profileBtn.title = `Perfil de ${user.displayName}`;
                 profileBtn.onclick = () => {
-                    if(confirm(`¿Cerrar sesión de ${user.displayName}?`)) {
-                        cerrarSesion();
-                    }
+                    abrirPerfilUsuarioModal();
                 };
             } else {
-                // Si no hay sesión, vuelve la silueta
+                window.currentUser = null;
                 profileBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
                 profileBtn.title = "Perfil / Registro";
                 profileBtn.onclick = abrirRegistroModal;
             }
         });
     </script>
-
 </body>
 </html>
