@@ -227,6 +227,17 @@
         .form-group input:focus, .form-group select:focus { border-color: var(--brand-main); box-shadow: 4px 4px 0 var(--brand-main);}
         
         footer { background: #111; color: #f4f4f4; padding: 60px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; border-top: 4px solid var(--brand-main); }
+
+        /* ESTILOS DEL NUEVO MAPA AMBA */
+        .circuit-Poster { background: #f4f4f4; border: 4px solid #111; padding: 0; position: relative; overflow: hidden; }
+        .circuit-stage-wrap { position: relative; width: 100%; height: 500px; background: #eae6de; overflow: hidden; display: block; }
+        .circuit-spot { position: absolute; transform: translate(-50%, -50%); cursor: pointer; z-index: 5; transition: 0.2s; }
+        .circuit-spot:hover { transform: translate(-50%, -50%) scale(1.15); z-index: 10; }
+        .spot-dot { width: 16px; height: 16px; background: var(--brand-main); border: 2px solid #111; border-radius: 50%; margin: 0 auto 4px; }
+        .spot-card { background: #fff; border: 2px solid #111; padding: 4px 8px; min-width: 120px; text-align: center; box-shadow: 4px 4px 0 #111; pointer-events: none; opacity: 0; transition: 0.2s; position: absolute; left: 50%; transform: translateX(-50%); top: 20px;}
+        .circuit-spot:hover .spot-card { opacity: 1; }
+        .spot-date { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: #555; font-weight: 700; }
+        .spot-title { font-size: 0.8rem; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'Inter', sans-serif; font-weight:bold;}
     </style>
 </head>
 <body>
@@ -278,7 +289,7 @@
     </header>
 
     <div class="container">
-        <!-- SECCIÓN DE EVENTOS (MOVIDA ARRIBA) -->
+        <!-- SECCIÓN DE EVENTOS -->
         <h2 class="section-title" id="events">
             <span>Próximos Eventos</span>
         </h2>
@@ -311,7 +322,7 @@
         </div>
     </div>
 
-    <!-- SECCIÓN MANIFIESTO EN BLANCO (MOVIDA ABAJO) -->
+    <!-- SECCIÓN MANIFIESTO EN BLANCO -->
     <div class="white-section">
         <div class="white-section-content">
             <div class="manifesto-block fade-in-up">
@@ -361,7 +372,7 @@
         </div>
     </div>
 
-    <!-- NUEVO MODAL DE REGISTRO CON GOOGLE -->
+    <!-- MODAL DE REGISTRO CON GOOGLE -->
     <div id="registroModal" class="modal-overlay" style="z-index: 1001;">
         <div class="modal-box" style="max-width: 400px; text-align: center;">
             <h2 style="color: #111; margin-bottom: 10px; font-family:'JetBrains Mono', monospace; font-weight: 800; text-transform: uppercase;">Unite a la crew</h2>
@@ -376,6 +387,7 @@
         </div>
     </div>
 
+    <!-- MODAL CREAR EVENTO CON 41 PARTIDOS -->
     <div id="crearEventoModal" class="modal-overlay">
         <div class="modal-box" style="max-width: 550px;">
             <h2 style="color: #111; margin-bottom: 10px; font-family:'JetBrains Mono', monospace;">Crear Evento</h2>
@@ -383,18 +395,57 @@
             <form id="createEventForm" onsubmit="handleCreateEvent(event)">
                 <div class="form-group">
                     <label for="eventName">Nombre del Evento</label>
-                    <input type="text" id="eventName" required placeholder="Ej: Fiesta Fin de Año">
+                    <input type="text" id="eventName" required placeholder="Ej: Todo Terreno">
                 </div>
                 <div class="form-group">
                     <label for="eventDate">Fecha</label>
                     <input type="date" id="eventDate" required>
                 </div>
                 <div class="form-group">
-                    <label for="eventCircuit">Circuito</label>
+                    <label for="eventCircuit">Ubicación (Partido / CABA)</label>
                     <select id="eventCircuit" required>
-                        <option value="" disabled selected>Elegí circuito...</option>
+                        <option value="" disabled selected>Elegí ubicación...</option>
                         <option value="CABA">CABA</option>
-                        <option value="AMBA">AMBA</option>
+                        <option value="Almirante Brown">Almirante Brown</option>
+                        <option value="Avellaneda">Avellaneda</option>
+                        <option value="Berazategui">Berazategui</option>
+                        <option value="Berisso">Berisso</option>
+                        <option value="Brandsen">Brandsen</option>
+                        <option value="Campana">Campana</option>
+                        <option value="Cañuelas">Cañuelas</option>
+                        <option value="Ensenada">Ensenada</option>
+                        <option value="Escobar">Escobar</option>
+                        <option value="Esteban Echeverría">Esteban Echeverría</option>
+                        <option value="Ezeiza">Ezeiza</option>
+                        <option value="Exaltación de la Cruz">Exaltación de la Cruz</option>
+                        <option value="Florencio Varela">Florencio Varela</option>
+                        <option value="General Las Heras">General Las Heras</option>
+                        <option value="General Rodríguez">General Rodríguez</option>
+                        <option value="General San Martín">General San Martín</option>
+                        <option value="Hurlingham">Hurlingham</option>
+                        <option value="Ituzaingó">Ituzaingó</option>
+                        <option value="José C. Paz">José C. Paz</option>
+                        <option value="La Matanza">La Matanza</option>
+                        <option value="La Plata">La Plata</option>
+                        <option value="Lanús">Lanús</option>
+                        <option value="Lomas de Zamora">Lomas de Zamora</option>
+                        <option value="Luján">Luján</option>
+                        <option value="Malvinas Argentinas">Malvinas Argentinas</option>
+                        <option value="Marcos Paz">Marcos Paz</option>
+                        <option value="Merlo">Merlo</option>
+                        <option value="Moreno">Moreno</option>
+                        <option value="Morón">Morón</option>
+                        <option value="Pilar">Pilar</option>
+                        <option value="Presidente Perón">Presidente Perón</option>
+                        <option value="Quilmes">Quilmes</option>
+                        <option value="San Fernando">San Fernando</option>
+                        <option value="San Isidro">San Isidro</option>
+                        <option value="San Miguel">San Miguel</option>
+                        <option value="San Vicente">San Vicente</option>
+                        <option value="Tigre">Tigre</option>
+                        <option value="Tres de Febrero">Tres de Febrero</option>
+                        <option value="Vicente López">Vicente López</option>
+                        <option value="Zárate">Zárate</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -422,40 +473,30 @@
         </div>
     </div>
 
+    <!-- NUEVO MAPA AMBA UNIFICADO -->
     <div id="circuitoModal" class="modal-overlay">
-        <div class="modal-box">
-            <div class="circuit-tabs">
-                <button class="circuit-tab active" id="tab-caba" onclick="switchCircuitTab('CABA')">CABA</button>
-                <button class="circuit-tab" id="tab-amba" onclick="switchCircuitTab('AMBA')">AMBA</button>
+        <div class="modal-box" style="max-width: 900px; padding: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2 style="font-family: 'JetBrains Mono', monospace; font-weight: 800; text-transform: uppercase;">Circuito AMBA</h2>
+                <button onclick="cerrarCircuitoModal()" class="btn btn-dark" style="padding: 6px 12px; font-size: 0.8rem;">Cerrar X</button>
             </div>
 
             <div class="circuit-Poster">
-                <div id="stage-CABA" class="circuit-stage-wrap active">
-                    <svg viewBox="0 0 800 420" style="width: 100%; height: 100%; position: absolute; inset: 0;">
-                        <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
-                            <line x1="0" y1="100" x2="800" y2="100"/><line x1="0" y1="210" x2="800" y2="210"/>
-                            <line x1="200" y1="0" x2="200" y2="420"/><line x1="400" y1="0" x2="400" y2="420"/>
-                        </g>
-                        <path d="M 210,160 C 240,70 460,65 550,140 C 630,205 600,330 480,340 C 350,350 260,330 200,260 Z" fill="none" stroke="rgba(255, 85, 0, 0.35)" stroke-width="8" stroke-linecap="round"/>
+                <div class="circuit-stage-wrap">
+                    <!-- Silueta abstracta del AMBA -->
+                    <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; position: absolute; inset: 0;" preserveAspectRatio="none">
+                        <!-- Poligono de fondo simulando el AMBA -->
+                        <path d="M 10,10 L 35,5 L 50,20 L 55,40 L 75,65 L 85,70 L 75,95 L 45,90 L 25,75 L 15,50 Z" fill="#d8d4cb" stroke="#111" stroke-width="0.3"/>
+                        <!-- Resalte aproximado CABA -->
+                        <path d="M 52,48 L 58,52 L 54,58 L 48,54 Z" fill="#ccc" stroke="#111" stroke-width="0.5"/>
                     </svg>
-                    <div id="circuitSpotsContainerCABA"></div>
+                    <!-- Contenedor dinámico de puntos -->
+                    <div id="circuitSpotsContainer"></div>
                 </div>
-
-                <div id="stage-AMBA" class="circuit-stage-wrap">
-                    <svg viewBox="0 0 800 420" style="width: 100%; height: 100%; position: absolute; inset: 0;">
-                        <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
-                            <line x1="0" y1="100" x2="800" y2="100"/><line x1="0" y1="210" x2="800" y2="210"/>
-                            <line x1="200" y1="0" x2="200" y2="420"/><line x1="400" y1="0" x2="400" y2="420"/>
-                        </g>
-                        <path d="M 150,200 C 300,100 500,50 650,200 C 500,350 300,300 150,200 Z" fill="none" stroke="rgba(255, 170, 0, 0.35)" stroke-width="8" stroke-linecap="round"/>
-                    </svg>
-                    <div id="circuitSpotsContainerAMBA"></div>
-                </div>
-
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #aaa;">
-                    <span>● Hacé clic en cada spot para entrar al evento</span>
-                    <button onclick="cerrarCircuitoModal()" class="btn btn-primary" style="padding: 10px 22px; font-size: 0.85rem;">Cerrar Circuito</button>
-                </div>
+            </div>
+            
+            <div style="margin-top: 15px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #555; text-align: center;">
+                ● Hacé clic en los puntos naranjas para ver los eventos de esa zona.
             </div>
         </div>
     </div>
@@ -463,16 +504,6 @@
     <script>
         let selectedEventSafeName = "";
         let globalEventsData = [];
-
-        let totalSeconds = 8;
-        setInterval(() => {
-            totalSeconds++;
-            const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
-            const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
-            const s = String(totalSeconds % 60).padStart(2, '0');
-            const tc = document.getElementById("vhsTimecode");
-            if (tc) tc.innerText = `${h}:${m}:${s}`;
-        }, 1000);
 
         /* SCRIPT PARA ANIMACIÓN SCROLL (Fade-in-up) */
         document.addEventListener("DOMContentLoaded", () => {
@@ -649,7 +680,6 @@
         function simularRegistroGoogle() {
             alert("✓ Sesión con Google iniciada correctamente.");
             cerrarRegistroModal();
-            // Luego del registro, lo mandamos a crear el evento directamente
             abrirCrearEventoModal();
         }
 
@@ -712,6 +742,92 @@
                 alert("❌ PIN incorrecto.");
                 document.getElementById('adminPinInput').value = "";
             }
+        }
+
+        /* LÓGICA MAPA AMBA UNIFICADO */
+        function abrirCircuitoModal() {
+            renderizarCircuitos();
+            document.getElementById("circuitoModal").style.display = "flex";
+        }
+        function cerrarCircuitoModal() { document.getElementById("circuitoModal").style.display = "none"; }
+        
+        function renderizarCircuitos() {
+            const container = document.getElementById("circuitSpotsContainer");
+            container.innerHTML = "";
+
+            // Coordenadas aproximadas en % (top, left) sobre el viewBox (0,0) a (100,100)
+            const ambaCoords = {
+                "CABA": { top: 52, left: 55 },
+                "Almirante Brown": { top: 68, left: 55 },
+                "Avellaneda": { top: 56, left: 56 },
+                "Berazategui": { top: 65, left: 65 },
+                "Berisso": { top: 72, left: 80 },
+                "Brandsen": { top: 90, left: 60 },
+                "Campana": { top: 20, left: 25 },
+                "Cañuelas": { top: 85, left: 35 },
+                "Ensenada": { top: 68, left: 75 },
+                "Escobar": { top: 35, left: 32 },
+                "Esteban Echeverría": { top: 68, left: 50 },
+                "Ezeiza": { top: 70, left: 45 },
+                "Exaltación de la Cruz": { top: 30, left: 15 },
+                "Florencio Varela": { top: 70, left: 60 },
+                "General Las Heras": { top: 75, left: 22 },
+                "General Rodríguez": { top: 55, left: 22 },
+                "General San Martín": { top: 50, left: 46 },
+                "Hurlingham": { top: 51, left: 42 },
+                "Ituzaingó": { top: 54, left: 39 },
+                "José C. Paz": { top: 45, left: 35 },
+                "La Matanza": { top: 65, left: 42 },
+                "La Plata": { top: 75, left: 70 },
+                "Lanús": { top: 58, left: 53 },
+                "Lomas de Zamora": { top: 62, left: 53 },
+                "Luján": { top: 50, left: 15 },
+                "Malvinas Argentinas": { top: 43, left: 38 },
+                "Marcos Paz": { top: 68, left: 30 },
+                "Merlo": { top: 60, left: 35 },
+                "Moreno": { top: 55, left: 30 },
+                "Morón": { top: 55, left: 42 },
+                "Pilar": { top: 45, left: 28 },
+                "Presidente Perón": { top: 75, left: 53 },
+                "Quilmes": { top: 60, left: 60 },
+                "San Fernando": { top: 20, left: 45 },
+                "San Isidro": { top: 45, left: 48 },
+                "San Miguel": { top: 48, left: 38 },
+                "San Vicente": { top: 80, left: 50 },
+                "Tigre": { top: 40, left: 42 },
+                "Tres de Febrero": { top: 53, left: 45 },
+                "Vicente López": { top: 48, left: 50 },
+                "Zárate": { top: 15, left: 15 }
+            };
+
+            let placed = {};
+
+            globalEventsData.forEach((ev) => {
+                let baseCoords = ambaCoords[ev.circuit];
+                if (!baseCoords) baseCoords = { top: 50, left: 50 }; // fallback por si acaso
+
+                // Lógica simple para que los puntos no se pisen si hay muchos en el mismo partido
+                let key = ev.circuit;
+                if (!placed[key]) placed[key] = 0;
+                let offsetTop = (placed[key] * 2) * (placed[key] % 2 === 0 ? 1 : -1);
+                let offsetLeft = (placed[key] * 2) * (placed[key] % 3 === 0 ? 1 : -1);
+                placed[key]++;
+
+                const topPos = baseCoords.top + offsetTop;
+                const leftPos = baseCoords.left + offsetLeft;
+
+                const encoded = ev.safe_name ? encodeURIComponent(ev.safe_name) : "";
+                const spotHtml = `
+                    <div class="circuit-spot" style="top: ${topPos}%; left: ${leftPos}%;" onclick="cerrarCircuitoModal(); abrirDetalleEvento('${encoded}')">
+                        <div class="spot-dot"></div>
+                        <div class="spot-card">
+                            <div class="spot-date">SPOT // ${ev.circuit || 'CABA'}</div>
+                            <div class="spot-title">${ev.name}</div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += spotHtml;
+            });
         }
 
         document.addEventListener('DOMContentLoaded', () => {
