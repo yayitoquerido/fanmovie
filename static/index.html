@@ -10,14 +10,9 @@
     <meta property="og:image" content="/static/og-logo.jpg">
     <meta property="og:type" content="website">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
         
-        @font-face {
-            font-family: 'Druk Wide';
-            src: url('/static/DrukWide-Medium-App.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
+        
 
         /* TEXTURA DE PERIÓDICO / BLANCO ROTO PARA TODO EL SITIO */
         :root {
@@ -48,12 +43,15 @@
         }
 
         h1, h2, h3, .brand, .step-number {
-            font-family: 'Druk Wide', 'Impact', sans-serif;
+            font-family: 'JetBrains Mono', monospace;
             text-transform: uppercase;
-            font-weight: normal;
-            letter-spacing: 1px;
+            letter-spacing: -1px;
             color: #111;
         }
+        
+        h1 { font-weight: 800; }
+        h2 { font-weight: 700; }
+        h3, .step-number { font-weight: 500; }
 
         /* --- NUEVO LOGO ESTILO [●fanmovie] --- */
         .code-logo {
@@ -109,7 +107,7 @@
 
         h1 {
             font-size: clamp(2rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 20px;
-            color: #111; display: flex; flex-direction: column; align-items: center; gap: 5px;
+            color: #111; display: flex; flex-direction: column; align-items: center; gap: 5px; font-weight: 800;
         }
 
         /* ANIMACIÓN DE TIPEO: UN MOTOR DE LA CREACIÓN */
@@ -120,6 +118,13 @@
             width: 0;
             animation: typing 3s steps(25, end) forwards;
             vertical-align: bottom;
+        }
+
+        .highlight-underline {
+            text-decoration: underline;
+            text-decoration-color: var(--brand-main);
+            text-decoration-thickness: 5px;
+            text-underline-offset: 6px;
         }
 
         /* Cursor titilando a 140ppm (0.428s por ciclo) */
@@ -303,17 +308,17 @@
             <div class="rules-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
                 <div class="rule-card" style="background: #fff; border: 2px solid #111; padding: 25px; text-align: center;">
                     <div class="points" style="font-size: 1.5rem; color: var(--brand-main); font-weight:bold;">+1 🌟</div>
-                    <h4 style="color:#111; font-family:'Druk Wide', sans-serif; font-size:0.9rem;">Participá</h4>
+                    <h4 style="color:#111; font-family:'JetBrains Mono', monospace; font-size:0.9rem;">Participá</h4>
                     <p style="color:#555;">Confirmá tu asistencia al evento en el calendario.</p>
                 </div>
                 <div class="rule-card" style="background: #fff; border: 2px solid #111; padding: 25px; text-align: center;">
                     <div class="points" style="font-size: 1.5rem; color: var(--brand-main); font-weight:bold;">+3 🌟</div>
-                    <h4 style="color:#111; font-family:'Druk Wide', sans-serif; font-size:0.9rem;">Carga 5 videos</h4>
+                    <h4 style="color:#111; font-family:'JetBrains Mono', monospace; font-size:0.9rem;">Carga 5 videos</h4>
                     <p style="color:#555;">Súbelos y conviértelos en un FanMovie.</p>
                 </div>
                 <div class="rule-card" style="background: #fff; border: 2px solid #111; padding: 25px; text-align: center;">
                     <div class="points" style="font-size: 1.5rem; color: var(--brand-main); font-weight:bold;">+5 🌟</div>
-                    <h4 style="color:#111; font-family:'Druk Wide', sans-serif; font-size:0.9rem;">Seleccionado</h4>
+                    <h4 style="color:#111; font-family:'JetBrains Mono', monospace; font-size:0.9rem;">Seleccionado</h4>
                     <p style="color:#555;">Si tus clips aparecen ganás puntos extra.</p>
                 </div>
             </div>
@@ -326,7 +331,7 @@
             <div id="detalleBanner" style="height: 250px; background: #e0e0e0; background-size: cover; background-position: center; position: relative; border-bottom: 4px solid #111;">
                 <button onclick="cerrarDetalleEvento()" style="position: absolute; top: 15px; right: 15px; background: #fff; color: #111; border: 2px solid #111; width: 35px; height: 35px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: bold; transition: 0.2s; border-radius:0;">X</button>
                 <div style="position: absolute; bottom: 20px; left: 20px;">
-                    <h2 id="detalleTitulo" style="color: #fff; margin-bottom: 5px; font-size: 1.6rem; font-family:'Druk Wide', sans-serif; text-shadow: 2px 2px 0 #111;">Título</h2>
+                    <h2 id="detalleTitulo" style="color: #fff; margin-bottom: 5px; font-size: 1.6rem; font-family:'JetBrains Mono', monospace; text-shadow: 2px 2px 0 #111;">Título</h2>
                     <p id="detalleMeta" style="color: #111; background: #fff; display:inline-block; padding: 2px 8px; border: 2px solid #111; font-size: 0.9rem; font-family: 'JetBrains Mono', monospace; font-weight: bold;">CABA // 10/10/2026</p>
                 </div>
             </div>
@@ -339,7 +344,7 @@
 
     <div id="crearEventoModal" class="modal-overlay">
         <div class="modal-box" style="max-width: 550px;">
-            <h2 style="color: #111; margin-bottom: 10px; font-family:'Druk Wide', sans-serif;">Crear Evento</h2>
+            <h2 style="color: #111; margin-bottom: 10px; font-family:'JetBrains Mono', monospace;">Crear Evento</h2>
             <p style="color: #555; font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">Configurá los datos del show para abrir el canal de recepción de crudos.</p>
             <form id="createEventForm" onsubmit="handleCreateEvent(event)">
                 <div class="form-group">
@@ -372,7 +377,7 @@
 
     <div id="pinLoginModal" class="modal-overlay">
         <div class="modal-box" style="max-width: 400px; text-align: center;">
-            <h2 style="color: #111; margin-bottom: 10px; font-family:'Druk Wide', sans-serif;">Creator Studio</h2>
+            <h2 style="color: #111; margin-bottom: 10px; font-family:'JetBrains Mono', monospace;">Creator Studio</h2>
             <p style="color: #555; font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">Ingresá el PIN de administrador para acceder al radar de filmmakers.</p>
             <p style="font-size: 0.8rem; color: #111; margin-bottom: 15px; font-family: 'JetBrains Mono', monospace; font-weight:700;">PIN maestro de prueba: <b>2026</b></p>
             <input type="password" id="adminPinInput" placeholder="PIN de acceso" style="width: 100%; padding: 14px; margin-bottom: 20px; background: #fff; border: 2px solid #111; color: #111; text-align: center; font-size: 1.2rem; outline: none; font-family: 'Inter', sans-serif;">
@@ -424,6 +429,16 @@
     <script>
         let selectedEventSafeName = "";
         let globalEventsData = [];
+
+        let totalSeconds = 8;
+        setInterval(() => {
+            totalSeconds++;
+            const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+            const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+            const s = String(totalSeconds % 60).padStart(2, '0');
+            const tc = document.getElementById("vhsTimecode");
+            if (tc) tc.innerText = `${h}:${m}:${s}`;
+        }, 1000);
 
         /* SCRIPT PARA ANIMACIÓN SCROLL (Fade-in-up) */
         document.addEventListener("DOMContentLoaded", () => {
@@ -506,7 +521,7 @@
                         <div>
                             <div class="event-img" style="${bgStyle}"></div>
                             <div class="event-info">
-                                <h4>${ev.name}</h4>
+                                <h4 style="font-family: 'JetBrains Mono', monospace;">${ev.name}</h4>
                                 <div class="event-meta">
                                     <span class="event-meta-type">${eventStatus === 'publicado' ? 'TAPE // READY' : 'TAPE // REC'}</span>
                                     <span class="event-meta-count">🔥 ${count} anotados</span>
