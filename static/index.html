@@ -12,19 +12,37 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
         
+        /* SISTEMA DE TEMAS (CLARO Y OSCURO) */
         :root {
             --bg-paper: #f4f1ea; 
-            --bg-dark: #f4f1ea; 
             --surface: #ffffff; 
-            --surface-hover: #fafafa;
             --text-primary: #111111; 
-            --text-secondary: #444444;
+            --text-secondary: #555555;
             --brand-main: #ff5500; 
             --brand-accent: #ffaa00;
-            --border-subtle: 2px solid #111111; 
-            --radius-lg: 0px; 
-            --radius-md: 0px; 
-            --radius-sm: 0px;
+            --contrast: #111111;
+            --inverse: #ffffff;
+            --border-subtle: 2px solid var(--contrast); 
+            --border-thick: 4px solid var(--contrast);
+            --nav-bg: rgba(244, 241, 234, 0.95);
+            --map-bg: #eae6de;
+            --map-fill: #d8d4cb;
+            --map-caba: #cccccc;
+        }
+
+        [data-theme="dark"] {
+            --bg-paper: #111111; 
+            --surface: #1a1a1a; 
+            --text-primary: #f4f1ea; 
+            --text-secondary: #aaaaaa;
+            --contrast: #f4f1ea;
+            --inverse: #111111;
+            --border-subtle: 2px solid var(--contrast); 
+            --border-thick: 4px solid var(--contrast);
+            --nav-bg: rgba(17, 17, 17, 0.95);
+            --map-bg: #222222;
+            --map-fill: #333333;
+            --map-caba: #444444;
         }
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -42,7 +60,7 @@
             font-family: 'JetBrains Mono', monospace;
             text-transform: uppercase;
             letter-spacing: -1px;
-            color: #111;
+            color: var(--contrast);
         }
         
         h1 { font-weight: 800; }
@@ -53,7 +71,7 @@
             font-family: 'JetBrains Mono', monospace;
             font-weight: 800;
             font-size: 1.4rem;
-            color: #000;
+            color: var(--contrast);
             text-decoration: none;
             letter-spacing: -1px;
             display: flex;
@@ -77,17 +95,17 @@
         nav { 
             position: fixed; top: 0; width: 100%; padding: 14px 24px; 
             display: flex; justify-content: space-between; align-items: center; 
-            background: rgba(244, 241, 234, 0.95); backdrop-filter: blur(12px); 
+            background: var(--nav-bg); backdrop-filter: blur(12px); 
             z-index: 100; border-bottom: var(--border-subtle); 
         }
 
         .nav-links { display: flex; gap: 10px; align-items: center; }
 
         .btn-nav-studio {
-            background: #111; color: #fff; padding: 7px 14px; font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; border: none; font-weight: bold; cursor: pointer;
+            background: var(--contrast); color: var(--inverse); padding: 7px 14px; font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; border: none; font-weight: bold; cursor: pointer; transition: 0.2s;
         }
         .btn-nav-add {
-            background: var(--brand-main); color: #fff; padding: 7px 14px; font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; border: none; font-weight: bold; cursor: pointer;
+            background: var(--brand-main); color: #fff; padding: 7px 14px; font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; border: none; font-weight: bold; cursor: pointer; transition: 0.2s;
         }
 
         .hero { position: relative; min-height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 140px 20px 80px; overflow: hidden; border-bottom: var(--border-subtle); background-color: transparent;}
@@ -96,7 +114,7 @@
 
         h1 {
             font-size: clamp(2rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 20px;
-            color: #111; display: flex; flex-direction: column; align-items: center; gap: 5px; font-weight: 800;
+            color: var(--contrast); display: flex; flex-direction: column; align-items: center; gap: 5px; font-weight: 800;
         }
 
         .typing-container {
@@ -138,21 +156,21 @@
 
         .search-bar-wrap { margin-top: 30px; position: relative; width: 100%; max-width: 600px; }
         .search-input {
-            width: 100%; padding: 18px 22px 18px 48px; background: #fff; border: var(--border-subtle);
-            border-radius: 0; color: #111; font-size: 1rem; outline: none; transition: 0.25s; font-family: 'Inter', sans-serif;
+            width: 100%; padding: 18px 22px 18px 48px; background: var(--surface); border: var(--border-subtle);
+            border-radius: 0; color: var(--contrast); font-size: 1rem; outline: none; transition: 0.25s; font-family: 'Inter', sans-serif;
         }
         .search-input:focus { border-color: var(--brand-main); box-shadow: 4px 4px 0 var(--brand-main); }
-        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #111; pointer-events: none; }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--contrast); pointer-events: none; }
 
         .btn-group { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
-        .btn { padding: 12px 22px; border-radius: 0; font-weight: 700; font-size: 0.88rem; text-decoration: none; transition: all 0.2s ease; cursor: pointer; border: var(--border-subtle); display: inline-flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; background: #fff; color: #111; text-transform: uppercase;}
+        .btn { padding: 12px 22px; border-radius: 0; font-weight: 700; font-size: 0.88rem; text-decoration: none; transition: all 0.2s ease; cursor: pointer; border: var(--border-subtle); display: inline-flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; background: var(--surface); color: var(--contrast); text-transform: uppercase;}
         .btn-primary { background: var(--brand-main); color: #ffffff; border: 2px solid var(--brand-main); }
-        .btn-primary:hover { box-shadow: 4px 4px 0 #111; transform: translate(-2px, -2px); }
-        .btn-dark { background: #111; color: #fff; }
+        .btn-primary:hover { box-shadow: 4px 4px 0 var(--contrast); transform: translate(-2px, -2px); }
+        .btn-dark { background: var(--contrast); color: var(--inverse); }
         .btn-dark:hover { box-shadow: 4px 4px 0 var(--brand-main); transform: translate(-2px, -2px); }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 60px 20px; }
-        .section-title { font-size: 1.8rem; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border-bottom: 4px solid #111; padding-bottom: 10px;}
+        .section-title { font-size: 1.8rem; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border-bottom: var(--border-thick); padding-bottom: 10px;}
 
         .fade-in-up {
             opacity: 0;
@@ -165,8 +183,8 @@
         }
 
         .white-section {
-            background-color: #f4f4f4;
-            color: #000;
+            background-color: var(--surface);
+            color: var(--contrast);
             padding: 60px 20px;
             margin: 0 calc(-50vw + 50%);
             border-top: var(--border-subtle);
@@ -188,7 +206,7 @@
         .manifesto-block h2 {
             font-size: clamp(1.4rem, 4vw, 2.2rem);
             margin-bottom: 15px;
-            color: #111;
+            color: var(--contrast);
             line-height: 1.2;
         }
         .manifesto-block p {
@@ -199,54 +217,54 @@
         }
 
         .events-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-bottom: 80px; }
-        .event-card { background: var(--surface); border: var(--border-subtle); padding: 16px; transition: all 0.2s ease; color: #111; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
-        .event-card:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 rgba(17,17,17,1); }
-        .event-img { width: 100%; aspect-ratio: 4 / 5; background: #e0e0e0; margin-bottom: 16px; position: relative; overflow: hidden; border: 2px solid #111;}
-        .event-img::after { content: 'FAN ●'; font-family: 'JetBrains Mono', monospace; position: absolute; top: 12px; right: 12px; background: #fff; padding: 4px 10px; border: 2px solid #111; font-size: 0.7rem; font-weight: 800; color: var(--brand-main); }
-        .event-info h4 { font-size: 1.1rem; margin-bottom: 6px; color: #111; font-family: 'JetBrains Mono', monospace;}
+        .event-card { background: var(--surface); border: var(--border-subtle); padding: 16px; transition: all 0.2s ease; color: var(--contrast); display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
+        .event-card:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 var(--contrast); }
+        .event-img { width: 100%; aspect-ratio: 4 / 5; background: #e0e0e0; margin-bottom: 16px; position: relative; overflow: hidden; border: 2px solid var(--contrast);}
+        .event-img::after { content: 'FAN ●'; font-family: 'JetBrains Mono', monospace; position: absolute; top: 12px; right: 12px; background: var(--surface); padding: 4px 10px; border: 2px solid var(--contrast); font-size: 0.7rem; font-weight: 800; color: var(--brand-main); }
+        .event-info h4 { font-size: 1.1rem; margin-bottom: 6px; color: var(--contrast); font-family: 'JetBrains Mono', monospace;}
         .event-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.9rem; font-family: 'Inter', sans-serif;}
-        .event-meta-type { color: #555; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; }
-        .event-meta-count { color: #111; font-weight: 700; background: #fff; padding: 2px 8px; font-size: 0.8rem; border: 2px solid #111; font-family: 'JetBrains Mono', monospace;}
+        .event-meta-type { color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; }
+        .event-meta-count { color: var(--contrast); font-weight: 700; background: var(--surface); padding: 2px 8px; font-size: 0.8rem; border: 2px solid var(--contrast); font-family: 'JetBrains Mono', monospace;}
 
-        .league-banner { background: #fff; border: 4px solid #111; box-shadow: 10px 10px 0 #111; padding: 40px; margin-bottom: 80px; }
-        .league-banner h3 { font-size: 1.8rem; margin-bottom: 12px; color: #111; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;}
-        .league-banner p { color: #333; font-weight: 500; margin-bottom: 28px; max-width: 800px; font-family: 'Inter', sans-serif;}
+        .league-banner { background: var(--surface); border: var(--border-thick); box-shadow: 10px 10px 0 var(--contrast); padding: 40px; margin-bottom: 80px; }
+        .league-banner h3 { font-size: 1.8rem; margin-bottom: 12px; color: var(--contrast); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;}
+        .league-banner p { color: var(--text-secondary); font-weight: 500; margin-bottom: 28px; max-width: 800px; font-family: 'Inter', sans-serif;}
         .rules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-        .rule-card { background: #fff; border: 2px solid #111; padding: 25px; text-align: center; transition: 0.3s; }
+        .rule-card { background: var(--surface); border: 2px solid var(--contrast); padding: 25px; text-align: center; transition: 0.3s; }
         .rule-card:hover { border-color: var(--brand-accent); transform: translateY(-3px); }
         .rule-card .points { font-size: 1.5rem; color: var(--brand-main); margin-bottom: 10px; font-weight:bold;}
-        .rule-card h4 { color: #111; font-size: 0.9rem; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; font-weight:800;}
-        .rule-card p { color: #555; font-size: 0.9rem; margin: 0; font-family: 'Inter', sans-serif;}
+        .rule-card h4 { color: var(--contrast); font-size: 0.9rem; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; font-weight:800;}
+        .rule-card p { color: var(--text-secondary); font-size: 0.9rem; margin: 0; font-family: 'Inter', sans-serif;}
 
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(244, 241, 234, 0.9); backdrop-filter: blur(5px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-box { background: #fff; padding: 32px; border: 4px solid #111; max-width: 820px; width: 100%; max-height: 92vh; overflow-y: auto; position: relative; box-shadow: 10px 10px 0 #111; }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-box { background: var(--surface); padding: 32px; border: var(--border-thick); max-width: 820px; width: 100%; max-height: 92vh; overflow-y: auto; position: relative; box-shadow: 10px 10px 0 var(--contrast); }
         
         .form-group { margin-bottom: 20px; text-align: left; }
-        .form-group label { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: #111; margin-bottom: 8px; text-transform: uppercase; font-weight: 700;}
-        .form-group input, .form-group select { width: 100%; padding: 12px 16px; background: #fff; border: 2px solid #111; color: #111; font-size: 1rem; outline: none; font-family: 'Inter', sans-serif; }
+        .form-group label { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--contrast); margin-bottom: 8px; text-transform: uppercase; font-weight: 700;}
+        .form-group input, .form-group select { width: 100%; padding: 12px 16px; background: var(--surface); border: 2px solid var(--contrast); color: var(--contrast); font-size: 1rem; outline: none; font-family: 'Inter', sans-serif; }
         .form-group input:focus, .form-group select:focus { border-color: var(--brand-main); box-shadow: 4px 4px 0 var(--brand-main);}
         
-        footer { background: #111; color: #f4f4f4; padding: 60px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; border-top: 4px solid var(--brand-main); }
+        footer { background: var(--contrast); color: var(--inverse); padding: 60px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; border-top: 4px solid var(--brand-main); }
 
         /* ESTILOS DEL NUEVO MAPA AMBA */
-        .circuit-Poster { background: #f4f4f4; border: 4px solid #111; padding: 0; position: relative; overflow: hidden; }
-        .circuit-stage-wrap { position: relative; width: 100%; height: 500px; background: #eae6de; overflow: hidden; display: block; }
+        .circuit-Poster { background: var(--surface); border: var(--border-thick); padding: 0; position: relative; overflow: hidden; }
+        .circuit-stage-wrap { position: relative; width: 100%; height: 500px; background: var(--map-bg); overflow: hidden; display: block; }
         .circuit-spot { position: absolute; transform: translate(-50%, -50%); cursor: pointer; z-index: 5; transition: 0.2s; }
         .circuit-spot:hover { transform: translate(-50%, -50%) scale(1.15); z-index: 10; }
-        .spot-dot { width: 16px; height: 16px; background: var(--brand-main); border: 2px solid #111; border-radius: 50%; margin: 0 auto 4px; }
-        .spot-card { background: #fff; border: 2px solid #111; padding: 4px 8px; min-width: 120px; text-align: center; box-shadow: 4px 4px 0 #111; pointer-events: none; opacity: 0; transition: 0.2s; position: absolute; left: 50%; transform: translateX(-50%); top: 20px;}
+        .spot-dot { width: 16px; height: 16px; background: var(--brand-main); border: 2px solid var(--contrast); border-radius: 50%; margin: 0 auto 4px; }
+        .spot-card { background: var(--surface); border: 2px solid var(--contrast); padding: 4px 8px; min-width: 120px; text-align: center; box-shadow: 4px 4px 0 var(--contrast); pointer-events: none; opacity: 0; transition: 0.2s; position: absolute; left: 50%; transform: translateX(-50%); top: 20px;}
         .circuit-spot:hover .spot-card { opacity: 1; }
-        .spot-date { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: #555; font-weight: 700; }
-        .spot-title { font-size: 0.8rem; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'Inter', sans-serif; font-weight:bold;}
+        .spot-date { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text-secondary); font-weight: 700; }
+        .spot-title { font-size: 0.8rem; color: var(--contrast); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'Inter', sans-serif; font-weight:bold;}
     </style>
 </head>
 <body>
     <div id="pinSuccessModal" class="modal-overlay" style="z-index: 9999;">
         <div class="modal-box" style="text-align: center; max-width: 400px; padding: 40px;">
-            <h2>¡EVENTO PUBLICADO!</h2>
-            <p style="color: #555; margin-bottom: 10px; font-family: 'Inter', sans-serif;">Tu PIN de Administrador para Creator Studio es:</p>
+            <h2 style="color: var(--contrast);">¡EVENTO PUBLICADO!</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 10px; font-family: 'Inter', sans-serif;">Tu PIN de Administrador para Creator Studio es:</p>
             <h1 id="generatedPinDisplay" style="color: var(--brand-main); font-size: 4rem; margin-bottom: 20px; letter-spacing: 5px;">0000</h1>
-            <p style="color: #111; font-size: 0.8rem; margin-bottom: 30px; font-family: 'JetBrains Mono', monospace; font-weight: 700;">Guarda este número. Lo necesitarás para descargar el material.</p>
+            <p style="color: var(--contrast); font-size: 0.8rem; margin-bottom: 30px; font-family: 'JetBrains Mono', monospace; font-weight: 700;">Guarda este número. Lo necesitarás para descargar el material.</p>
             <button onclick="cerrarPinSuccess()" class="btn btn-primary" style="width: 100%; justify-content: center;">ACEPTAR Y CONTINUAR</button>
         </div>
     </div>
@@ -255,6 +273,9 @@
     <nav>
         <a href="/" class="code-logo" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 1.3rem; letter-spacing: -1px; display: flex; align-items: center;">[<span class="rec-dot">●</span>fanmovie]</a>
         <div class="nav-links">
+            <button onclick="toggleTheme()" class="btn-nav-studio" title="Modo Oscuro" id="themeToggleBtn" style="display:flex; align-items:center; justify-content:center; padding: 6px 10px;">
+                <!-- El icono se inyecta via JS -->
+            </button>
             <button onclick="abrirRegistroModal()" class="btn-nav-studio" title="Perfil / Registro" style="display:flex; align-items:center; justify-content:center; padding: 6px 10px;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             </button>
@@ -297,11 +318,11 @@
         <div class="events-grid" id="eventsContainer"></div>
 
         <div class="league-banner">
-            <h3 style="color:#111;">
+            <h3>
                 🏆 Creator League 
                 <button onclick="alert('El Podio global con el ranking de filmmakers estará disponible pronto.')" class="btn btn-dark" style="padding: 8px 16px; font-size: 0.85rem; font-family: 'Inter', sans-serif;">Ver Podio</button>
             </h3>
-            <p style="color: #333; font-weight: 500;">FanMovie es un juego de co-creación donde tu participación tiene valor real. Junta la mayor cantidad de estrellas 🌟 según 3 simples reglas:</p>
+            <p>FanMovie es un juego de co-creación donde tu participación tiene valor real. Junta la mayor cantidad de estrellas 🌟 según 3 simples reglas:</p>
             <div class="rules-grid">
                 <div class="rule-card">
                     <div class="points">+1 🌟</div>
@@ -322,7 +343,7 @@
         </div>
     </div>
 
-    <!-- SECCIÓN MANIFIESTO EN BLANCO -->
+    <!-- SECCIÓN MANIFIESTO EN BLANCO/OSCURO -->
     <div class="white-section">
         <div class="white-section-content">
             <div class="manifesto-block fade-in-up">
@@ -347,26 +368,26 @@
         </div>
     </div>
 
-    <!-- NUEVO PIE DE PÁGINA -->
+    <!-- PIE DE PÁGINA -->
     <footer>
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; font-weight: 800; letter-spacing: -1px; display: flex; align-items: center; color: #fff;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; font-weight: 800; letter-spacing: -1px; display: flex; align-items: center;">
             [<span style="color: var(--brand-main); margin-right: 2px;">●</span>fanmovie]
         </div>
-        <p style="font-size: 1.05rem; font-weight: 500; font-family: 'Inter', sans-serif; max-width: 400px; color: #ccc;">Crea tu primer registro profesional de video y audio</p>
+        <p style="font-size: 1.05rem; font-weight: 500; font-family: 'Inter', sans-serif; max-width: 400px; color: var(--text-secondary);">Crea tu primer registro profesional de video y audio</p>
     </footer>
 
     <!-- MODALES Y SCRIPTS -->
     <div id="detalleEventoModal" class="modal-overlay">
         <div class="modal-box" style="max-width: 500px; padding: 0; overflow: hidden;">
-            <div id="detalleBanner" style="height: 250px; background: #e0e0e0; background-size: cover; background-position: center; position: relative; border-bottom: 4px solid #111;">
-                <button onclick="cerrarDetalleEvento()" style="position: absolute; top: 15px; right: 15px; background: #fff; color: #111; border: 2px solid #111; width: 35px; height: 35px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: bold; transition: 0.2s; border-radius:0;">X</button>
+            <div id="detalleBanner" style="height: 250px; background: var(--surface); background-size: cover; background-position: center; position: relative; border-bottom: var(--border-thick);">
+                <button onclick="cerrarDetalleEvento()" style="position: absolute; top: 15px; right: 15px; background: var(--inverse); color: var(--contrast); border: 2px solid var(--contrast); width: 35px; height: 35px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: bold; transition: 0.2s; border-radius:0;">X</button>
                 <div style="position: absolute; bottom: 20px; left: 20px;">
                     <h2 id="detalleTitulo" style="color: #fff; margin-bottom: 5px; font-size: 1.6rem; font-family:'JetBrains Mono', monospace; text-shadow: 2px 2px 0 #111;">Título</h2>
-                    <p id="detalleMeta" style="color: #111; background: #fff; display:inline-block; padding: 2px 8px; border: 2px solid #111; font-size: 0.9rem; font-family: 'JetBrains Mono', monospace; font-weight: bold;">CABA // 10/10/2026</p>
+                    <p id="detalleMeta" style="color: var(--contrast); background: var(--inverse); display:inline-block; padding: 2px 8px; border: 2px solid var(--contrast); font-size: 0.9rem; font-family: 'JetBrains Mono', monospace; font-weight: bold;">CABA // 10/10/2026</p>
                 </div>
             </div>
             <div style="padding: 30px;">
-                <p style="color: #555; font-family: 'Inter', sans-serif; margin-bottom: 20px; font-size: 0.95rem;">Unite al archivo colectivo de este evento. Recordá que tu registro formará parte del Aftermovie oficial.</p>
+                <p style="color: var(--text-secondary); font-family: 'Inter', sans-serif; margin-bottom: 20px; font-size: 0.95rem;">Unite al archivo colectivo de este evento. Recordá que tu registro formará parte del Aftermovie oficial.</p>
                 <div id="detalleAcciones"></div>
             </div>
         </div>
@@ -375,10 +396,10 @@
     <!-- MODAL DE REGISTRO CON GOOGLE -->
     <div id="registroModal" class="modal-overlay" style="z-index: 1001;">
         <div class="modal-box" style="max-width: 400px; text-align: center;">
-            <h2 style="color: #111; margin-bottom: 10px; font-family:'JetBrains Mono', monospace; font-weight: 800; text-transform: uppercase;">Unite a la crew</h2>
-            <p style="color: #555; font-size: 0.95rem; margin-bottom: 25px; font-family: 'Inter', sans-serif;">Ingresá para crear eventos, subir tu material y sumar puntos en el circuito.</p>
+            <h2 style="color: var(--contrast); margin-bottom: 10px; font-family:'JetBrains Mono', monospace; font-weight: 800; text-transform: uppercase;">Unite a la crew</h2>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 25px; font-family: 'Inter', sans-serif;">Ingresá para crear eventos, subir tu material y sumar puntos en el circuito.</p>
             
-            <button onclick="simularRegistroGoogle()" class="btn" style="width: 100%; justify-content: center; background: #fff; border: 2px solid #111; color: #111; font-family: 'Inter', sans-serif; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+            <button onclick="simularRegistroGoogle()" class="btn" style="width: 100%; justify-content: center; background: var(--surface); border: 2px solid var(--contrast); color: var(--contrast); font-family: 'Inter', sans-serif; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
                 Continuar con Google
             </button>
@@ -390,8 +411,8 @@
     <!-- MODAL CREAR EVENTO CON 41 PARTIDOS -->
     <div id="crearEventoModal" class="modal-overlay">
         <div class="modal-box" style="max-width: 550px;">
-            <h2 style="color: #111; margin-bottom: 10px; font-family:'JetBrains Mono', monospace;">Crear Evento</h2>
-            <p style="color: #555; font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">Configurá los datos del show para abrir el canal de recepción de crudos.</p>
+            <h2 style="color: var(--contrast); margin-bottom: 10px; font-family:'JetBrains Mono', monospace;">Crear Evento</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">Configurá los datos del show para abrir el canal de recepción de crudos.</p>
             <form id="createEventForm" onsubmit="handleCreateEvent(event)">
                 <div class="form-group">
                     <label for="eventName">Nombre del Evento</label>
@@ -462,10 +483,10 @@
 
     <div id="pinLoginModal" class="modal-overlay">
         <div class="modal-box" style="max-width: 400px; text-align: center;">
-            <h2 style="color: #111; margin-bottom: 10px; font-family:'JetBrains Mono', monospace;">Creator Studio</h2>
-            <p style="color: #555; font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">Ingresá el PIN de administrador para acceder al radar de filmmakers.</p>
-            <p style="font-size: 0.8rem; color: #111; margin-bottom: 15px; font-family: 'JetBrains Mono', monospace; font-weight:700;">PIN maestro de prueba: <b>2026</b></p>
-            <input type="password" id="adminPinInput" placeholder="PIN de acceso" style="width: 100%; padding: 14px; margin-bottom: 20px; background: #fff; border: 2px solid #111; color: #111; text-align: center; font-size: 1.2rem; outline: none; font-family: 'Inter', sans-serif;">
+            <h2 style="color: var(--contrast); margin-bottom: 10px; font-family:'JetBrains Mono', monospace;">Creator Studio</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">Ingresá el PIN de administrador para acceder al radar de filmmakers.</p>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 15px; font-family: 'JetBrains Mono', monospace; font-weight:700;">PIN maestro de prueba: <b style="color:var(--contrast);">2026</b></p>
+            <input type="password" id="adminPinInput" placeholder="PIN de acceso" style="width: 100%; padding: 14px; margin-bottom: 20px; background: var(--surface); border: 2px solid var(--contrast); color: var(--contrast); text-align: center; font-size: 1.2rem; outline: none; font-family: 'Inter', sans-serif;">
             <div style="display: flex; gap: 10px;">
                 <button onclick="verificarPinStudio()" class="btn btn-primary" style="flex: 1; justify-content: center;">Ingresar</button>
                 <button onclick="cerrarCreatorStudioLogin()" class="btn btn-dark">Cancelar</button>
@@ -486,16 +507,16 @@
                     <!-- Silueta abstracta del AMBA -->
                     <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; position: absolute; inset: 0;" preserveAspectRatio="none">
                         <!-- Poligono de fondo simulando el AMBA -->
-                        <path d="M 10,10 L 35,5 L 50,20 L 55,40 L 75,65 L 85,70 L 75,95 L 45,90 L 25,75 L 15,50 Z" fill="#d8d4cb" stroke="#111" stroke-width="0.3"/>
+                        <path d="M 10,10 L 35,5 L 50,20 L 55,40 L 75,65 L 85,70 L 75,95 L 45,90 L 25,75 L 15,50 Z" fill="var(--map-fill)" stroke="var(--contrast)" stroke-width="0.3"/>
                         <!-- Resalte aproximado CABA -->
-                        <path d="M 52,48 L 58,52 L 54,58 L 48,54 Z" fill="#ccc" stroke="#111" stroke-width="0.5"/>
+                        <path d="M 52,48 L 58,52 L 54,58 L 48,54 Z" fill="var(--map-caba)" stroke="var(--contrast)" stroke-width="0.5"/>
                     </svg>
                     <!-- Contenedor dinámico de puntos -->
                     <div id="circuitSpotsContainer"></div>
                 </div>
             </div>
             
-            <div style="margin-top: 15px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #555; text-align: center;">
+            <div style="margin-top: 15px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-secondary); text-align: center;">
                 ● Hacé clic en los puntos naranjas para ver los eventos de esa zona.
             </div>
         </div>
@@ -505,8 +526,32 @@
         let selectedEventSafeName = "";
         let globalEventsData = [];
 
+        /* SCRIPT DE MODO OSCURO */
+        function toggleTheme() {
+            const root = document.documentElement;
+            const currentTheme = root.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const btn = document.getElementById('themeToggleBtn');
+            if (!btn) return;
+            if (theme === 'dark') {
+                btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`; 
+            } else {
+                btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`; 
+            }
+        }
+
         /* SCRIPT PARA ANIMACIÓN SCROLL (Fade-in-up) */
         document.addEventListener("DOMContentLoaded", () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+
             const fadeElements = document.querySelectorAll('.fade-in-up');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
@@ -516,6 +561,8 @@
                 });
             }, { threshold: 0.15 });
             fadeElements.forEach(el => observer.observe(el));
+
+            loadEvents();
         });
 
         async function loadEvents() {
@@ -552,7 +599,7 @@
             const container = document.getElementById("eventsContainer");
             container.innerHTML = "";
             if (eventsList.length === 0) {
-                container.innerHTML = "<p style='color: #666; font-family: Inter;'>No se encontraron eventos.</p>";
+                container.innerHTML = "<p style='color: var(--text-secondary); font-family: Inter;'>No se encontraron eventos.</p>";
                 return;
             }
             eventsList.forEach(ev => {
@@ -571,14 +618,14 @@
                 
                 if (eventStatus === 'activo') {
                     if (isJoined) {
-                        btnHtml = `<button class="btn btn-dark" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center;">Subir Videos ↗</button>`;
+                        btnHtml = `<button class="btn" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center; background:var(--inverse); color:var(--contrast); border:2px solid var(--contrast);">Subir Videos ↗</button>`;
                     } else {
                         btnHtml = `<button class="btn btn-primary" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center;">¡Participar!</button>`;
                     }
                 } else if (eventStatus === 'publicado') {
-                    btnHtml = `<button class="btn btn-dark" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center; background:#fff; color:#111; border:2px solid #111;">✨ Ver Aftermovie</button>`;
+                    btnHtml = `<button class="btn" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center; background:var(--inverse); color:var(--contrast); border:2px solid var(--contrast);">✨ Ver Aftermovie</button>`;
                 } else {
-                    btnHtml = `<button class="btn" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center; background: #f0f0f0; color: #111; border: 2px solid #111;">⚙️ Editándose</button>`;
+                    btnHtml = `<button class="btn" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center; background: var(--bg-paper); color: var(--contrast); border: 2px solid var(--contrast);">⚙️ Editándose</button>`;
                 }
 
                 container.innerHTML += `
@@ -626,27 +673,27 @@
             if(status === 'activo') {
                 if(isJoined) {
                     accionesDiv.innerHTML = `
-                        <p style="color: #111; font-size: 1rem; margin-bottom: 10px; font-weight: bold; font-family: 'Inter', sans-serif;">✓ Ya estás participando.</p>
-                        <p style="color: #555; font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Seleccioná tus crudos para el motor:</p>
-                        <input type="file" multiple accept="video/*" id="crudosUpload" style="margin-bottom: 15px; width: 100%; padding: 15px; background: #fff; border: 2px dashed #111; color: #111; font-family: 'Inter', sans-serif;">
+                        <p style="color: var(--contrast); font-size: 1rem; margin-bottom: 10px; font-weight: bold; font-family: 'Inter', sans-serif;">✓ Ya estás participando.</p>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Seleccioná tus crudos para el motor:</p>
+                        <input type="file" multiple accept="video/*" id="crudosUpload" style="margin-bottom: 15px; width: 100%; padding: 15px; background: var(--surface); border: 2px dashed var(--contrast); color: var(--contrast); font-family: 'Inter', sans-serif;">
                         <button onclick="simularSubida()" class="btn btn-primary" style="width: 100%; justify-content: center;">Subir mis videos ↗</button>
                     `;
                 } else {
                     accionesDiv.innerHTML = `
-                        <p style="color: #555; font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Anotate con tu Instagram para habilitar la subida:</p>
-                        <input type="text" id="modalIgInput" placeholder="@tu_instagram" style="width: 100%; padding: 14px; margin-bottom: 15px; background: #fff; border: 2px solid #111; color: #111; outline: none; font-family: 'Inter', sans-serif;">
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Anotate con tu Instagram para habilitar la subida:</p>
+                        <input type="text" id="modalIgInput" placeholder="@tu_instagram" style="width: 100%; padding: 14px; margin-bottom: 15px; background: var(--surface); border: 2px solid var(--contrast); color: var(--contrast); outline: none; font-family: 'Inter', sans-serif;">
                         <button onclick="guardarParticipacionModal()" class="btn btn-primary" style="width: 100%; justify-content: center;">¡Participo!</button>
                     `;
                 }
             } else if(status === 'editandose') {
                  accionesDiv.innerHTML = `
-                    <div style="padding: 15px; background: #f0f0f0; border: 2px solid #111; text-align: center; color: #111; font-family: 'Inter', sans-serif; font-weight:bold;">
+                    <div style="padding: 15px; background: var(--bg-paper); border: 2px solid var(--contrast); text-align: center; color: var(--contrast); font-family: 'Inter', sans-serif; font-weight:bold;">
                         ⚙️ El evento está Editándose. Ya no se reciben más videos.
                     </div>
                  `;
             } else {
                  accionesDiv.innerHTML = `
-                    <button class="btn btn-dark" onclick="alert('Descargando Aftermovie Oficial...')" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 15px; background:#fff; color:#111; border:2px solid #111;">✨ Ver Aftermovie Oficial</button>
+                    <button class="btn" onclick="alert('Descargando Aftermovie Oficial...')" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 15px; background:var(--inverse); color:var(--contrast); border:2px solid var(--contrast);">✨ Ver Aftermovie Oficial</button>
                  `;
             }
             
@@ -829,10 +876,6 @@
                 container.innerHTML += spotHtml;
             });
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadEvents();
-        });
     </script>
 </body>
 </html>
