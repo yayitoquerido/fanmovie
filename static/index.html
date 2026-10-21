@@ -270,7 +270,7 @@
             <p style="color: var(--text-secondary); margin-bottom: 10px; font-family: 'Inter', sans-serif;">Tu PIN de Administrador para Creator Studio es:</p>
             <h1 id="generatedPinDisplay" style="color: var(--brand-main); font-size: 4rem; margin-bottom: 20px; letter-spacing: 5px;">0000</h1>
             <p style="color: var(--contrast); font-size: 0.8rem; margin-bottom: 30px; font-family: 'JetBrains Mono', monospace; font-weight: 700;">Guarda este número. Lo necesitarás para descargar el material.</p>
-            <button onclick="cerrarPinSuccess()" class="btn btn-primary" style="width: 100%; justify-content: center;">ACEPTAR Y CONTINUAR</button>
+            <button onclick="window.cerrarPinSuccess()" class="btn btn-primary" style="width: 100%; justify-content: center;">ACEPTAR Y CONTINUAR</button>
         </div>
     </div>
 
@@ -278,14 +278,14 @@
     <nav>
         <a href="/" class="code-logo" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 1.3rem; letter-spacing: -1px; display: flex; align-items: center;">[<span class="rec-dot">●</span>fanmovie]</a>
         <div class="nav-links">
-            <button onclick="toggleTheme()" class="btn-nav-studio" title="Modo Oscuro" id="themeToggleBtn" style="display:flex; align-items:center; justify-content:center; padding: 6px 10px;">
+            <button onclick="window.toggleTheme()" class="btn-nav-studio" title="Modo Oscuro" id="themeToggleBtn" style="display:flex; align-items:center; justify-content:center; padding: 6px 10px;">
                 <!-- El icono se inyecta via JS -->
             </button>
-            <button onclick="abrirRegistroModal()" id="profileBtnNav" class="btn-nav-studio" title="Perfil / Registro" style="display:flex; align-items:center; justify-content:center; padding: 6px 10px; overflow:hidden;">
+            <button onclick="window.abrirRegistroModal()" id="profileBtnNav" class="btn-nav-studio" title="Perfil / Registro" style="display:flex; align-items:center; justify-content:center; padding: 6px 10px; overflow:hidden;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             </button>
-            <button onclick="abrirCreatorStudioLogin()" class="btn-nav-studio">studio_</button>
-            <button onclick="abrirRegistroModal()" class="btn-nav-add">+</button>
+            <button onclick="window.abrirCreatorStudioLogin()" class="btn-nav-studio">studio_</button>
+            <button onclick="window.abrirRegistroModal()" class="btn-nav-add">+</button>
         </div>
     </nav>
 
@@ -302,14 +302,14 @@
             <p>Graba tu evento favorito, arma tu recap, y suma puntos recorriendo el circuito.</p>
 
             <div class="btn-group">
-                <button onclick="abrirCircuitoModal()" class="btn btn-dark">Explora circuito</button>
-                <button onclick="abrirRegistroModal()" class="btn btn-primary">Crear evento</button>
+                <button onclick="window.abrirCircuitoModal()" class="btn btn-dark">Explora circuito</button>
+                <button onclick="window.abrirRegistroModal()" class="btn btn-primary">Crear evento</button>
             </div>
             
             <!-- BUSCADOR ABAJO DE LOS BOTONES -->
             <div class="search-bar-wrap" style="margin-top: 30px;">
                 <span class="search-icon">🔍</span>
-                <input type="text" id="eventSearchInput" class="search-input" placeholder="Nombre de tu evento, show, fiesta..." oninput="filtrarEventos()">
+                <input type="text" id="eventSearchInput" class="search-input" placeholder="Nombre de tu evento, show, fiesta..." oninput="window.filtrarEventos()">
             </div>
         </div>
     </header>
@@ -323,11 +323,11 @@
         <div class="events-grid" id="eventsContainer"></div>
 
         <div class="league-banner">
-            <h3>
+            <h3 style="color: var(--contrast);">
                 🏆 Creator League 
                 <button onclick="alert('El Podio global con el ranking de filmmakers estará disponible pronto.')" class="btn btn-dark" style="padding: 8px 16px; font-size: 0.85rem; font-family: 'Inter', sans-serif;">Ver Podio</button>
             </h3>
-            <p>FanMovie es un juego de co-creación donde tu participación tiene valor real. Junta la mayor cantidad de estrellas 🌟 según 3 simples reglas:</p>
+            <p style="color: var(--text-secondary); font-weight: 500;">FanMovie es un juego de co-creación donde tu participación tiene valor real. Junta la mayor cantidad de estrellas 🌟 según 3 simples reglas:</p>
             <div class="rules-grid">
                 <div class="rule-card">
                     <div class="points">+1 🌟</div>
@@ -375,17 +375,17 @@
 
     <!-- PIE DE PÁGINA -->
     <footer>
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; font-weight: 800; letter-spacing: -1px; display: flex; align-items: center;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; font-weight: 800; letter-spacing: -1px; display: flex; align-items: center; color: var(--inverse);">
             [<span style="color: var(--brand-main); margin-right: 2px;">●</span>fanmovie]
         </div>
-        <p style="font-size: 1.05rem; font-weight: 500; font-family: 'Inter', sans-serif; max-width: 400px; color: var(--text-secondary);">Crea tu primer registro profesional de video y audio</p>
+        <p style="font-size: 1.05rem; font-weight: 500; font-family: 'Inter', sans-serif; max-width: 400px; color: var(--inverse);">Crea tu primer registro profesional de video y audio</p>
     </footer>
 
     <!-- MODALES Y SCRIPTS -->
     <div id="detalleEventoModal" class="modal-overlay">
         <div class="modal-box" style="max-width: 500px; padding: 0; overflow: hidden;">
             <div id="detalleBanner" style="height: 250px; background: var(--surface); background-size: cover; background-position: center; position: relative; border-bottom: var(--border-thick);">
-                <button onclick="cerrarDetalleEvento()" style="position: absolute; top: 15px; right: 15px; background: var(--inverse); color: var(--contrast); border: 2px solid var(--contrast); width: 35px; height: 35px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: bold; transition: 0.2s; border-radius:0;">X</button>
+                <button onclick="window.cerrarDetalleEvento()" style="position: absolute; top: 15px; right: 15px; background: var(--inverse); color: var(--contrast); border: 2px solid var(--contrast); width: 35px; height: 35px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: bold; transition: 0.2s; border-radius:0;">X</button>
                 <div style="position: absolute; bottom: 20px; left: 20px;">
                     <h2 id="detalleTitulo" style="color: #fff; margin-bottom: 5px; font-size: 1.6rem; font-family:'JetBrains Mono', monospace; text-shadow: 2px 2px 0 #111;">Título</h2>
                     <p id="detalleMeta" style="color: var(--contrast); background: var(--inverse); display:inline-block; padding: 2px 8px; border: 2px solid var(--contrast); font-size: 0.9rem; font-family: 'JetBrains Mono', monospace; font-weight: bold;">CABA // 10/10/2026</p>
@@ -401,7 +401,7 @@
     <!-- MODAL DE PERFIL DE USUARIO -->
     <div id="perfilUsuarioModal" class="modal-overlay" style="z-index: 1002;">
         <div class="modal-box" style="max-width: 450px; text-align: center; padding: 40px 30px;">
-            <button onclick="cerrarPerfilUsuarioModal()" style="position: absolute; top: 15px; right: 15px; background: transparent; color: var(--contrast); border: none; font-size: 1.2rem; cursor: pointer; font-weight: bold;">X</button>
+            <button onclick="window.cerrarPerfilUsuarioModal()" style="position: absolute; top: 15px; right: 15px; background: transparent; color: var(--contrast); border: none; font-size: 1.2rem; cursor: pointer; font-weight: bold;">X</button>
 
             <!-- Foto de Perfil -->
             <div style="position: relative; width: 100px; height: 100px; margin: 0 auto 20px;">
@@ -430,7 +430,7 @@
             </div>
 
             <!-- Botones de Acción -->
-            <button onclick="cerrarSesion()" class="btn btn-dark" style="width: 100%; justify-content: center; font-size: 0.9rem;">Cerrar sesión</button>
+            <button onclick="window.cerrarSesion()" class="btn btn-dark" style="width: 100%; justify-content: center; font-size: 0.9rem;">Cerrar sesión</button>
         </div>
     </div>
 
@@ -440,12 +440,12 @@
             <h2 style="color: var(--contrast); margin-bottom: 10px; font-family:'JetBrains Mono', monospace; font-weight: 800; text-transform: uppercase;">Unite a la crew</h2>
             <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 25px; font-family: 'Inter', sans-serif;">Ingresá para crear eventos, subir tu material y sumar puntos en el circuito.</p>
             
-            <button onclick="iniciarSesionGoogle()" class="btn" style="width: 100%; justify-content: center; background: var(--surface); border: 2px solid var(--contrast); color: var(--contrast); font-family: 'Inter', sans-serif; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+            <button onclick="window.iniciarSesionGoogle()" class="btn" style="width: 100%; justify-content: center; background: var(--surface); border: 2px solid var(--contrast); color: var(--contrast); font-family: 'Inter', sans-serif; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
                 Continuar con Google
             </button>
             
-            <button onclick="cerrarRegistroModal()" class="btn btn-dark" style="width: 100%; justify-content: center;">Cancelar</button>
+            <button onclick="window.cerrarRegistroModal()" class="btn btn-dark" style="width: 100%; justify-content: center;">Cancelar</button>
         </div>
     </div>
 
@@ -454,7 +454,7 @@
         <div class="modal-box" style="max-width: 550px;">
             <h2 style="color: var(--contrast); margin-bottom: 10px; font-family:'JetBrains Mono', monospace;">Crear Evento</h2>
             <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; font-family: 'Inter', sans-serif;">Configurá los datos del show para abrir el canal de recepción de crudos.</p>
-            <form id="createEventForm" onsubmit="handleCreateEvent(event)">
+            <form id="createEventForm" onsubmit="window.handleCreateEvent(event)">
                 <div class="form-group">
                     <label for="eventName">Nombre del Evento</label>
                     <input type="text" id="eventName" required placeholder="Ej: Todo Terreno">
@@ -516,7 +516,7 @@
                 </div>
                 <div style="display: flex; gap: 10px; margin-top: 15px;">
                     <button type="submit" class="btn btn-primary" style="flex: 1; justify-content: center;">Publicar Evento</button>
-                    <button type="button" onclick="cerrarCrearEventoModal()" class="btn btn-dark">Cancelar</button>
+                    <button type="button" onclick="window.cerrarCrearEventoModal()" class="btn btn-dark">Cancelar</button>
                 </div>
             </form>
         </div>
@@ -529,8 +529,8 @@
             <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 15px; font-family: 'JetBrains Mono', monospace; font-weight:700;">PIN maestro de prueba: <b style="color:var(--contrast);">2026</b></p>
             <input type="password" id="adminPinInput" placeholder="PIN de acceso" style="width: 100%; padding: 14px; margin-bottom: 20px; background: var(--surface); border: 2px solid var(--contrast); color: var(--contrast); text-align: center; font-size: 1.2rem; outline: none; font-family: 'Inter', sans-serif;">
             <div style="display: flex; gap: 10px;">
-                <button onclick="verificarPinStudio()" class="btn btn-primary" style="flex: 1; justify-content: center;">Ingresar</button>
-                <button onclick="cerrarCreatorStudioLogin()" class="btn btn-dark">Cancelar</button>
+                <button onclick="window.verificarPinStudio()" class="btn btn-primary" style="flex: 1; justify-content: center;">Ingresar</button>
+                <button onclick="window.cerrarCreatorStudioLogin()" class="btn btn-dark">Cancelar</button>
             </div>
         </div>
     </div>
@@ -540,7 +540,7 @@
         <div class="modal-box" style="max-width: 900px; padding: 20px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                 <h2 style="font-family: 'JetBrains Mono', monospace; font-weight: 800; text-transform: uppercase;">Circuito AMBA</h2>
-                <button onclick="cerrarCircuitoModal()" class="btn btn-dark" style="padding: 6px 12px; font-size: 0.8rem;">Cerrar X</button>
+                <button onclick="window.cerrarCircuitoModal()" class="btn btn-dark" style="padding: 6px 12px; font-size: 0.8rem;">Cerrar X</button>
             </div>
 
             <div class="circuit-Poster">
@@ -563,21 +563,44 @@
         </div>
     </div>
 
-    <script>
-        let selectedEventSafeName = "";
-        let globalEventsData = [];
+    <!-- SCRIPTS UNIFICADOS Y FIREBASE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, arrayUnion, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        /* SCRIPT DE MODO OSCURO */
-        function toggleTheme() {
+        const firebaseConfig = {
+            apiKey: "AIzaSyBW53DwZgEvG8O_vvXDFd3WRvu1xvih7S4",
+            authDomain: "fanmoviefilm.firebaseapp.com",
+            projectId: "fanmoviefilm",
+            storageBucket: "fanmoviefilm.firebasestorage.app",
+            messagingSenderId: "425540665137",
+            appId: "1:425540665137:web:fad6d0be0dcb6a4fdffa10"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        window.globalEventsData = [];
+        window.selectedEventId = "";
+        window.currentUser = null;
+
+        // PEGAR ACÁ TU LINK DE GOOGLE DRIVE COMPARTIDO
+        window.LINK_CARPETA_DRIVE = "https://drive.google.com/drive/folders/TU_CARPETA_AQUI"; 
+
+        /* TEMA OSCURO */
+        window.toggleTheme = function() {
             const root = document.documentElement;
             const currentTheme = root.getAttribute('data-theme') || 'light';
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             root.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            updateThemeIcon(newTheme);
+            window.updateThemeIcon(newTheme);
         }
 
-        function updateThemeIcon(theme) {
+        window.updateThemeIcon = function(theme) {
             const btn = document.getElementById('themeToggleBtn');
             if (!btn) return;
             if (theme === 'dark') {
@@ -587,76 +610,47 @@
             }
         }
 
-        /* SCRIPT PARA ANIMACIÓN SCROLL (Fade-in-up) */
-        document.addEventListener("DOMContentLoaded", () => {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeIcon(savedTheme);
-
-            const fadeElements = document.querySelectorAll('.fade-in-up');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
+        /* CARGA DE EVENTOS DESDE FIRESTORE */
+        window.loadEvents = async function() {
+            const q = query(collection(db, "events"), orderBy("createdAt", "desc"));
+            // Usamos onSnapshot para que se actualice en tiempo real
+            onSnapshot(q, (querySnapshot) => {
+                window.globalEventsData = [];
+                querySnapshot.forEach((docSnap) => {
+                    let ev = docSnap.data();
+                    ev.id = docSnap.id;
+                    window.globalEventsData.push(ev);
                 });
-            }, { threshold: 0.15 });
-            fadeElements.forEach(el => observer.observe(el));
-
-            loadEvents();
-        });
-
-        async function loadEvents() {
-            try {
-                let apiEvents = [];
-                try {
-                    const res = await fetch("/api/events");
-                    if(res.ok) {
-                        const data = await res.json();
-                        apiEvents = data.events || [];
-                    }
-                } catch(e) {}
-
-                let localEvents = JSON.parse(localStorage.getItem('fanmovie_events') || '[]');
-                localEvents = localEvents.filter(ev => ev.name !== 'Todo Terreno');
-                localStorage.setItem('fanmovie_events', JSON.stringify(localEvents));
-                
-                let allMap = new Map();
-                apiEvents.forEach(ev => allMap.set(ev.safe_name, ev));
-                localEvents.forEach(ev => { 
-                    if (!allMap.has(ev.safe_name)) {
-                        allMap.set(ev.safe_name, ev); 
-                    }
-                });
-                
-                globalEventsData = Array.from(allMap.values());
-                renderEventsList(globalEventsData);
-            } catch (error) {
-                document.getElementById("eventsContainer").innerHTML = "<p style='color: var(--brand-main);'>Error al cargar eventos.</p>";
-            }
+                window.renderEventsList(window.globalEventsData);
+                if (document.getElementById("circuitoModal").style.display === "flex") {
+                    window.renderizarCircuitos();
+                }
+            });
         }
 
-        function renderEventsList(eventsList) {
+        window.renderEventsList = function(eventsList) {
             const container = document.getElementById("eventsContainer");
             container.innerHTML = "";
             if (eventsList.length === 0) {
-                container.innerHTML = "<p style='color: var(--text-secondary); font-family: Inter;'>No se encontraron eventos.</p>";
+                container.innerHTML = "<p style='color: var(--text-secondary); font-family: Inter;'>No hay eventos programados.</p>";
                 return;
             }
             eventsList.forEach(ev => {
-                const encodedName = encodeURIComponent(ev.safe_name);
                 let bgUrl = "'/static/vhs_gradient_grain.jpg'";
-                if (ev.has_banner) {
-                    const localBanner = localStorage.getItem(`banner_${ev.safe_name}`);
-                    bgUrl = localBanner ? `'${localBanner}'` : `'/uploads/${encodedName}/banner.jpg'`;
+                if (ev.has_banner && localStorage.getItem(`banner_${ev.safe_name}`)) {
+                    bgUrl = `'${localStorage.getItem(`banner_${ev.safe_name}`)}'`;
                 }
                 const bgStyle = `background: url(${bgUrl}) center/cover no-repeat, linear-gradient(45deg, #111, #333);`;
-                const countKey = `count_${ev.safe_name}`;
-                let count = parseInt(localStorage.getItem(countKey) || (Math.floor(Math.random() * 8) + 3));
-                let eventStatus = localStorage.getItem(`status_${ev.safe_name}`) || "activo";
-                let isJoined = localStorage.getItem(`joined_${ev.safe_name}`) === "true";
-                let btnHtml = "";
                 
+                let count = ev.attendees ? ev.attendees.length : 0;
+                let eventStatus = ev.status || "activo";
+                
+                let isJoined = false;
+                if(window.currentUser && ev.attendees && ev.attendees.includes(window.currentUser.email)) {
+                    isJoined = true;
+                }
+
+                let btnHtml = "";
                 if (eventStatus === 'activo') {
                     if (isJoined) {
                         btnHtml = `<button class="btn" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem; justify-content: center; background:var(--inverse); color:var(--contrast); border:2px solid var(--contrast);">Subir Videos ↗</button>`;
@@ -670,7 +664,7 @@
                 }
 
                 container.innerHTML += `
-                    <div class="event-card" onclick="abrirDetalleEvento('${encodedName}')">
+                    <div class="event-card" onclick="window.abrirDetalleEvento('${ev.id}')">
                         <div>
                             <div class="event-img" style="${bgStyle}"></div>
                             <div class="event-info">
@@ -687,26 +681,29 @@
             });
         }
 
-        function filtrarEventos() {
+        window.filtrarEventos = function() {
             const q = document.getElementById("eventSearchInput").value.toLowerCase().trim();
-            const filtered = globalEventsData.filter(ev => ev.name.toLowerCase().includes(q));
-            renderEventsList(filtered);
+            const filtered = window.globalEventsData.filter(ev => ev.name.toLowerCase().includes(q));
+            window.renderEventsList(filtered);
         }
 
-        function abrirDetalleEvento(safeNameDecoded) {
-            const safeName = decodeURIComponent(safeNameDecoded);
-            const ev = globalEventsData.find(e => e.safe_name === safeName);
+        /* MODAL DE DETALLE DE EVENTO */
+        window.abrirDetalleEvento = function(eventId) {
+            const ev = window.globalEventsData.find(e => e.id === eventId);
             if(!ev) return;
             
-            selectedEventSafeName = ev.safe_name;
+            window.selectedEventId = ev.id;
             const bgStyle = `url('/static/vhs_gradient_grain.jpg') center/cover no-repeat, linear-gradient(45deg, #111, #333)`;
             
             document.getElementById('detalleBanner').style.background = bgStyle;
             document.getElementById('detalleTitulo').innerText = ev.name;
             document.getElementById('detalleMeta').innerText = `${ev.circuit || 'CABA'} // ${ev.date || 'Próximamente'}`;
             
-            const isJoined = localStorage.getItem(`joined_${ev.safe_name}`) === "true";
-            let status = localStorage.getItem(`status_${ev.safe_name}`) || "activo";
+            let isJoined = false;
+            if(window.currentUser && ev.attendees && ev.attendees.includes(window.currentUser.email)) {
+                isJoined = true;
+            }
+            let status = ev.status || "activo";
             
             const accionesDiv = document.getElementById('detalleAcciones');
             accionesDiv.innerHTML = '';
@@ -714,17 +711,22 @@
             if(status === 'activo') {
                 if(isJoined) {
                     accionesDiv.innerHTML = `
-                        <p style="color: var(--contrast); font-size: 1rem; margin-bottom: 10px; font-weight: bold; font-family: 'Inter', sans-serif;">✓ Ya estás participando.</p>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Seleccioná tus crudos para el motor:</p>
-                        <input type="file" multiple accept="video/*" id="crudosUpload" style="margin-bottom: 15px; width: 100%; padding: 15px; background: var(--surface); border: 2px dashed var(--contrast); color: var(--contrast); font-family: 'Inter', sans-serif;">
-                        <button onclick="simularSubida()" class="btn btn-primary" style="width: 100%; justify-content: center;">Subir mis videos ↗</button>
+                        <p style="color: var(--contrast); font-size: 1rem; margin-bottom: 10px; font-weight: bold; font-family: 'Inter', sans-serif;">✓ Estás participando.</p>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Subí tus videos crudos a la carpeta segura de FanMovie:</p>
+                        <button onclick="window.abrirDriveCrudos()" class="btn btn-primary" style="width: 100%; justify-content: center;">Subir a Drive ↗</button>
                     `;
                 } else {
-                    accionesDiv.innerHTML = `
-                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Anotate con tu Instagram para habilitar la subida:</p>
-                        <input type="text" id="modalIgInput" placeholder="@tu_instagram" style="width: 100%; padding: 14px; margin-bottom: 15px; background: var(--surface); border: 2px solid var(--contrast); color: var(--contrast); outline: none; font-family: 'Inter', sans-serif;">
-                        <button onclick="guardarParticipacionModal()" class="btn btn-primary" style="width: 100%; justify-content: center;">¡Participo!</button>
-                    `;
+                    if (window.currentUser) {
+                        accionesDiv.innerHTML = `
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Confirmá tu asistencia para habilitar el buzón de subida.</p>
+                            <button onclick="window.guardarParticipacionDB()" class="btn btn-primary" style="width: 100%; justify-content: center;">¡Quiero Participar!</button>
+                        `;
+                    } else {
+                        accionesDiv.innerHTML = `
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px; font-family: 'Inter', sans-serif;">Iniciá sesión para participar y subir tus videos.</p>
+                            <button onclick="window.cerrarDetalleEvento(); window.abrirRegistroModal();" class="btn btn-primary" style="width: 100%; justify-content: center;">Iniciar Sesión</button>
+                        `;
+                    }
                 }
             } else if(status === 'editandose') {
                  accionesDiv.innerHTML = `
@@ -741,84 +743,120 @@
             document.getElementById('detalleEventoModal').style.display = 'flex';
         }
 
-        function cerrarDetalleEvento() { document.getElementById('detalleEventoModal').style.display = 'none'; }
+        window.cerrarDetalleEvento = function() { document.getElementById('detalleEventoModal').style.display = 'none'; }
 
-        function guardarParticipacionModal() {
-            const ig = document.getElementById('modalIgInput').value.trim();
-            if(!ig) { alert("Ingresá tu usuario de Instagram."); return; }
-            localStorage.setItem(`joined_${selectedEventSafeName}`, "true");
-            localStorage.setItem(`attendee_${selectedEventSafeName}_${Date.now()}`, ig);
-            let count = parseInt(localStorage.getItem(`count_${selectedEventSafeName}`) || 5);
-            localStorage.setItem(`count_${selectedEventSafeName}`, count + 1);
+        /* PARTICIPAR EN FIRESTORE */
+        window.guardarParticipacionDB = async function() {
+            if(!window.currentUser || !window.selectedEventId) return;
             
-            abrirDetalleEvento(encodeURIComponent(selectedEventSafeName)); 
-            loadEvents(); 
+            try {
+                const eventRef = doc(db, "events", window.selectedEventId);
+                await updateDoc(eventRef, {
+                    attendees: arrayUnion(window.currentUser.email)
+                });
+                
+                let eventosAsistidos = parseInt(localStorage.getItem(`stats_${window.currentUser.uid}`) || "0");
+                localStorage.setItem(`stats_${window.currentUser.uid}`, eventosAsistidos + 1);
+
+                alert("¡Excelente! Ya estás anotado. Ahora podés subir tus videos.");
+                window.abrirDetalleEvento(window.selectedEventId); 
+            } catch (error) {
+                console.error("Error al participar: ", error);
+                alert("Hubo un error. Intentá de nuevo.");
+            }
         }
 
-        function simularSubida() {
-            const fileInput = document.getElementById('crudosUpload');
-            if(fileInput.files.length === 0) { alert("Seleccioná al menos un video."); return; }
-            alert("✨ ¡Tus videos se subieron con éxito y ya están en el motor de FanMovie!");
-            cerrarDetalleEvento();
+        /* MOTOR DE SUBIDA A DRIVE */
+        window.abrirDriveCrudos = function() {
+            if (window.LINK_CARPETA_DRIVE === "https://drive.google.com/drive/folders/17DRZ48eeB7Zj2gKWVSlJQzmvY7eRcxV9?usp=sharing) {
+                alert("Falta configurar el enlace de Google Drive. Pega el link en el código.");
+            } else {
+                window.open(window.LINK_CARPETA_DRIVE, '_blank');
+            }
+            window.cerrarDetalleEvento();
         }
 
-        /* LOGICA DE REGISTRO / PERFIL */
-        function abrirRegistroModal() { document.getElementById('registroModal').style.display = 'flex'; }
-        function cerrarRegistroModal() { document.getElementById('registroModal').style.display = 'none'; }
-
-        function abrirCrearEventoModal() { document.getElementById('crearEventoModal').style.display = 'flex'; }
-        function cerrarCrearEventoModal() { document.getElementById('crearEventoModal').style.display = 'none'; }
+        /* MODALES VARIOS */
+        window.abrirRegistroModal = function() { document.getElementById('registroModal').style.display = 'flex'; }
+        window.cerrarRegistroModal = function() { document.getElementById('registroModal').style.display = 'none'; }
+        window.abrirCrearEventoModal = function() { 
+            if(!window.currentUser) {
+                window.abrirRegistroModal();
+                return;
+            }
+            document.getElementById('crearEventoModal').style.display = 'flex'; 
+        }
+        window.cerrarCrearEventoModal = function() { document.getElementById('crearEventoModal').style.display = 'none'; }
         
-        function handleCreateEvent(e) {
+        /* CREAR EVENTO EN FIRESTORE */
+        window.handleCreateEvent = async function(e) {
             e.preventDefault();
+            if(!window.currentUser) return;
+
             const name = document.getElementById('eventName').value.trim();
             const date = document.getElementById('eventDate').value;
             const circuit = document.getElementById('eventCircuit').value || 'CABA';
             const flyerInput = document.getElementById('eventFlyer');
             if (!name) return;
+            
             const safeName = name.toLowerCase().replace(/[^a-z0-9]/g, '_');
-            
-            let events = JSON.parse(localStorage.getItem('fanmovie_events') || '[]');
             const hasBanner = flyerInput.files.length > 0;
-            events.push({ name, safe_name: safeName, date, circuit, has_banner: hasBanner });
-            localStorage.setItem('fanmovie_events', JSON.stringify(events));
-            localStorage.setItem(`status_${safeName}`, 'activo');
-            
             let adminPin = Math.floor(1000 + Math.random() * 9000);
-            localStorage.setItem(`pin_${safeName}`, adminPin);
 
-            if (hasBanner) {
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    localStorage.setItem(`banner_${safeName}`, evt.target.result);
-                    finishCreateEventModal(adminPin);
-                };
-                reader.readAsDataURL(flyerInput.files[0]);
-            } else {
-                finishCreateEventModal(adminPin);
+            const newEvent = {
+                name: name,
+                safe_name: safeName,
+                date: date,
+                circuit: circuit,
+                has_banner: hasBanner,
+                status: "activo",
+                pin: adminPin.toString(),
+                creatorEmail: window.currentUser.email,
+                attendees: [],
+                createdAt: new Date().toISOString()
+            };
+
+            try {
+                await addDoc(collection(db, "events"), newEvent);
+
+                if (hasBanner) {
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        localStorage.setItem(`banner_${safeName}`, evt.target.result);
+                        window.finishCreateEventModal(adminPin);
+                    };
+                    reader.readAsDataURL(flyerInput.files[0]);
+                } else {
+                    window.finishCreateEventModal(adminPin);
+                }
+            } catch (error) {
+                console.error("Error al crear evento: ", error);
+                alert("Error al publicar evento en la base de datos.");
             }
         }
 
-        function finishCreateEventModal(adminPin) {
-            cerrarCrearEventoModal();
-            loadEvents();
+        window.finishCreateEventModal = function(adminPin) {
+            window.cerrarCrearEventoModal();
             if(document.getElementById('generatedPinDisplay')) {
                 document.getElementById('generatedPinDisplay').innerText = adminPin;
                 document.getElementById('pinSuccessModal').style.display = 'flex';
             }
         }
 
-        function cerrarPinSuccess() { document.getElementById('pinSuccessModal').style.display = 'none'; }
+        window.cerrarPinSuccess = function() { document.getElementById('pinSuccessModal').style.display = 'none'; }
 
-        function abrirCreatorStudioLogin() { document.getElementById('pinLoginModal').style.display = 'flex'; }
-        function cerrarCreatorStudioLogin() { document.getElementById('pinLoginModal').style.display = 'none'; }
-        function verificarPinStudio() {
+        /* STUDIO LOGIN */
+        window.abrirCreatorStudioLogin = function() { document.getElementById('pinLoginModal').style.display = 'flex'; }
+        window.cerrarCreatorStudioLogin = function() { document.getElementById('pinLoginModal').style.display = 'none'; }
+        window.verificarPinStudio = function() {
             const pin = document.getElementById('adminPinInput').value.trim();
             let allowed = false;
             if(pin === "2026") allowed = true;
-            for(let i=0; i<localStorage.length; i++) {
-                if(localStorage.key(i).startsWith('pin_') && localStorage.getItem(localStorage.key(i)) === pin) allowed = true;
-            }
+            
+            window.globalEventsData.forEach(ev => {
+                if(ev.pin === pin) allowed = true;
+            });
+
             if(allowed) { 
                 window.location.href = '/static/creator-studio.html';
             } else {
@@ -828,17 +866,16 @@
         }
 
         /* LÓGICA MAPA AMBA UNIFICADO */
-        function abrirCircuitoModal() {
-            renderizarCircuitos();
+        window.abrirCircuitoModal = function() {
+            window.renderizarCircuitos();
             document.getElementById("circuitoModal").style.display = "flex";
         }
-        function cerrarCircuitoModal() { document.getElementById("circuitoModal").style.display = "none"; }
+        window.cerrarCircuitoModal = function() { document.getElementById("circuitoModal").style.display = "none"; }
         
-        function renderizarCircuitos() {
+        window.renderizarCircuitos = function() {
             const container = document.getElementById("circuitSpotsContainer");
             container.innerHTML = "";
 
-            // Coordenadas aproximadas en % (top, left) sobre el viewBox (0,0) a (100,100)
             const ambaCoords = {
                 "CABA": { top: 52, left: 55 },
                 "Almirante Brown": { top: 68, left: 55 },
@@ -885,11 +922,10 @@
 
             let placed = {};
 
-            globalEventsData.forEach((ev) => {
+            window.globalEventsData.forEach((ev) => {
                 let baseCoords = ambaCoords[ev.circuit];
-                if (!baseCoords) baseCoords = { top: 50, left: 50 }; // fallback por si acaso
+                if (!baseCoords) baseCoords = { top: 50, left: 50 }; 
 
-                // Lógica simple para que los puntos no se pisen si hay muchos en el mismo partido
                 let key = ev.circuit;
                 if (!placed[key]) placed[key] = 0;
                 let offsetTop = (placed[key] * 2) * (placed[key] % 2 === 0 ? 1 : -1);
@@ -899,9 +935,8 @@
                 const topPos = baseCoords.top + offsetTop;
                 const leftPos = baseCoords.left + offsetLeft;
 
-                const encoded = ev.safe_name ? encodeURIComponent(ev.safe_name) : "";
                 const spotHtml = `
-                    <div class="circuit-spot" style="top: ${topPos}%; left: ${leftPos}%;" onclick="cerrarCircuitoModal(); abrirDetalleEvento('${encoded}')">
+                    <div class="circuit-spot" style="top: ${topPos}%; left: ${leftPos}%;" onclick="window.cerrarCircuitoModal(); window.abrirDetalleEvento('${ev.id}')">
                         <div class="spot-dot"></div>
                         <div class="spot-card">
                             <div class="spot-date">SPOT // ${ev.circuit || 'CABA'}</div>
@@ -912,33 +947,14 @@
                 container.innerHTML += spotHtml;
             });
         }
-    </script>
 
-    <!-- FIREBASE CONEXIÓN Y AUTENTICACIÓN -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBW53DwZgEvG8O_vvXDFd3WRvu1xvih7S4",
-            authDomain: "fanmoviefilm.firebaseapp.com",
-            projectId: "fanmoviefilm",
-            storageBucket: "fanmoviefilm.firebasestorage.app",
-            messagingSenderId: "425540665137",
-            appId: "1:425540665137:web:fad6d0be0dcb6a4fdffa10"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
-
+        /* GOOGLE AUTH */
         window.iniciarSesionGoogle = async function() {
             try {
                 const result = await signInWithPopup(auth, provider);
                 const user = result.user;
-                cerrarRegistroModal();
+                window.cerrarRegistroModal();
                 alert("✓ Bienvenido a la crew, " + user.displayName.split(" ")[0] + "!");
-                abrirCrearEventoModal();
             } catch (error) {
                 console.error("Error al iniciar sesión:", error);
                 alert("Hubo un error al conectar con Google. Intentá de nuevo.");
@@ -947,27 +963,21 @@
 
         window.cerrarSesion = async function() {
             await signOut(auth);
-            cerrarPerfilUsuarioModal();
+            window.cerrarPerfilUsuarioModal();
         };
 
         window.abrirPerfilUsuarioModal = function() {
             if(!window.currentUser) return;
 
-            // Calcular eventos asistidos desde localStorage
-            let eventosAsistidos = 0;
-            for(let i=0; i<localStorage.length; i++) {
-                if(localStorage.key(i).startsWith('joined_') && localStorage.getItem(localStorage.key(i)) === "true") {
-                    eventosAsistidos++;
-                }
-            }
+            let eventosAsistidos = parseInt(localStorage.getItem(`stats_${window.currentUser.uid}`) || "0");
+            let userEvents = window.globalEventsData.filter(e => e.attendees && e.attendees.includes(window.currentUser.email));
+            if(userEvents.length > eventosAsistidos) eventosAsistidos = userEvents.length;
 
-            // Sistema de Niveles
             let nivel = "NOVATO";
             if (eventosAsistidos >= 1 && eventosAsistidos <= 3) nivel = "AYUDANTE";
             else if (eventosAsistidos >= 4 && eventosAsistidos <= 7) nivel = "CAMARÓGRAFO";
             else if (eventosAsistidos >= 8) nivel = "DIRECTOR";
 
-            // Llenar datos
             document.getElementById('perfilFoto').src = window.currentUser.photoURL || '/static/logo.png';
             document.getElementById('perfilNombre').innerText = window.currentUser.displayName || 'Filmmaker';
             document.getElementById('perfilEventos').innerText = eventosAsistidos;
@@ -987,14 +997,34 @@
                 profileBtn.innerHTML = `<img src="${user.photoURL}" style="width:16px; height:16px; border-radius:50%; object-fit:cover;" alt="Perfil" />`;
                 profileBtn.title = `Perfil de ${user.displayName}`;
                 profileBtn.onclick = () => {
-                    abrirPerfilUsuarioModal();
+                    window.abrirPerfilUsuarioModal();
                 };
             } else {
                 window.currentUser = null;
                 profileBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
                 profileBtn.title = "Perfil / Registro";
-                profileBtn.onclick = abrirRegistroModal;
+                profileBtn.onclick = window.abrirRegistroModal;
             }
+            if(window.globalEventsData.length > 0) window.renderEventsList(window.globalEventsData);
+        });
+
+        /* INIT */
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            window.updateThemeIcon(savedTheme);
+
+            const fadeElements = document.querySelectorAll('.fade-in-up');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.15 });
+            fadeElements.forEach(el => observer.observe(el));
+
+            window.loadEvents();
         });
     </script>
 </body>
