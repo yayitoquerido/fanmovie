@@ -18,6 +18,8 @@
             --surface: #ffffff; 
             --text-primary: #111111; 
             --text-secondary: #555555;
+            --dot-color: rgba(17, 17, 17, 0.08);
+            --grid-color: rgba(17, 17, 17, 0.05);
             --brand-main: #ff5500; 
             --brand-accent: #ffaa00;
             --contrast: #111111;
@@ -35,6 +37,8 @@
             --surface: #000000; 
             --text-primary: #f4f1ea; 
             --text-secondary: #888888;
+            --dot-color: rgba(255, 255, 255, 0.08);
+            --grid-color: rgba(255, 255, 255, 0.05);
             --contrast: #ffffff;
             --inverse: #000000;
             --border-subtle: 2px solid var(--contrast); 
@@ -59,7 +63,7 @@
             line-height: 1.5; 
             overflow-x: hidden; 
             /* Fondo de puntos animados */
-            background-image: radial-gradient(var(--text-secondary) 1.5px, transparent 1.5px);
+            background-image: radial-gradient(var(--dot-color) 1.5px, transparent 1.5px);
             background-size: 25px 25px;
             animation: moveBackground 40s linear infinite;
         }
@@ -177,6 +181,12 @@
         .btn-dark { background: var(--contrast); color: var(--inverse); }
         .btn-dark:hover { box-shadow: 4px 4px 0 var(--brand-main); transform: translate(-2px, -2px); }
 
+                .events-section {
+            background-image: linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center top;
+            border-top: var(--border-subtle);
+        }
         .container { max-width: 1200px; margin: 0 auto; padding: 60px 20px; }
         .section-title { font-size: 1.8rem; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border-bottom: var(--border-thick); padding-bottom: 10px;}
 
@@ -322,8 +332,9 @@
         </div>
     </header>
 
-    <div class="container">
-        <!-- SECCIÓN DE EVENTOS -->
+    <section class="events-section">
+        <div class="container">
+            <!-- SECCIÓN DE EVENTOS -->
         <h2 class="section-title" id="events">
             <span>Próximos Eventos</span>
         </h2>
@@ -355,6 +366,7 @@
             </div>
         </div>
     </div>
+    </section>
 
     <!-- SECCIÓN MANIFIESTO EN BLANCO/OSCURO -->
     <div class="white-section">
