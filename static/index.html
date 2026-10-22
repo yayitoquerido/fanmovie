@@ -58,7 +58,10 @@
             color: var(--text-primary); 
             line-height: 1.5; 
             overflow-x: hidden; 
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            /* Fondo de puntos animados */
+            background-image: radial-gradient(var(--text-secondary) 1.5px, transparent 1.5px);
+            background-size: 25px 25px;
+            animation: moveBackground 40s linear infinite;
         }
 
         h1, h2, h3, .brand, .step-number {
@@ -261,6 +264,11 @@
         .circuit-spot:hover .spot-card { opacity: 1; }
         .spot-date { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text-secondary); font-weight: 700; }
         .spot-title { font-size: 0.8rem; color: var(--contrast); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'Inter', sans-serif; font-weight:bold;}
+
+        @keyframes moveBackground {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
     </style>
 </head>
 <body>
