@@ -19,7 +19,7 @@
             --text-primary: #111111; 
             --text-secondary: #555555;
             --dot-color: rgba(17, 17, 17, 0.08);
-            --grid-color: rgba(17, 17, 17, 0.05);
+            --grid-color: rgba(17, 17, 17, 0.12);
             --brand-main: #ff5500; 
             --brand-accent: #ffaa00;
             --contrast: #111111;
@@ -38,7 +38,7 @@
             --text-primary: #f4f1ea; 
             --text-secondary: #888888;
             --dot-color: rgba(255, 255, 255, 0.15);
-            --grid-color: rgba(255, 255, 255, 0.05);
+            --grid-color: rgba(255, 255, 255, 0.22);
             --contrast: #ffffff;
             --inverse: #000000;
             --border-subtle: 2px solid var(--contrast); 
@@ -200,9 +200,8 @@
 
         .white-section {
             background-color: var(--surface);
-            background-image: linear-gradient(45deg, var(--grid-color) 1px, transparent 1px), linear-gradient(-45deg, var(--grid-color) 1px, transparent 1px);
-            background-size: 30px 30px;
-            background-position: center top;
+            background-image: repeating-linear-gradient(45deg, var(--grid-color) 0, var(--grid-color) 1px, transparent 1px, transparent 40px),
+                              repeating-linear-gradient(-45deg, var(--grid-color) 0, var(--grid-color) 1px, transparent 1px, transparent 40px);
             color: var(--contrast);
             padding: 60px 20px;
             margin: 0 calc(-50vw + 50%);
