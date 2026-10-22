@@ -417,17 +417,23 @@
             <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">Creador de contenido / Filmmaker</p>
 
             <!-- Nivel y Stats -->
-            <div style="background: var(--bg-paper); border: 2px solid var(--contrast); padding: 15px; margin-bottom: 25px; display: flex; justify-content: space-around; align-items: center;">
+            <div style="background: var(--bg-paper); border: 2px solid var(--contrast); padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-around; align-items: center;">
                 <div style="text-align: center;">
-                    <div style="font-size: 0.8rem; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; text-transform: uppercase;">Nivel actual</div>
-                    <div id="perfilNivel" style="color: var(--brand-main); font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; text-transform: uppercase;">NOVATO</div>
+                    <div style="font-size: 0.7rem; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; text-transform: uppercase;">Nivel</div>
+                    <div id="perfilNivel" style="color: var(--brand-main); font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 1rem; text-transform: uppercase;">NOVATO</div>
                 </div>
-                <div style="width: 2px; height: 40px; background: var(--contrast);"></div>
+                <div style="width: 2px; height: 35px; background: var(--contrast);"></div>
                 <div style="text-align: center;">
-                    <div style="font-size: 0.8rem; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; text-transform: uppercase;">Eventos asistidos</div>
-                    <div id="perfilEventos" style="color: var(--contrast); font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 1.2rem;">0</div>
+                    <div style="font-size: 0.7rem; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; text-transform: uppercase;">Eventos</div>
+                    <div id="perfilEventos" style="color: var(--contrast); font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 1.1rem;">0</div>
+                </div>
+                <div style="width: 2px; height: 35px; background: var(--contrast);"></div>
+                <div style="text-align: center;">
+                    <div style="font-size: 0.7rem; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; text-transform: uppercase;">Estrellas</div>
+                    <div style="color: var(--brand-accent); font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 1.1rem;">🌟 <span id="perfilEstrellas">0</span></div>
                 </div>
             </div>
+            <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 25px; font-family: 'Inter', sans-serif; font-weight: 500;">Próximamente podrás canjear tus estrellas por beneficios.</p>
 
             <!-- Recap Builder (Validation Trap) -->
             <div style="background: #222; border: 2px solid var(--brand-main); padding: 20px; margin-bottom: 25px; text-align: left;">
@@ -767,8 +773,11 @@
                 
                 let eventosAsistidos = parseInt(localStorage.getItem(`stats_${window.currentUser.uid}`) || "0");
                 localStorage.setItem(`stats_${window.currentUser.uid}`, eventosAsistidos + 1);
+                
+                let estrellas = parseInt(localStorage.getItem(`stats_stars_${window.currentUser.uid}`) || "0");
+                localStorage.setItem(`stats_stars_${window.currentUser.uid}`, estrellas + 1);
 
-                alert("¡Excelente! Ya estás anotado. Ahora podés subir tus videos.");
+                alert("¡Excelente! Ya estás anotado y sumaste +1 🌟.\n\nAhora podés subir tus videos a la carpeta.");
                 window.abrirDetalleEvento(window.selectedEventId); 
             } catch (error) {
                 console.error("Error al participar: ", error);
@@ -983,6 +992,10 @@
             let userEvents = window.globalEventsData.filter(e => e.attendees && e.attendees.includes(window.currentUser.email));
             if(userEvents.length > eventosAsistidos) eventosAsistidos = userEvents.length;
 
+            let estrellas = parseInt(localStorage.getItem(`stats_stars_${window.currentUser.uid}`) || "0");
+            if(eventosAsistidos > estrellas) estrellas = eventosAsistidos;
+            localStorage.setItem(`stats_stars_${window.currentUser.uid}`, estrellas);
+
             let nivel = "NOVATO";
             if (eventosAsistidos >= 1 && eventosAsistidos <= 3) nivel = "AYUDANTE";
             else if (eventosAsistidos >= 4 && eventosAsistidos <= 7) nivel = "CAMARÓGRAFO";
@@ -991,6 +1004,7 @@
             document.getElementById('perfilFoto').src = window.currentUser.photoURL || '/static/logo.png';
             document.getElementById('perfilNombre').innerText = window.currentUser.displayName || 'Filmmaker';
             document.getElementById('perfilEventos').innerText = eventosAsistidos;
+            document.getElementById('perfilEstrellas').innerText = estrellas;
             document.getElementById('perfilNivel').innerText = nivel;
 
             document.getElementById('perfilUsuarioModal').style.display = 'flex';
